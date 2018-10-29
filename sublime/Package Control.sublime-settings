@@ -1,0 +1,17 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Color Highlight",
+		"MarkdownPreview",
+		"Package Control",
+		"Sass",
+		"SFTP",
+		"SublimeLinter",
+		"SublimeLinter-contrib-eslint_d",
+		"TemplateToolkit"
+	]
+}

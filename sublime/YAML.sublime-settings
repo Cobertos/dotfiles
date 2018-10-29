@@ -1,0 +1,4 @@
+// These settings override both User and Default settings for the YAML syntax
+{
+	"word_wrap": true
+}
