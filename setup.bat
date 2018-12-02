@@ -8,10 +8,20 @@ XCOPY /F /Y /E .\sublime "%APPDATA%\Sublime Text 3\Packages\User"
 ::setup SFTP license
 
 ::CONEMU
-XCOPY /F /Y .\conemu\ConEmu.xml %APPDATA%\ConEmu.xml
-ECHO. "\r\n\r\nsource %~dp0\cobertos.bashrc" >> %UserProfile%\.bashrc
+MKLINK %APPDATA%\ConEmu.xml %~dp0\conemu\ConEmu.xml
+SET BashrcFile=%UserProfile%\.bashrc
+::Substitute \ for /
+SET BashrcTarget=%~dp0\cobertos.bashrc
+SET BashrcTarget=%BashrcTarget:\=/%
+::Print two newlines and then `source %BashrcTarget%`
+ECHO. >> %BashrcFile%
+ECHO. >> %BashrcFile%
+ECHO. source %BashrcTarget% >> %BashrcFile%
 
-::WSL
+::Git
+MKLINK %UserProfile%\.gitconfig %~dp0\git\.gitconfig
+
+::WSL (WIP)
 powershell -Command "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux"
 ::Restart
 powershell -Command "Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Workspace/wsl/Ubuntu.zip -UseBasicParsing"

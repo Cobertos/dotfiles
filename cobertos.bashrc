@@ -1,4 +1,7 @@
 
+#General
+wrk="$HOME/Workspace" #~ won't work in BashRC
+
 #Git aliases
 alias gitkcon='git log --all --decorate --oneline --graph'
 
