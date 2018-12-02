@@ -1,3 +1,5 @@
 [user]
 name = Peter / "Cobertos"
 email = me+git@cobertos.com
+[credential]
+	modalPrompt = false
