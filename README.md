@@ -1,6 +1,9 @@
 # Dot Files
 
-A collection of configs and dot files that I use. Nothing in here should be private.
+A collection of configs and dot files for programs I use on Windows.
+
+* **Public** - There are no private keys or licenses in here (they should be created separately)
+* **Console** - Most everything should be geared towards my console environment. Large GUI stuff/versioning should be in Dropbox
 
 # Tools
 
