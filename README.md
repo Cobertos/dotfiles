@@ -8,15 +8,21 @@ A collection of configs and dot files for programs I use on Windows.
 * **Linking** - Configs should use symbolic links as much as possible, copying requires more maintenance.
 * **Automatic** - Create a script that outlines installation, for remembering what everything means and to speed up computer setup in the future
 
-# Tools
+# Requires Python 3.6+ (interpolated literals and other fun things)
+
+# Will add configurations for
 
 * [Git for Windows](https://git-scm.com/download/win)
 * [Sublime Text](https://www.sublimetext.com/3)
 * [ConEmu](https://conemu.github.io/en/Downloads.html)
 * WSL
 
+* Paint.NET
+* Blender
+
 # Tools that just need installation
 (maybe move to Chocolatey?)
+(TODO: Move to chocolatey when packages.config export is a thing, otherwise it's kind of useless for my workflow)
 * 7zip
 * Dropbox
 * Lastpass

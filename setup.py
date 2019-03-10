@@ -1,8 +1,19 @@
+import json
+
 #Probably requires admin...
 
 scriptDir = os.path.dirname(sys.argv[0])
 appData = os.environ["APPDATA"]
 userProfile = os.environ["USERPROFILE"]
+
+#TODO: Query two files and grab a json key
+if os.path.isfile(f"{appData}\\Dropbox\\info.json"):
+    dropboxInfoFile = f"{appData}\\Dropbox\\info.json"
+else if os.path.isfile(f"{os.environ["LOCALAPPDATA"]}\\Dropbox\\info.json"):
+    dropboxInfoFile = f"{os.environ["LOCALAPPDATA"]}\\Dropbox\\info.json"
+with open(dropboxInfoFile) as fp:
+    dropboxEnvDir = json.load(fp)["personal"]["path"]
+
 
 #SUBLIME
 #Add sublime to path for `subl`
@@ -22,6 +33,12 @@ with open(f"{userProfile}\\.bashrc", mode="a") as fp:
 #Git
 os.symlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
 
+#Paint.NET
+os.symlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
+os.symlink(f"{dropboxEnvDir}\\Paint.NET\\FileTypes", f"C:\\Program Files\\paint.net\\FileTypes")
+os.symlink(f"{dropboxEnvDir}\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
+
+#Blender
 
 #WSL (WIP)
 #powershell -Command "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux"
