@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+; Clears all the display combination specific configuration information so that
+; if some program fucks it up (like AirMedia), we can reattach the previous display
+; configuration without them being blank
+[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Configuration]
+[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\Connectivity]
+[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers\ScaleFactors]
