@@ -1,10 +1,10 @@
 {
-    "translate_tabs_to_spaces": true,
-    "auto_match_enabled": false,
-    "draw_white_space": "all",
-    "font_size": 11,
-    "ignored_packages":
-    [
-        "Vintage"
-    ],
+	"auto_match_enabled": false,
+	"draw_white_space": "all",
+	"font_size": 10,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"translate_tabs_to_spaces": true
 }
