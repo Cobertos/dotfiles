@@ -1,6 +1,10 @@
+init () {
 
 #General
-wrk="$HOME/Workspace" #~ won't work in BashRC
+wrk="$HOME/Workspace"
+export wrk
+
+alias cobeditconfig="subl ${BASH_SOURCE%/*}"
 
 #Git aliases
 alias gitkcon='git log --all --decorate --oneline --graph'
@@ -14,3 +18,7 @@ if [[ -n "${ConEmuPID}" ]]; then
   #https://github.com/Maximus5/ConEmu/issues/1752
   PS1="\[\e]9;9;\"\$PWD\"\007\e]9;12\007\]$PS1"
 fi
+
+}
+
+init
