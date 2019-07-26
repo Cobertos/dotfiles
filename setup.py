@@ -23,7 +23,7 @@ def addSymlink(target, path):
   print(f"[{'OK' if isLink else 'NO' }]: '{path}' is {'' if isLink else 'NOT '}link ")
   if isLink or verifyOnly:
     return
-  os.symlink(path, target)
+  os.symlink(target, path)
 
 
 #Probably requires admin...
@@ -45,23 +45,23 @@ with open(dropboxInfoFile) as fp:
 #Add sublime to path for `subl`
 addToPath("C:\\Program Files\\Sublime Text 3")
 #Make symbolic link to our Package\\User
-addSymlink(os.path.realpath(f"{scriptDir}\\sublime\\APPDATA\\Packages\\User"), f"{appData}\\Sublime Text 3\\Packages\\User")
+addSymlink(f"{os.path.realpath(scriptDir)}\\sublime\\APPDATA\\Packages\\User", f"{appData}\\Sublime Text 3\\Packages\\User")
 print("Make sure to setup your Sublime license and FTP license too!")
 
 #CONEMU
 #Symlink the .xml config
-addSymlink(f"{scriptDir}\\conemu\\ConEmu.xml", f"{appData}\\ConEmu.xml")
+#addSymlink(f"{scriptDir}\\conemu\\ConEmu.xml", f"{appData}\\ConEmu.xml")
 #Add our the computer default bashrc
 #with open(f"{userProfile}\\.bashrc", mode="a") as fp:
 #    fp.write(f"\n\nsource {scriptDir}\\cobertos.bashrc")
 
 #Git
-addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
+#addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
 
 #Paint.NET
-addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
-addSymlink(f"{dropboxEnvDir}\\Paint.NET\\FileTypes", f"C:\\Program Files\\paint.net\\FileTypes")
-addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
+#addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
+#addSymlink(f"{dropboxEnvDir}\\Paint.NET\\FileTypes", f"C:\\Program Files\\paint.net\\FileTypes")
+#addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
 
 #Blender
 
