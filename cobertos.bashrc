@@ -4,7 +4,11 @@ init () {
 wrk="$HOME/Workspace"
 export wrk
 
-alias cobeditconfig="subl ${BASH_SOURCE%/*}"
+cobconf="${BASH_SOURCE%/*}"
+export cobconf
+
+alias editcobconf="subl ${cobconf}"
+alias pullcobconf="git --git-dir=${cobconf}/.git pull"
 
 #Git aliases
 alias gitkcon='git log --all --decorate --oneline --graph'
