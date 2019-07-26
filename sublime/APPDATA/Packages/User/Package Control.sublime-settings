@@ -12,6 +12,7 @@
 		"SFTP",
 		"SublimeLinter",
 		"SublimeLinter-contrib-eslint_d",
-		"TemplateToolkit"
+		"TemplateToolkit",
+		"JsFormat"
 	]
 }
