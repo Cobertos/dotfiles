@@ -7,6 +7,7 @@ export wrk
 cobconf="${BASH_SOURCE%/*}"
 export cobconf
 
+alias cobconf="subl ${cobconf}"
 alias editcobconf="subl ${cobconf}"
 alias pullcobconf="git --git-dir=${cobconf}/.git pull"
 
