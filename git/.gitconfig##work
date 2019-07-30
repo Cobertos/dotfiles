@@ -1,0 +1,7 @@
+[user]
+    name = Peter
+    email = peter.fornari@helloworld.com
+[winUpdater]
+    recentlySeenVersion = 2.20.1.windows.1
+[core]
+    excludesfile = ~/.gitignore

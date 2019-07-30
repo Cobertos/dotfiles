@@ -1,6 +1,8 @@
 [user]
-name = Peter / "Cobertos"
-email = me+git@cobertos.com
+    name = Cobertos / Peter
+    email = me+git@cobertos.com
 [credential]
-	modalPrompt = false
-	helper = wincred
+    modalPrompt = false
+    helper = wincred
+[core]
+    excludesfile = ~/.gitignore

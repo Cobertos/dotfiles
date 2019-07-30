@@ -1,8 +1,13 @@
 import json
 import sys
 import os
+from pathlib import Path
 
 verifyOnly = '--verify-only' in sys.argv
+environment = None
+environmentOpts = list(filter(lambda s: s.startswith('--environment='), sys.argv))
+if environmentOpts:
+  environment = environmentOpts[-1].split('=')[-1]
 
 def addToPath(path):
   """Adds a path to the PATH environment variable"""
@@ -17,20 +22,30 @@ def addToPath(path):
 
 def addSymlink(target, path):
   """Adds a symlink at the given spot"""
-  global verifyOnly
+  #Requires admin on windows (the symlink permission)
+  global verifyOnly, environment
 
+  #Determine which target to use based on environment
+  if environment and os.path.isfile(f"{target}##{environment}"):
+    target = f"{target}##{environment}"
+
+  isLinkedProperly = False
   isLink = os.path.islink(path)
-  print(f"[{'OK' if isLink else 'NO' }]: '{path}' is {'' if isLink else 'NOT '}link ")
-  if isLink or verifyOnly:
+  if isLink:
+    linkResolved = Path(path).resolve()
+    isLinkedProperly = os.path.normpath(str(linkResolved)) == os.path.normpath(target)
+
+  errStr = ('properly linked.' if isLinkedProperly else f"pointing to '{linkResolved}'.") if isLink else 'not a link.'
+  print(f"[{'OK' if isLinkedProperly else 'NO' }]: '{path}' is {errStr}")
+  if isLinkedProperly or verifyOnly:
     return
+
   os.symlink(target, path)
 
-
-#Probably requires admin...
-
-scriptDir = os.path.dirname(sys.argv[0])
+scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
 appData = os.environ["APPDATA"]
 userProfile = os.environ["USERPROFILE"]
+print(scriptDir)
 
 #TODO: Query two files and grab a json key
 if os.path.isfile(f"{appData}\\Dropbox\\info.json"):
@@ -56,7 +71,8 @@ print("Make sure to setup your Sublime license and FTP license too!")
 #    fp.write(f"\n\nsource {scriptDir}\\cobertos.bashrc")
 
 #Git
-#addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
+addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
+addSymlink(f"{scriptDir}\\git\\.gitignore", f"{userProfile}\\.gitignore")
 
 #Paint.NET
 #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
