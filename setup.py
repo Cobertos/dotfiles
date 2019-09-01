@@ -3,13 +3,42 @@ import sys
 import os
 import shutil
 import platform
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 verifyOnly = '--verify-only' in sys.argv
 environment = None
 environmentOpts = list(filter(lambda s: s.startswith('--environment='), sys.argv))
 if environmentOpts:
   environment = environmentOpts[-1].split('=')[-1]
+
+#TODO: Convert to using pathlib instead of string paths in the future
+
+def getEnvironmentFilePath(path):
+  global environment
+  return f"{path}##{environment}" if environment and os.path.exists(f"{path}##{environment}") else path
+
+def appendToFile(appendString, path):
+  """
+  Adds string to the end of the file if the line isn't in the file already
+  Make sure to add a new line yourself if you want that
+  """
+  global verifyOnly
+
+  def isAppendedToFile(appendString, path):
+    with open(path, mode="r") as fp:
+      #Go through the entire files, but reversed to succeed fast
+      for line in reversed(fp.readlines()):
+        if appendString.strip() in line.strip():
+          return True
+    return False
+
+  appended = isAppendedToFile(appendString, path)
+  print(f"[{ 'OK' if appended else 'NO' }]: '{path}' does {'' if appended else 'NOT '}contain necessary appended line")
+  if appended or verifyOnly: #already good
+    return
+
+  with open(path, mode="a") as fp:
+    fp.write(appendString)
 
 def addToPath(path):
   """Adds a path to the PATH environment variable"""
@@ -36,8 +65,7 @@ def addSymlink(target, path):
   global verifyOnly, environment
 
   #Determine which target to use based on environment
-  if environment and os.path.isfile(f"{target}##{environment}"):
-    target = f"{target}##{environment}"
+  target = getEnvironmentFilePath(target)
 
   def isProperlyLinked(path):
     isLink = os.path.islink(path)
@@ -93,7 +121,7 @@ print("Make sure to setup your Sublime license and FTP license too!")
 
 #CONEMU
 #Symlink the .xml config
-#addSymlink(f"{scriptDir}\\conemu\\ConEmu.xml", f"{appData}\\ConEmu.xml")
+addSymlink(f"{scriptDir}\\conemu\\ConEmu.xml", f"{appData}\\ConEmu_190174.xml")
 #Add our the computer default bashrc
 
 #Git
@@ -101,10 +129,9 @@ addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
 addSymlink(f"{scriptDir}\\git\\.gitignore", f"{userProfile}\\.gitignore")
 
 #Bash
-with open(f"{userProfile}\\.bashrc", mode="a") as fp:
-  #TODO: Make this interoperable with the environment options
-  fp.write(f"\n\nsource {scriptDir}\\cobertos.bashrc")
-
+bashrcPath = getEnvironmentFilePath(f"{scriptDir}\\.bashrc")
+bashrcPathPosix = Path(bashrcPath).as_posix().replace("C:", "/c")
+appendToFile(f"\nsource {bashrcPathPosix}", f"{userProfile}\\.bashrc")
 
 #Paint.NET
 #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
@@ -120,7 +147,7 @@ with open(f"{userProfile}\\.bashrc", mode="a") as fp:
 #powershell -Command "Expand-Archive ~/Workspace/wsl/Ubuntu.zip ~/Workspace/wsl/Ubuntu"
 #~/Workspace/wsl/Ubuntu/ubuntu1804.exe
 
-if platform.system() == "Windows":
+if platform.system() == "Windows" and not verifyOnly:
   #If we don't do this, then the next time we run setup.py we won't see any of the
   #system wide environment variable changes in the same shell
   os.system("refreshenv") #Will print out that it's refreshing environment variables

@@ -29,9 +29,19 @@ A collection of configs and dot files for programs I use on Windows.
  * Login to Chrome
  * Login to Lastpass
  * Login to InoReader
+* Windows settings
+ * Turn off sticky keys and other accessibility
+ * Turn off mouse precision
+ * Setup custom theme including wallpapers, lockscreen, sounds
+ * Turn off device rotation
+ * Enable file extensions and hidden files in Explorer
+* Dropbox selective sync large folders
+* Spotify download playlists
 
 ## Future Support
 * WSL Install/Enable
+* Voicemeeter Banana
+* Setup correct file associations (for .xml, .html, etc...)
 
 ## Tools that just need installation
 * Ino Reader (part of Chrome extensions
