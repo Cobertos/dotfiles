@@ -129,7 +129,7 @@ addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
 addSymlink(f"{scriptDir}\\git\\.gitignore", f"{userProfile}\\.gitignore")
 
 #Bash
-bashrcPath = getEnvironmentFilePath(f"{scriptDir}\\.bashrc")
+bashrcPath = getEnvironmentFilePath(f"{scriptDir}\\cobertos.bashrc")
 bashrcPathPosix = Path(bashrcPath).as_posix().replace("C:", "/c")
 appendToFile(f"\nsource {bashrcPathPosix}", f"{userProfile}\\.bashrc")
 
