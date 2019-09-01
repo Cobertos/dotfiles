@@ -37,6 +37,7 @@ A collection of configs and dot files for programs I use on Windows.
  * Enable file extensions and hidden files in Explorer
 * Dropbox selective sync large folders
 * Spotify download playlists
+* Install package control in Sublime to get it to recognize packages
 
 ## Future Support
 * WSL Install/Enable

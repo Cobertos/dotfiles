@@ -60,9 +60,10 @@ def addToPath(path):
     raise NotImplementedError("AddToPath does not work on Linux variants :(")
 
 def addSymlink(target, path):
-  """Adds a symlink at the given spot"""
+  """Adds a symlink at the given path pointing to target"""
   #Requires admin on windows (the symlink permission)
   global verifyOnly, environment
+  assert os.path.exists(target) #If target doesn't exist, Windows silently fails, so assert
 
   #Determine which target to use based on environment
   target = getEnvironmentFilePath(target)
@@ -87,6 +88,7 @@ def addSymlink(target, path):
     try:
       os.symlink(target, path)
     except FileExistsError as e:
+      print(e)
       if input(f"File to symlink already exists, delete? y/N ") == 'y':
         if os.path.isfile(path):
           os.remove(path)
@@ -111,43 +113,42 @@ print(scriptDir)
 #with open(dropboxInfoFile) as fp:
 #    dropboxEnvDir = json.load(fp)["personal"]["path"]
 
+if __name__ == '__main__':
+  #SUBLIME
+  #Add sublime to path for `subl`
+  addToPath("C:\\Program Files\\Sublime Text 3")
+  #Make symbolic link to our Package\\User
+  addSymlink(f"{os.path.realpath(scriptDir)}\\sublime\\APPDATA\\Packages\\User", f"{appData}\\Sublime Text 3\\Packages\\User")
+  print("Make sure to setup your Sublime license and FTP license too!")
 
-#SUBLIME
-#Add sublime to path for `subl`
-addToPath("C:\\Program Files\\Sublime Text 3")
-#Make symbolic link to our Package\\User
-addSymlink(f"{os.path.realpath(scriptDir)}\\sublime\\APPDATA\\Packages\\User", f"{appData}\\Sublime Text 3\\Packages\\User")
-print("Make sure to setup your Sublime license and FTP license too!")
+  #CONEMU
+  #Symlink the .xml config
+  addSymlink(f"{scriptDir}\\conemu\\ConEmu_190714.xml", f"{appData}\\ConEmu.xml")
 
-#CONEMU
-#Symlink the .xml config
-addSymlink(f"{scriptDir}\\conemu\\ConEmu.xml", f"{appData}\\ConEmu_190174.xml")
-#Add our the computer default bashrc
+  #Git
+  addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
+  addSymlink(f"{scriptDir}\\git\\.gitignore", f"{userProfile}\\.gitignore")
 
-#Git
-addSymlink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig")
-addSymlink(f"{scriptDir}\\git\\.gitignore", f"{userProfile}\\.gitignore")
+  #Bash
+  bashrcPath = getEnvironmentFilePath(f"{scriptDir}\\cobertos.bashrc")
+  bashrcPathPosix = Path(bashrcPath).as_posix().replace("C:", "/c")
+  appendToFile(f"\nsource {bashrcPathPosix}", f"{userProfile}\\.bashrc")
 
-#Bash
-bashrcPath = getEnvironmentFilePath(f"{scriptDir}\\cobertos.bashrc")
-bashrcPathPosix = Path(bashrcPath).as_posix().replace("C:", "/c")
-appendToFile(f"\nsource {bashrcPathPosix}", f"{userProfile}\\.bashrc")
+  #Paint.NET
+  #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
+  #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\FileTypes", f"C:\\Program Files\\paint.net\\FileTypes")
+  #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
 
-#Paint.NET
-#addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
-#addSymlink(f"{dropboxEnvDir}\\Paint.NET\\FileTypes", f"C:\\Program Files\\paint.net\\FileTypes")
-#addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
+  #Blender
 
-#Blender
+  #WSL (WIP)
+  #powershell -Command "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux"
+  #Restart
+  #powershell -Command "Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Workspace/wsl/Ubuntu.zip -UseBasicParsing"
+  #powershell -Command "Expand-Archive ~/Workspace/wsl/Ubuntu.zip ~/Workspace/wsl/Ubuntu"
+  #~/Workspace/wsl/Ubuntu/ubuntu1804.exe
 
-#WSL (WIP)
-#powershell -Command "Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux"
-#Restart
-#powershell -Command "Invoke-WebRequest -Uri https://aka.ms/wsl-ubuntu-1804 -OutFile ~/Workspace/wsl/Ubuntu.zip -UseBasicParsing"
-#powershell -Command "Expand-Archive ~/Workspace/wsl/Ubuntu.zip ~/Workspace/wsl/Ubuntu"
-#~/Workspace/wsl/Ubuntu/ubuntu1804.exe
-
-if platform.system() == "Windows" and not verifyOnly:
-  #If we don't do this, then the next time we run setup.py we won't see any of the
-  #system wide environment variable changes in the same shell
-  os.system("refreshenv") #Will print out that it's refreshing environment variables
+  if platform.system() == "Windows" and not verifyOnly:
+    #If we don't do this, then the next time we run setup.py we won't see any of the
+    #system wide environment variable changes in the same shell
+    os.system("refreshenv") #Will print out that it's refreshing environment variables
