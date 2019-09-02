@@ -1,7 +1,14 @@
 {
 	"auto_match_enabled": false,
-    "folder_exclude_patterns": [".svn", ".git", ".hg", "CVS", "node_modules"],
 	"draw_white_space": "all",
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".hg",
+		"CVS",
+		"node_modules"
+	],
 	"font_size": 10,
 	"ignored_packages":
 	[
