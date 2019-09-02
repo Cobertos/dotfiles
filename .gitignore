@@ -1,3 +1,7 @@
+# Sensitive files
+**/SFTP.sublime-settings
+
+# Transient files
 *.cache
 __pycache__/
 **/Package\ Control.last-run
