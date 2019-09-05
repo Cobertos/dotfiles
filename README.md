@@ -38,11 +38,16 @@ A collection of configs and dot files for programs I use on Windows.
 * Dropbox selective sync large folders
 * Spotify download playlists
 * Install package control in Sublime to get it to recognize packages
+* Uninstall unwanted default apps
+* Connect phone to My Phone
+* Login to other Microsoft related products
 
 ## Future Support
 * WSL Install/Enable
 * Voicemeeter Banana
 * Setup correct file associations (for .xml, .html, etc...)
+* Global packages for node.js and python
+* Choco git installation requires custom flags (which I didn't notate...)
 
 ## Tools that just need installation
 * Ino Reader (part of Chrome extensions
