@@ -41,6 +41,9 @@ A collection of configs and dot files for programs I use on Windows.
 * Uninstall unwanted default apps
 * Connect phone to My Phone
 * Login to other Microsoft related products
+* Setup TabNine (TabNine::Config then paste key for TabNine Local)
+* Install eslint_d and other things for Sublime packages
+* Install office
 
 ## Future Support
 * WSL Install/Enable
