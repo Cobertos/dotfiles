@@ -8,46 +8,45 @@ A collection of configs and dot files for programs I use on Windows.
 * **Portable** - Use different configs ending in `##XXX` suffix with `--environment=XXX` flag
 * **Linking** - Symlinks over copying
 
-**Requires Python 3.6+ (interpolated literals and other fun things)**
-
 ## Installation
-
+* [Install chocolatey](https://chocolatey.org/docs/installation)
+ * I would like to automate this but there's a lot of overhead with Python)
+* `choco install ./packages.config`
+* Install Python 3.6+ (requires at least 3.6 because of interpolated literals, f"")
 * `python setup.py`
  * `--verify-only` - Lets you know the state of all the links, path operations, etc without doing anything
  * `--environment=XXX` - Uses files ending in `##XXX` if they exist instead
 
-## Currently supports
+## Supports
+* Everything in `packages.config` (run `scripts/chocoConfig.py` to regenerate!)
+ * Git for Windows configurations
+ * Sublime Text 3 configurations
+  * You need to manually setup license for it and SFTP though!
+ * 
 
-* [Git for Windows](https://git-scm.com/download/win)
-* [Sublime Text](https://www.sublimetext.com/3)
-* [ConEmu](https://conemu.github.io/en/Downloads.html)
-* WSL
+## You need to manually
+* Install Chrome
+ * Login to Chrome
+ * Login to Lastpass
+ * Login to InoReader
+* Windows settings
+ * Turn off sticky keys and other accessibility
+ * Turn off mouse precision
+ * Setup custom theme including wallpapers, lockscreen, sounds
+ * Turn off device rotation
+ * Enable file extensions and hidden files in Explorer
+* Dropbox selective sync large folders
+* Spotify download playlists
+* Install package control in Sublime to get it to recognize packages
 
-* Paint.NET
-* Blender
+## Future Support
+* WSL Install/Enable
+* Voicemeeter Banana
+* Setup correct file associations (for .xml, .html, etc...)
 
 ## Tools that just need installation
-(maybe move to Chocolatey?)
-(TODO: Move to chocolatey when packages.config export is a thing, otherwise it's kind of useless for my workflow)
-* 7zip
-* Dropbox
-* Lastpass
-* Chrome
-* Firefox
-* Discord
-* Standard Notes
-* Git for Windows
-* VLC Media Player
-* Ino Reader
-* FooBar 3000
-* OpenHardwareMonitor
-* OBS
-* Unity
-* ShareX
-
-## To Add
-
-* Python 3 (and associated linters)
-* NodeJS (and associated linters) (probably better to install nvm)
-* Paint.NET
-* Any other useful programs or scripts
+* Ino Reader (part of Chrome extensions
+* Unity-Hub (broken on Chocolatey)
+* Paint.NET and Spotify are installed through Windows App Store (wanted to try that out)
+* Blender is installed separately (managing multiple Blender versions)
+* `pyenv` for managing multiple versions of Python
