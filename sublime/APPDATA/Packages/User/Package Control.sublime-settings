@@ -6,13 +6,14 @@
 	"installed_packages":
 	[
 		"Color Highlight",
+		"JsFormat",
 		"MarkdownPreview",
 		"Package Control",
 		"Sass",
 		"SFTP",
 		"SublimeLinter",
 		"SublimeLinter-contrib-eslint_d",
-		"TemplateToolkit",
-		"JsFormat"
+		"TabNine",
+		"TemplateToolkit"
 	]
 }
