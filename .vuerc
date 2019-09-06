@@ -1,0 +1,21 @@
+{
+  "useTaobaoRegistry": false,
+  "presets": {
+    "with-tests": {
+      "useConfigFiles": true,
+      "plugins": {
+        "@vue/cli-plugin-babel": {},
+        "@vue/cli-plugin-eslint": {
+          "config": "standard",
+          "lintOn": [
+            "save"
+          ]
+        },
+        "@vue/cli-plugin-unit-mocha": {}
+      },
+      "cssPreprocessor": "dart-sass"
+    }
+  },
+  "latestVersion": "3.10.0",
+  "lastChecked": 1566018585034
+}
