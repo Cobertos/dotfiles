@@ -44,6 +44,7 @@ A collection of configs and dot files for programs I use on Windows.
 * Setup TabNine (TabNine::Config then paste key for TabNine Local)
 * Install eslint_d and other things for Sublime packages
 * Install office
+* Set surface pen pressure to like 8-9?
 
 ## Future Support
 * WSL Install/Enable

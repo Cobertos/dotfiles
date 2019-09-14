@@ -3,6 +3,7 @@ import sys
 import os
 import shutil
 import platform
+import subprocess
 from pathlib import Path, PurePosixPath
 
 verifyOnly = '--verify-only' in sys.argv
@@ -97,29 +98,51 @@ def addSymlink(target, path):
         else:
           raise RuntimeError("Path was not a file or directory")
       else:
-        return;
+        return
+
+def ensureDirectory(path):
+  """Ensures a path exists, creating directories if necessary"""
+  global verifyOnly
+
+  print(f"[{ 'OK' if os.path.exists(path) else 'NO' }]: '{path}' does {'' if os.path.exists(path) else 'NOT '}exist ")
+  if os.path.exists(path) or verifyOnly: #already good
+    return
+
+  os.makedirs(path)
+
+
+def getDropboxDir():
+  """
+  Finds the dropbox folder programatically from a few different files
+  https://help.dropbox.com/installs-integrations/desktop/locate-dropbox-folder#programmatically
+  """
+  #Find the dropbox info json
+  dropboxInfoFile = None
+  if os.path.isfile(f"{appData}\\Dropbox\\info.json"):
+      dropboxInfoFile = f"{appData}\\Dropbox\\info.json"
+  elif os.path.isfile(f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"):
+      dropboxInfoFile = f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"
+  #Open the json and extract the key we need for the personal path
+  with open(dropboxInfoFile) as fp:
+      return json.load(fp)["personal"]["path"]
 
 scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
 appData = os.environ["APPDATA"]
 userProfile = os.environ["USERPROFILE"]
-print(scriptDir)
+dropboxDir = getDropboxDir()
 
-#TODO: Query two files and grab a json key
-#dropboxInfoFile = None
-#if os.path.isfile(f"{appData}\\Dropbox\\info.json"):
-#    dropboxInfoFile = f"{appData}\\Dropbox\\info.json"
-#elif os.path.isfile(f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"):
-#    dropboxInfoFile = f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"
-#with open(dropboxInfoFile) as fp:
-#    dropboxEnvDir = json.load(fp)["personal"]["path"]
+print(scriptDir)
 
 if __name__ == '__main__':
   #SUBLIME
-  #Add sublime to path for `subl`
-  addToPath("C:\\Program Files\\Sublime Text 3")
-  #Make symbolic link to our Package\\User
-  addSymlink(f"{os.path.realpath(scriptDir)}\\sublime\\APPDATA\\Packages\\User", f"{appData}\\Sublime Text 3\\Packages\\User")
-  print("Make sure to setup your Sublime license and FTP license too!")
+  sublimeInstalled = bool(os.path.exists("C:\\Program Files\\Sublime Text 3"))
+  print(f"Sublime Text 3 is {'' if sublimeInstalled else 'NOT '}installed")
+  if sublimeInstalled:
+    #Add sublime to path for `subl`
+    addToPath("C:\\Program Files\\Sublime Text 3")
+    #Make symbolic link to our Package\\User
+    addSymlink(f"{os.path.realpath(scriptDir)}\\sublime\\APPDATA\\Packages\\User", f"{appData}\\Sublime Text 3\\Packages\\User")
+    print("Make sure to setup your Sublime license and FTP license too!")
 
   #CONEMU
   #Symlink the .xml config
@@ -137,10 +160,25 @@ if __name__ == '__main__':
   #Other
   addSymlink(f"{scriptDir}\\.vuerc", f"{userProfile}\\.vuerc")
 
-  #Paint.NET
-  #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
-  #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\FileTypes", f"C:\\Program Files\\paint.net\\FileTypes")
-  #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
+  #Paint.NET - Supports Windows store version
+  paintNetWindowsStore = bool(subprocess.check_output("powershell -Command \"Get-AppxPackage -Name dotPDNLLC.paint.net\""))
+  paintNetProgramFiles = bool(os.path.exists("C:\\Program Files\\paint.net\\Effects")) #Shitty test but what you gonna do...
+  paintNetInstalled = paintNetWindowsStore or paintNetProgramFiles
+  print(f"Paint.NET is {'' if paintNetInstalled else 'NOT '}installed")
+  if paintNetInstalled:
+    paintNetDataDir = (
+      #Windows store requires the creation of a folder in Documents
+      #https://forums.getpaint.net/topic/112007-windows-store-version-and-plugins/
+      f"{userProfile}\\Documents\\paint.net App Files" if paintNetWindowsStore else 
+      #Otherwise use the default program files directory that it normally installs into
+      f"C:\\Program Files\\paint.net")
+
+    if paintNetWindowsStore:
+      ensureDirectory(paintNetDataDir)
+
+    addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Effects", f"{paintNetDataDir}\\Effects")
+    addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\FileTypes", f"{paintNetDataDir}\\FileTypes")
+    addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
 
   #Blender
 
