@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2019-09-03 10:43:05" build="190714">
+		<key name=".Vanilla" modified="2019-09-16 10:56:28" build="190714">
 			<value name="StartType" type="hex" data="02"/>
 			<value name="CmdLine" type="string" data=""/>
 			<value name="StartTasksFile" type="string" data=""/>
@@ -242,8 +242,8 @@
 			<value name="Cascaded" type="hex" data="01"/>
 			<value name="IntegralSize" type="hex" data="00"/>
 			<value name="WindowMode" type="dword" data="0000051f"/>
-			<value name="ConWnd X" type="long" data="137"/>
-			<value name="ConWnd Y" type="long" data="157"/>
+			<value name="ConWnd X" type="long" data="346"/>
+			<value name="ConWnd Y" type="long" data="99"/>
 			<value name="LastMonitor" type="string" data="0,0,1920,1170"/>
 			<value name="ConWnd Width" type="dword" data="0000009a"/>
 			<value name="ConWnd Height" type="dword" data="00000032"/>
@@ -655,11 +655,11 @@
 					<value name="Count" type="long" data="1"/>
 					<value name="Cmd1" type="string" data="powershell.exe -new_console:a"/>
 				</key>
-				<key name="Task7" modified="2019-09-03 10:50:54" build="190714">
+				<key name="Task7" modified="2019-09-03 12:01:33" build="190714">
 					<value name="Name" type="string" data="{Bash::bash}"/>
 					<value name="Flags" type="dword" data="00000004"/>
-					<value name="Hotkey" type="dword" data="00000000"/>
-					<value name="GuiArgs" type="string" data=""/>
+					<value name="Hotkey" type="dword" data="00005d57"/>
+					<value name="GuiArgs" type="string" data="/dir %CD%"/>
 					<value name="Active" type="long" data="0"/>
 					<value name="Count" type="long" data="1"/>
 					<value name="Cmd1" type="string" data='set "PATH=%ConEmuBaseDirShort%\wsl;%PATH%" &amp; %ConEmuBaseDirShort%\conemu-cyg-64.exe --wsl -cur_console:pm:/mnt'/>
@@ -746,6 +746,11 @@
 					<!-- White (Number, Git diff text) -->
 				</key>
 			</key>
+			<value name="CmdLineHistory" type="multi">
+				<line data="{Shells::cmd}"/>
+				<line data="{Bash::bash}"/>
+				<line data="{Bash::Git bash}"/>
+			</value>
 		</key>
 	</key>
 </key>
