@@ -134,6 +134,9 @@ if __name__ == '__main__':
   bashrcPathPosix = Path(bashrcPath).as_posix().replace("C:", "/c")
   appendToFile(f"\nsource {bashrcPathPosix}", f"{userProfile}\\.bashrc")
 
+  #Other
+  addSymlink(f"{scriptDir}\\.vuerc", f"{userProfile}\\.vuerc")
+
   #Paint.NET
   #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\Effects", f"C:\\Program Files\\paint.net\\Effects")
   #addSymlink(f"{dropboxEnvDir}\\Paint.NET\\FileTypes", f"C:\\Program Files\\paint.net\\FileTypes")

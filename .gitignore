@@ -5,3 +5,4 @@
 *.cache
 __pycache__/
 **/Package\ Control.last-run
+**/.cache-cobertos
