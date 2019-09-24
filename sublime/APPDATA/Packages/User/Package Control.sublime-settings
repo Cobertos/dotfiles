@@ -6,6 +6,7 @@
 	"installed_packages":
 	[
 		"Color Highlight",
+		"HexViewer",
 		"JsFormat",
 		"MarkdownPreview",
 		"Package Control",
