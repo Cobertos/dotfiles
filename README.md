@@ -22,7 +22,9 @@ A collection of configs and dot files for programs I use on Windows.
  * Git for Windows configurations
  * Sublime Text 3 configurations
   * You need to manually setup license for it and SFTP though!
- * 
+ * BashRC
+ * ConEmu configurations
+ * Paint.NET configurations
 
 ## You need to manually
 * Install Chrome
@@ -45,6 +47,13 @@ A collection of configs and dot files for programs I use on Windows.
 * Install eslint_d and other things for Sublime packages
 * Install office
 * Set surface pen pressure to like 8-9?
+* Install Unity-Hub (broken on Chocolatey)
+* Install Windows App Store apps (including Paint.NET and Spotify)
+* Ino Reader (part of Chrome extensions)
+* Blender is installed separately (managing multiple Blender versions)
+* `pyenv` for managing multiple versions of Python
+* Remove Python execution aliases
+ * https://superuser.com/questions/1437590/typing-python-on-windows-10-version-1903-command-prompt-opens-microsoft-stor
 
 ## Future Support
 * WSL Install/Enable
@@ -52,10 +61,5 @@ A collection of configs and dot files for programs I use on Windows.
 * Setup correct file associations (for .xml, .html, etc...)
 * Global packages for node.js and python
 * Choco git installation requires custom flags (which I didn't notate...)
-
-## Tools that just need installation
-* Ino Reader (part of Chrome extensions
-* Unity-Hub (broken on Chocolatey)
-* Paint.NET and Spotify are installed through Windows App Store (wanted to try that out)
-* Blender is installed separately (managing multiple Blender versions)
-* `pyenv` for managing multiple versions of Python
+* VLC Plugins
+* Audacity and configurations
