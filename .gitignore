@@ -6,3 +6,6 @@
 __pycache__/
 **/Package\ Control.last-run
 **/.cache-cobertos
+**/Package Control.merged-ca-bundle
+**/Package Control.user-ca-bundle
+**/oscrypto-ca-bundle.crt
