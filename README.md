@@ -63,3 +63,9 @@ A collection of configs and dot files for programs I use on Windows.
 * Choco git installation requires custom flags (which I didn't notate...)
 * VLC Plugins
 * Audacity and configurations
+* Verify and install npm packages globally
+ * `@vue/cli`
+ * `eslint_d`
+ * `serverless`
+ * `lessmd`
+ * Windows build tools?
