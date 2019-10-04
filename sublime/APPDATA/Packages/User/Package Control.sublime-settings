@@ -15,6 +15,7 @@
 		"Shader Syntax (GLSL HLSL Cg)",
 		"SublimeLinter",
 		"SublimeLinter-contrib-eslint_d",
+		"SublimeLinter-contrib-yamllint",
 		"TabNine",
 		"TemplateToolkit"
 	]

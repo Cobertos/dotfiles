@@ -69,3 +69,6 @@ A collection of configs and dot files for programs I use on Windows.
  * `serverless`
  * `lessmd`
  * Windows build tools?
+* Verify and install pip packages
+ * `yamllint`
+ 
