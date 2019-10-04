@@ -159,6 +159,7 @@ if __name__ == '__main__':
 
   #Other
   addSymlink(f"{scriptDir}\\.vuerc", f"{userProfile}\\.vuerc")
+  addSymlink(f"{scriptDir}\\.config\\yamllint\\config", f"{userProfile}\\.config\\yamllint\\config")
 
   #Paint.NET - Supports Windows store version
   paintNetWindowsStore = bool(subprocess.check_output("powershell -Command \"Get-AppxPackage -Name dotPDNLLC.paint.net\""))
