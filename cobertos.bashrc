@@ -8,8 +8,7 @@ cobconf="${BASH_SOURCE%/*}"
 export cobconf
 
 alias cobconf="subl ${cobconf}"
-alias editcobconf="subl ${cobconf}"
-alias pullcobconf="git --git-dir=${cobconf}/.git pull"
+alias gitcc="git --git-dir=${cobconf}/.git --work-tree=${cobconf}"
 
 #Git aliases
 alias gitkcon='git log --all --decorate --oneline --graph'
