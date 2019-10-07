@@ -64,7 +64,8 @@ def addSymlink(target, path):
   """Adds a symlink at the given path pointing to target"""
   #Requires admin on windows (the symlink permission)
   global verifyOnly, environment
-  assert os.path.exists(target) #If target doesn't exist, Windows silently fails, so assert
+  if not verifyOnly:
+    assert os.path.exists(target) #If target doesn't exist, Windows silently fails, so assert
 
   #Determine which target to use based on environment
   target = getEnvironmentFilePath(target)
