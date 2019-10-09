@@ -64,11 +64,13 @@ A collection of configs and dot files for programs I use on Windows.
 * VLC Plugins
 * Audacity and configurations
 * Verify and install npm packages globally
- * `@vue/cli`
- * `eslint_d`
- * `serverless`
- * `lessmd`
+ * `@vue/cli` CLI tool
+ * `eslint_d` For Sublime Plugin
+ * `serverless` CLI tool
+ * `lessmd` For Sublime Plugin
+ * `js-yaml` For global package use
+ * `export NODE_PATH='npm root -g'` (works with NVM too!)
  * Windows build tools?
 * Verify and install pip packages
  * `yamllint`
- 
+* Add symbolic links to Dropbox bin/ folder (requires a Symlink to the Dropbox folder)
