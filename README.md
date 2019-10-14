@@ -18,13 +18,7 @@ A collection of configs and dot files for programs I use on Windows.
  * `--environment=XXX` - Uses files ending in `##XXX` if they exist instead
 
 ## Supports
-* Everything in `packages.config` (run `scripts/chocoConfig.py` to regenerate!)
- * Git for Windows configurations
- * Sublime Text 3 configurations
-  * You need to manually setup license for it and SFTP though!
- * BashRC
- * ConEmu configurations
- * Paint.NET configurations
+* Look at `packages.config` and `setup.py` for what's supported
 
 ## You need to manually
 * Install Chrome
@@ -44,7 +38,6 @@ A collection of configs and dot files for programs I use on Windows.
 * Connect phone to My Phone
 * Login to other Microsoft related products
 * Setup TabNine (TabNine::Config then paste key for TabNine Local)
-* Install eslint_d and other things for Sublime packages
 * Install office
 * Set surface pen pressure to like 8-9?
 * Install Unity-Hub (broken on Chocolatey)
@@ -59,8 +52,9 @@ A collection of configs and dot files for programs I use on Windows.
 * WSL Install/Enable
 * Voicemeeter Banana
 * Setup correct file associations (for .xml, .html, etc...)
-* Global packages for node.js and python
 * Choco git installation requires custom flags (which I didn't notate...)
 * VLC Plugins
 * Audacity and configurations
+* A separate packages.config for different workflows
 * Add symbolic links to Dropbox bin/ folder (requires a Symlink to the Dropbox folder)
+ * Move the ones that support it form the tools folder into Chocolatey
