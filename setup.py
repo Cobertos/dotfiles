@@ -5,6 +5,15 @@ import shutil
 import platform
 import subprocess
 from pathlib import Path, PurePosixPath
+from functools import partial
+
+#Overwrite print to always flush
+print = partial(print, flush=True)
+
+# Check if running in a virtualenv
+# https://stackoverflow.com/a/1883251/2759427
+if hasattr(sys, 'real_prefix'):
+  raise RuntimeError("Don't use in a virtualenv")
 
 verifyOnly = '--verify-only' in sys.argv
 environment = None
@@ -41,24 +50,29 @@ def appendToFile(appendString, path):
   with open(path, mode="a") as fp:
     fp.write(appendString)
 
-def addToPath(path):
-  """Adds a path to the PATH environment variable"""
+def appendToEnvVar(appendPath, envVar):
+  """Adds a path to the envVar environment variable"""
   global verifyOnly
 
-  def isOnPath(path):
-    return path in map(lambda p: p.strip(), os.environ['PATH'].split(';'))
+  def isInEnvVar(appendPath, envVar):
+    if envVar not in os.environ:
+      return False
+    return appendPath in map(lambda p: p.strip(), os.environ[envVar].split(';'))
 
-  print(f"[{ 'OK' if isOnPath(path) else 'NO' }]: '{path}' {'' if isOnPath(path) else 'NOT '}on path ")
-  if isOnPath(path) or verifyOnly: #already good
+  print(f"[{ 'OK' if isInEnvVar(appendPath, envVar) else 'NO' }]: '{appendPath}' {'' if isInEnvVar(appendPath, envVar) else 'NOT '}on {envVar} ")
+  if isInEnvVar(appendPath, envVar) or verifyOnly: #already good
     return
   #Otherwise add it
   #os.environ["PATH"] = f"{os.environ['PATH']};{path}"
   #TODO: os.environ doesn't persist on Windows, so instead use SETX
   #TODO: This will truncate the environment variable to 1024 characters too :/
   if platform.system() == "Windows":
-    os.system(f"SETX /M PATH \"%PATH%;{path}\"")
+    os.system(f"SETX /M {envVar} \"%{envVar}%;{appendPath}\"")
   else:
     raise NotImplementedError("AddToPath does not work on Linux variants :(")
+
+def addToPath(path):
+  appendToEnvVar(path, "PATH")
 
 def addSymlink(target, path):
   """Adds a symlink at the given path pointing to target"""
@@ -111,6 +125,31 @@ def ensureDirectory(path):
 
   os.makedirs(path)
 
+def npmInstallGlobal(packageName):
+  global verifyOnly
+
+  #This only works when the NODE_PATH environment variable
+  #is properly set below
+  #TODO: This doesn't work for @vue/cli for some reason...
+  check = subprocess.run(["node", "-e", f"require('{packageName}')"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+  isNpmInstalledGlobal = check.returncode == 0
+  print(f"[{ 'OK' if isNpmInstalledGlobal else 'NO' }]: '{packageName}' {'' if isNpmInstalledGlobal else 'NOT '}installed ")
+  if verifyOnly:
+    return
+  
+  os.system(f"npm i -g {packageName}")
+
+def pipInstall(packageName):
+  global verifyOnly
+
+  # https://askubuntu.com/questions/588390/
+  check = subprocess.run(["python", "-c", f"\"import {packageName}\""], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+  isPipInstalled = check.returncode == 0
+  print(f"[{ 'OK' if isPipInstalled else 'NO' }]: '{packageName}' {'' if isPipInstalled else 'NOT '}installed ")
+  if verifyOnly:
+    return
+    
+  os.system(f"pip install {packageName}")
 
 def getDropboxDir():
   """
@@ -157,6 +196,20 @@ if __name__ == '__main__':
   bashrcPath = getEnvironmentFilePath(f"{scriptDir}\\cobertos.bashrc")
   bashrcPathPosix = Path(bashrcPath).as_posix().replace("C:", "/c")
   appendToFile(f"\nsource {bashrcPathPosix}", f"{userProfile}\\.bashrc")
+
+  #Npm
+  #Ability to use global packages in require() with NODE_PATH
+  #Should work with NVM https://stackoverflow.com/a/49293370/2759427
+  npmRoot = subprocess.check_output("npm root -g", shell=True).decode("utf-8").strip()
+  appendToEnvVar(npmRoot, "NODE_PATH")
+  #npmInstallGlobal("@vue/cli")   #CLI tool
+  npmInstallGlobal("serverless") #CLI tool
+  #npmInstallGlobal("eslint_d")   #Sublime Text Plugin Dependency
+  #npmInstallGlobal("lessmd")     #CLI utility to preview Markdown
+  #npmInstallGlobal("js-yaml")    #Useful tool
+
+  #Python
+  pipInstall("yamllint")
 
   #Other
   addSymlink(f"{scriptDir}\\.vuerc", f"{userProfile}\\.vuerc")
