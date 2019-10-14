@@ -3,8 +3,6 @@
 	"auto_match_enabled": false,
 	"color_scheme": "Monokai.sublime-color-scheme",
 	"draw_white_space": "all",
-	"margin": 0,
-	"rulers": [80],
 	"folder_exclude_patterns":
 	[
 		".svn",
@@ -18,7 +16,12 @@
 	[
 		"Vintage"
 	],
+	"margin": 0,
+	"rulers":
+	[
+		80
+	],
+	"shift_tab_unindent": true,
 	"theme": "Adaptive.sublime-theme",
-	"translate_tabs_to_spaces": true,
-	"shift_tab_unindent": true
+	"translate_tabs_to_spaces": true
 }

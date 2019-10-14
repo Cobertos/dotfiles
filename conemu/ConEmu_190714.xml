@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2019-09-29 21:29:04" build="190714">
+		<key name=".Vanilla" modified="2019-10-04 16:14:22" build="190714">
 			<value name="StartType" type="hex" data="02"/>
 			<value name="CmdLine" type="string" data=""/>
 			<value name="StartTasksFile" type="string" data=""/>
@@ -242,8 +242,8 @@
 			<value name="Cascaded" type="hex" data="01"/>
 			<value name="IntegralSize" type="hex" data="00"/>
 			<value name="WindowMode" type="dword" data="0000051f"/>
-			<value name="ConWnd X" type="long" data="205"/>
-			<value name="ConWnd Y" type="long" data="222"/>
+			<value name="ConWnd X" type="long" data="647"/>
+			<value name="ConWnd Y" type="long" data="410"/>
 			<value name="LastMonitor" type="string" data="0,0,2736,1764"/>
 			<value name="ConWnd Width" type="dword" data="0000005c"/>
 			<value name="ConWnd Height" type="dword" data="00000019"/>
@@ -747,8 +747,8 @@
 				</key>
 			</key>
 			<value name="CmdLineHistory" type="multi">
-				<line data="{Shells::cmd}"/>
 				<line data="{Shells::cmd (Admin)}"/>
+				<line data="{Shells::cmd}"/>
 				<line data="{Shells::cmd-32}"/>
 				<line data="{Shells::PowerShell (Admin)}"/>
 			</value>
