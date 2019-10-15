@@ -58,3 +58,5 @@ A collection of configs and dot files for programs I use on Windows.
 * A separate packages.config for different workflows
 * Add symbolic links to Dropbox bin/ folder (requires a Symlink to the Dropbox folder)
  * Move the ones that support it form the tools folder into Chocolatey
+* ShareX config
+* Installing chocolatey packages
