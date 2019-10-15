@@ -15,11 +15,35 @@ print = partial(print, flush=True)
 if hasattr(sys, 'real_prefix'):
   raise RuntimeError("Don't use in a virtualenv")
 
+# Bunch of script-wide variables
 verifyOnly = '--verify-only' in sys.argv
 environment = None
 environmentOpts = list(filter(lambda s: s.startswith('--environment='), sys.argv))
 if environmentOpts:
   environment = environmentOpts[-1].split('=')[-1]
+
+def getDropboxDir():
+  """
+  Finds the dropbox folder programatically from a few different files
+  https://help.dropbox.com/installs-integrations/desktop/locate-dropbox-folder#programmatically
+  """
+  #Find the dropbox info json
+  dropboxInfoFile = None
+  if os.path.isfile(f"{appData}\\Dropbox\\info.json"):
+      dropboxInfoFile = f"{appData}\\Dropbox\\info.json"
+  elif os.path.isfile(f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"):
+      dropboxInfoFile = f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"
+  #Open the json and extract the key we need for the personal path
+  with open(dropboxInfoFile) as fp:
+      return json.load(fp)["personal"]["path"]
+
+scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
+appData = os.environ["APPDATA"]
+userProfile = os.environ["USERPROFILE"]
+dropboxDir = getDropboxDir()
+npmRoot = subprocess.check_output("npm root -g", shell=True).decode("utf-8").strip()
+print(scriptDir)
+
 
 #TODO: Convert to using pathlib instead of string paths in the future
 
@@ -67,7 +91,7 @@ def appendToEnvVar(appendPath, envVar):
   #TODO: os.environ doesn't persist on Windows, so instead use SETX
   #TODO: This will truncate the environment variable to 1024 characters too :/
   if platform.system() == "Windows":
-    os.system(f"SETX /M {envVar} \"%{envVar}%;{appendPath}\"")
+    subprocess.run(["setx", "/m", envVar, f"{os.environ[envVar]};{appendPath}"])
   else:
     raise NotImplementedError("AddToPath does not work on Linux variants :(")
 
@@ -99,6 +123,8 @@ def addSymlink(target, path):
   if isLinkedProperly or verifyOnly:
     return
 
+  parentPath = os.path.join(*os.path.split(path)[:-1])
+  ensureDirectory(parentPath)
   #Make the link and do things if it fails
   while not isProperlyLinked(path)[1]:
     try:
@@ -126,18 +152,15 @@ def ensureDirectory(path):
   os.makedirs(path)
 
 def npmInstallGlobal(packageName):
-  global verifyOnly
+  global verifyOnly, npmRoot
 
-  #This only works when the NODE_PATH environment variable
-  #is properly set below
-  #TODO: This doesn't work for @vue/cli for some reason...
-  check = subprocess.run(["node", "-e", f"require('{packageName}')"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-  isNpmInstalledGlobal = check.returncode == 0
+  #Check for the package name in npm root, TODO: Verify this works in all cases
+  isNpmInstalledGlobal = os.path.exists(os.path.join(npmRoot, *packageName.split('/')))
   print(f"[{ 'OK' if isNpmInstalledGlobal else 'NO' }]: '{packageName}' {'' if isNpmInstalledGlobal else 'NOT '}installed ")
-  if verifyOnly:
+  if verifyOnly or isNpmInstalledGlobal:
     return
   
-  os.system(f"npm i -g {packageName}")
+  subprocess.run(['npm', 'i', '-g', packageName])
 
 def pipInstall(packageName):
   global verifyOnly
@@ -146,34 +169,14 @@ def pipInstall(packageName):
   check = subprocess.run(["python", "-c", f"\"import {packageName}\""], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
   isPipInstalled = check.returncode == 0
   print(f"[{ 'OK' if isPipInstalled else 'NO' }]: '{packageName}' {'' if isPipInstalled else 'NOT '}installed ")
-  if verifyOnly:
+  if verifyOnly or isPipInstalled:
     return
-    
-  os.system(f"pip install {packageName}")
-
-def getDropboxDir():
-  """
-  Finds the dropbox folder programatically from a few different files
-  https://help.dropbox.com/installs-integrations/desktop/locate-dropbox-folder#programmatically
-  """
-  #Find the dropbox info json
-  dropboxInfoFile = None
-  if os.path.isfile(f"{appData}\\Dropbox\\info.json"):
-      dropboxInfoFile = f"{appData}\\Dropbox\\info.json"
-  elif os.path.isfile(f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"):
-      dropboxInfoFile = f"{os.environ['LOCALAPPDATA']}\\Dropbox\\info.json"
-  #Open the json and extract the key we need for the personal path
-  with open(dropboxInfoFile) as fp:
-      return json.load(fp)["personal"]["path"]
-
-scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
-appData = os.environ["APPDATA"]
-userProfile = os.environ["USERPROFILE"]
-dropboxDir = getDropboxDir()
-
-print(scriptDir)
+  
+  subprocess.run(['pip', 'install', packageName])
 
 if __name__ == '__main__':
+  addToPath(f"{scriptDir}\\onpath")
+
   #SUBLIME
   sublimeInstalled = bool(os.path.exists("C:\\Program Files\\Sublime Text 3"))
   print(f"Sublime Text 3 is {'' if sublimeInstalled else 'NOT '}installed")
@@ -200,13 +203,12 @@ if __name__ == '__main__':
   #Npm
   #Ability to use global packages in require() with NODE_PATH
   #Should work with NVM https://stackoverflow.com/a/49293370/2759427
-  npmRoot = subprocess.check_output("npm root -g", shell=True).decode("utf-8").strip()
   appendToEnvVar(npmRoot, "NODE_PATH")
-  #npmInstallGlobal("@vue/cli")   #CLI tool
+  npmInstallGlobal("@vue/cli")   #CLI tool
   npmInstallGlobal("serverless") #CLI tool
-  #npmInstallGlobal("eslint_d")   #Sublime Text Plugin Dependency
-  #npmInstallGlobal("lessmd")     #CLI utility to preview Markdown
-  #npmInstallGlobal("js-yaml")    #Useful tool
+  npmInstallGlobal("eslint_d")   #Sublime Text Plugin Dependency
+  npmInstallGlobal("lessmd")     #CLI utility to preview Markdown
+  npmInstallGlobal("js-yaml")    #Useful tool
 
   #Python
   pipInstall("yamllint")
@@ -228,12 +230,12 @@ if __name__ == '__main__':
       #Otherwise use the default program files directory that it normally installs into
       f"C:\\Program Files\\paint.net")
 
-    if paintNetWindowsStore:
-      ensureDirectory(paintNetDataDir)
+    #if paintNetWindowsStore:
+    #  ensureDirectory(paintNetDataDir)
 
-    addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Effects", f"{paintNetDataDir}\\Effects")
-    addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\FileTypes", f"{paintNetDataDir}\\FileTypes")
-    addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
+    #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Effects", f"{paintNetDataDir}\\Effects")
+    #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\FileTypes", f"{paintNetDataDir}\\FileTypes")
+    #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
 
   #Blender
 
@@ -247,4 +249,4 @@ if __name__ == '__main__':
   if platform.system() == "Windows" and not verifyOnly:
     #If we don't do this, then the next time we run setup.py we won't see any of the
     #system wide environment variable changes in the same shell
-    os.system("refreshenv") #Will print out that it's refreshing environment variables
+    subprocess.run([f"{scriptDir}\\onpath\\refreshenv.cmd"]) #Will print out that it's refreshing environment variables

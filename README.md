@@ -3,7 +3,7 @@
 A collection of configs and dot files for programs I use on Windows.
 
 * **Public** - Private keys and licenses are separate (for now...)
-* **Automatic** - `python setup.py` sets up everything. `--verify-only` will verify an install without performing any operation
+* **Automatic** - `python setup.py` sets up everything. `--verify-only` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
 * **Console** - Only console dev related configs live in here (everything else in Dropbox for now...)
 * **Portable** - Use different configs ending in `##XXX` suffix with `--environment=XXX` flag
 * **Linking** - Symlinks over copying
