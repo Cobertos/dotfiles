@@ -60,5 +60,4 @@ A collection of configs and dot files for programs I use on Windows.
  * Move the ones that support it form the tools folder into Chocolatey
 * ShareX config
 * Installing chocolatey packages
-* nmap
 * Make sure that Chrome syncs settings for refined GitHub
