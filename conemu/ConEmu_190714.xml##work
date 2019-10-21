@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2019-09-16 10:56:28" build="190714">
+		<key name=".Vanilla" modified="2019-10-16 14:55:08" build="190714">
 			<value name="StartType" type="hex" data="02"/>
 			<value name="CmdLine" type="string" data=""/>
 			<value name="StartTasksFile" type="string" data=""/>
@@ -242,8 +242,8 @@
 			<value name="Cascaded" type="hex" data="01"/>
 			<value name="IntegralSize" type="hex" data="00"/>
 			<value name="WindowMode" type="dword" data="0000051f"/>
-			<value name="ConWnd X" type="long" data="346"/>
-			<value name="ConWnd Y" type="long" data="99"/>
+			<value name="ConWnd X" type="long" data="402"/>
+			<value name="ConWnd Y" type="long" data="151"/>
 			<value name="LastMonitor" type="string" data="0,0,1920,1170"/>
 			<value name="ConWnd Width" type="dword" data="0000009a"/>
 			<value name="ConWnd Height" type="dword" data="00000032"/>
@@ -747,8 +747,9 @@
 				</key>
 			</key>
 			<value name="CmdLineHistory" type="multi">
-				<line data="{Shells::cmd}"/>
 				<line data="{Bash::bash}"/>
+				<line data="{Shells::cmd (Admin)}"/>
+				<line data="{Shells::cmd}"/>
 				<line data="{Bash::Git bash}"/>
 			</value>
 		</key>
