@@ -1,0 +1,8 @@
+// SublimeLinter Settings - User
+{
+    "linters": {
+        "eslint": {
+            "executable": "eslint_d"
+        }
+    }
+}

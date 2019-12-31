@@ -1,4 +1,10 @@
-// These settings override both User and Default settings for the YAML syntax
 {
+	"extensions":
+	[
+		".gemrc",
+		"yml",
+		"yml.dist",
+		"YAML-tmLanguage"
+	],
 	"word_wrap": true
 }
