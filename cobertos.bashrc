@@ -23,6 +23,9 @@ if [[ -n "${ConEmuPID}" ]]; then
   PS1="\[\e]9;9;\"\$PWD\"\007\e]9;12\007\]$PS1"
 fi
 
+#z
+source "${cobconf}/scripts/z.sh"
+
 }
 
 init
