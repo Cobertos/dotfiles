@@ -22,6 +22,8 @@
 		80
 	],
 	"shift_tab_unindent": true,
+	"show_encoding": true,
+	"show_line_endings": true,
 	"theme": "Adaptive.sublime-theme",
 	"translate_tabs_to_spaces": true
 }
