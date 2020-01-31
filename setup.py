@@ -102,7 +102,7 @@ def setEnvVar(value, envVar):
   else:
     raise NotImplementedError("setEnvVar does not work on Linux variants :(")
 
-def appendToEnvVar(appendPath, envVar):
+def appendToEnvVar(appendPath, envVar, prepend=False):
   """Adds a path to the envVar environment variable"""
   global verifyOnly
 
@@ -119,12 +119,13 @@ def appendToEnvVar(appendPath, envVar):
   #TODO: os.environ doesn't persist on Windows, so instead use SETX
   #TODO: This will truncate the environment variable to 1024 characters too :/
   if platform.system() == "Windows":
-    subprocess.run(["setx", "/m", envVar, f"{osEnvironNoExpand(envVar)};{appendPath}"])
+    envVarValue = f"{appendPath};{osEnvironNoExpand(envVar)}" if prepend else f"{osEnvironNoExpand(envVar)};{appendPath}"
+    subprocess.run(["setx", "/m", envVar, envVarValue])
   else:
     raise NotImplementedError("appendToEnvVar does not work on Linux variants :(")
 
-def addToPath(path):
-  appendToEnvVar(path, "PATH")
+def addToPath(path, prepend=False):
+  appendToEnvVar(path, "PATH", prepend)
 
 def addSymlink(target, path):
   """Adds a symlink at the given path pointing to target"""
@@ -243,8 +244,8 @@ if __name__ == '__main__':
   pipInstall("pyenv-win", "--target", f"{userProfile}\\.pyenv") #This package is annoying...
   #From https://github.com/pyenv-win/pyenv-win#finish-the-installation
   setEnvVar(f"{userProfile}\\.pyenv\\pyenv-win", "PYENV")
-  addToPath("%PYENV%\\bin")
-  addToPath("%PYENV%\\shims")
+  addToPath("%PYENV%\\bin", prepend=True) #Needs to come before WindowsApps, cause Python is in there by default now?
+  addToPath("%PYENV%\\shims", prepend=True)
   print("Run pyenv rehash to get this to work...")
 
   #Other
