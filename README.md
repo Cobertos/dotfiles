@@ -44,7 +44,6 @@ A collection of configs and dot files for programs I use on Windows.
 * Install Windows App Store apps (including Paint.NET and Spotify)
 * Ino Reader (part of Chrome extensions)
 * Blender is installed separately (managing multiple Blender versions)
-* `pyenv` for managing multiple versions of Python
 * Remove Python execution aliases
  * https://superuser.com/questions/1437590/typing-python-on-windows-10-version-1903-command-prompt-opens-microsoft-stor
 

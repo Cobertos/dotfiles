@@ -1,3 +1,4 @@
+from winreg import HKEY_LOCAL_MACHINE, OpenKey, ConnectRegistry, QueryValueEx
 import json
 import sys
 import os
@@ -44,6 +45,14 @@ dropboxDir = getDropboxDir()
 npmRoot = subprocess.check_output("npm root -g", shell=True).decode("utf-8").strip()
 print(scriptDir)
 
+def osEnvironNoExpand(envVar):
+  """
+  You have to get the variable from the Windows registry to not expand
+  """
+  reg = ConnectRegistry(None,HKEY_LOCAL_MACHINE)
+  key = OpenKey(reg, f"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment")
+  return QueryValueEx(key,envVar)[0]
+  #Close is autocalled on GC
 
 #TODO: Convert to using pathlib instead of string paths in the future
 
@@ -74,6 +83,25 @@ def appendToFile(appendString, path):
   with open(path, mode="a") as fp:
     fp.write(appendString)
 
+def setEnvVar(value, envVar):
+  """Sets an environment variable"""
+  global verifyOnly
+
+  def isEnvVar(value, envVar):
+    if envVar not in os.environ:
+      return False
+    return osEnvironNoExpand(envVar) == value
+
+  print(f"[{ 'OK' if isEnvVar(value, envVar) else 'NO' }]: {envVar} is {'' if isEnvVar(value, envVar) else 'NOT '}'{value}' ")
+  if isEnvVar(value, envVar) or verifyOnly: #already good
+    return
+
+  #TODO: See appendToEnvVar()
+  if platform.system() == "Windows":
+    subprocess.run(["setx", "/m", envVar, f"{value}"])
+  else:
+    raise NotImplementedError("setEnvVar does not work on Linux variants :(")
+
 def appendToEnvVar(appendPath, envVar):
   """Adds a path to the envVar environment variable"""
   global verifyOnly
@@ -81,7 +109,7 @@ def appendToEnvVar(appendPath, envVar):
   def isInEnvVar(appendPath, envVar):
     if envVar not in os.environ:
       return False
-    return appendPath in map(lambda p: p.strip(), os.environ[envVar].split(';'))
+    return appendPath in map(lambda p: p.strip(), osEnvironNoExpand(envVar).split(';'))
 
   print(f"[{ 'OK' if isInEnvVar(appendPath, envVar) else 'NO' }]: '{appendPath}' {'' if isInEnvVar(appendPath, envVar) else 'NOT '}on {envVar} ")
   if isInEnvVar(appendPath, envVar) or verifyOnly: #already good
@@ -91,9 +119,9 @@ def appendToEnvVar(appendPath, envVar):
   #TODO: os.environ doesn't persist on Windows, so instead use SETX
   #TODO: This will truncate the environment variable to 1024 characters too :/
   if platform.system() == "Windows":
-    subprocess.run(["setx", "/m", envVar, f"{os.environ[envVar]};{appendPath}"])
+    subprocess.run(["setx", "/m", envVar, f"{osEnvironNoExpand(envVar)};{appendPath}"])
   else:
-    raise NotImplementedError("AddToPath does not work on Linux variants :(")
+    raise NotImplementedError("appendToEnvVar does not work on Linux variants :(")
 
 def addToPath(path):
   appendToEnvVar(path, "PATH")
@@ -160,9 +188,9 @@ def npmInstallGlobal(packageName):
   if verifyOnly or isNpmInstalledGlobal:
     return
   
-  subprocess.run(['npm', 'i', '-g', packageName])
+  subprocess.run(['npm', 'i', '-g', packageName], shell=True)
 
-def pipInstall(packageName):
+def pipInstall(packageName, *args):
   global verifyOnly
 
   # https://askubuntu.com/questions/588390/
@@ -172,7 +200,7 @@ def pipInstall(packageName):
   if verifyOnly or isPipInstalled:
     return
   
-  subprocess.run(['pip', 'install', packageName])
+  subprocess.run(['pip', 'install', packageName, *args], shell=True)
 
 if __name__ == '__main__':
   addToPath(f"{scriptDir}\\onpath")
@@ -212,6 +240,12 @@ if __name__ == '__main__':
 
   #Python
   pipInstall("yamllint")
+  pipInstall("pyenv-win", "--target", f"{userProfile}\\.pyenv") #This package is annoying...
+  #From https://github.com/pyenv-win/pyenv-win#finish-the-installation
+  setEnvVar(f"{userProfile}\\.pyenv\\pyenv-win", "PYENV")
+  addToPath("%PYENV%\\bin")
+  addToPath("%PYENV%\\shims")
+  print("Run pyenv rehash to get this to work...")
 
   #Other
   addSymlink(f"{scriptDir}\\.vuerc", f"{userProfile}\\.vuerc")
