@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2019-09-16 10:56:28" build="190714">
+		<key name=".Vanilla" modified="2020-01-06 14:26:59" build="190714">
 			<value name="StartType" type="hex" data="02"/>
 			<value name="CmdLine" type="string" data=""/>
 			<value name="StartTasksFile" type="string" data=""/>
@@ -242,11 +242,11 @@
 			<value name="Cascaded" type="hex" data="01"/>
 			<value name="IntegralSize" type="hex" data="00"/>
 			<value name="WindowMode" type="dword" data="0000051f"/>
-			<value name="ConWnd X" type="long" data="346"/>
-			<value name="ConWnd Y" type="long" data="99"/>
-			<value name="LastMonitor" type="string" data="0,0,1920,1170"/>
-			<value name="ConWnd Width" type="dword" data="0000009a"/>
-			<value name="ConWnd Height" type="dword" data="00000032"/>
+			<value name="ConWnd X" type="long" data="-1776"/>
+			<value name="ConWnd Y" type="long" data="121"/>
+			<value name="LastMonitor" type="string" data="-1920,0,0,1170"/>
+			<value name="ConWnd Width" type="dword" data="000000c2"/>
+			<value name="ConWnd Height" type="dword" data="0000002f"/>
 			<value name="16bit Height" type="ulong" data="0"/>
 			<value name="Language" type="string" data="en"/>
 			<value name="StartCreateDelay" type="ulong" data="100"/>
@@ -322,11 +322,11 @@
 			<value name="Multi.SplitWidth" type="hex" data="04"/>
 			<value name="Multi.SplitHeight" type="hex" data="04"/>
 			<value name="FontName" type="string" data="Consolas"/>
-			<value name="FontName2" type="string" data=""/>
+			<value name="FontName2" type="string" data="Segoe UI"/>
 			<value name="FontAutoSize" type="hex" data="00"/>
-			<value name="FontSizeX" type="ulong" data="0"/>
-			<value name="FontSizeX2" type="ulong" data="0"/>
-			<value name="FontSizeX3" type="ulong" data="0"/>
+			<value name="FontSizeX" type="ulong" data="8"/>
+			<value name="FontSizeX2" type="ulong" data="13"/>
+			<value name="FontSizeX3" type="ulong" data="8"/>
 			<value name="FontCharSet" type="hex" data="01"/>
 			<value name="Anti-aliasing" type="ulong" data="6"/>
 			<value name="FontBold" type="hex" data="00"/>
@@ -411,9 +411,9 @@
 			<value name="FarGotoEditorPath" type="string" data='far.exe /e%1:%2 "%3"'/>
 			<value name="HighlightMouseRow" type="hex" data="00"/>
 			<value name="HighlightMouseCol" type="hex" data="00"/>
-			<value name="FixFarBorders" type="hex" data="01"/>
+			<value name="FixFarBorders" type="hex" data="00"/>
 			<value name="Anti-aliasing2" type="hex" data="00"/>
-			<value name="FixFarBordersRanges" type="string" data="2013-25C4;"/>
+			<value name="FixFarBordersRanges" type="string" data=""/>
 			<value name="ExtendUCharMap" type="hex" data="01"/>
 			<value name="EnhanceGraphics" type="hex" data="01"/>
 			<value name="EnhanceButtons" type="hex" data="00"/>
@@ -747,9 +747,10 @@
 				</key>
 			</key>
 			<value name="CmdLineHistory" type="multi">
+				<line data="{Shells::cmd (Admin)}"/>
 				<line data="{Shells::cmd}"/>
-				<line data="{Bash::bash}"/>
 				<line data="{Bash::Git bash}"/>
+				<line data="{Bash::bash}"/>
 			</value>
 		</key>
 	</key>

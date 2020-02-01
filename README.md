@@ -18,7 +18,7 @@ A collection of configs and dot files for programs I use on Windows.
  * `--environment=XXX` - Uses files ending in `##XXX` if they exist instead
 
 ## Supports
-* Look at `packages.config` and `setup.py` for what's supported
+* Look at `packages.config`, `setup.py`, and `cobertos.bashrc` for what's supported
 
 ## You need to manually
 * Install Chrome
@@ -59,3 +59,5 @@ A collection of configs and dot files for programs I use on Windows.
  * Move the ones that support it form the tools folder into Chocolatey
 * ShareX config
 * Installing chocolatey packages
+* Make sure that Chrome syncs settings for refined GitHub
+* Rust

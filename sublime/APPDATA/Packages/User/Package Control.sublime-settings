@@ -5,16 +5,21 @@
 	],
 	"installed_packages":
 	[
+		"ApplySyntax",
 		"Color Highlight",
+		"Discord Rich Presence",
+		"Git blame",
 		"HexViewer",
 		"JsFormat",
 		"MarkdownPreview",
 		"Package Control",
+		"requirementstxt",
 		"Sass",
 		"SFTP",
 		"Shader Syntax (GLSL HLSL Cg)",
 		"SublimeLinter",
 		"SublimeLinter-contrib-yamllint",
+		"SublimeLinter-eslint",
 		"TabNine",
 		"TemplateToolkit"
 	]
