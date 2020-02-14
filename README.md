@@ -12,7 +12,10 @@ A collection of configs and dot files for programs I use on Windows.
 * [Install chocolatey](https://chocolatey.org/docs/installation)
  * I would like to automate this but there's a lot of overhead with Python)
 * `choco install ./packages.config`
+* Install `pyenv` by downloading and extracting at the correct location and setting up variables
 * Install Python 3.6+ (requires at least 3.6 because of interpolated literals, f"")
+* Install Dropbox (fails if not installed, TODO) and make sure nvm is using a version of npm (fails if not installed, TODO)
+* Make a .bashrc if not exists (fails currently, TODO)
 * `python setup.py`
  * `--verify-only` - Lets you know the state of all the links, path operations, etc without doing anything
  * `--environment=XXX` - Uses files ending in `##XXX` if they exist instead
@@ -42,10 +45,16 @@ A collection of configs and dot files for programs I use on Windows.
 * Set surface pen pressure to like 8-9?
 * Install Unity-Hub (broken on Chocolatey)
 * Install Windows App Store apps (including Paint.NET and Spotify)
-* Ino Reader (part of Chrome extensions)
 * Blender is installed separately (managing multiple Blender versions)
 * Remove Python execution aliases
  * https://superuser.com/questions/1437590/typing-python-on-windows-10-version-1903-command-prompt-opens-microsoft-stor
+* Configure explorer preferences (hidden files and exteions)
+* Configure taskbar preferences (non grouping etc)
+* Turn off Windows sounds (the default sounds)
+* Communication 80% decrease turn off 
+* Remove certain pins from the taskbar
+* Make backspace faster/proper speed
+* Setup conemu here manually
 
 ## Future Support
 * WSL Install/Enable
@@ -59,5 +68,14 @@ A collection of configs and dot files for programs I use on Windows.
  * Move the ones that support it form the tools folder into Chocolatey
 * ShareX config
 * Installing chocolatey packages
-* Make sure that Chrome syncs settings for refined GitHub
+* Make sure that Chrome syncs settings for refined GitHub (looks like it worked)
 * Rust
+
+## TODO
+* Delete a bunch of cruft in the users folder for explorer
+* Find a better explorer (I heard there was a nice one)
+* Change windows bootup art and other shit like my phone
+* Add a console startup message owo
+* TODO: Computer name
+
+* Yamllint isnt installed but it says it is
