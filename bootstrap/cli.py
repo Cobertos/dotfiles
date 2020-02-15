@@ -59,7 +59,7 @@ def bootstrap(**opts):
 
     #CONEMU
     #Symlink the .xml config
-    AddSymLink(f"{scriptDir}\\conemu\\ConEmu_190714.xml", f"{appData}\\ConEmu.xml", **opts)()
+    AddSymLink(f"{scriptDir}\\conemu\\ConEmu_191012.xml", f"{appData}\\ConEmu.xml", **opts)()
 
     #Git
     AddSymLink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig", **opts)()
