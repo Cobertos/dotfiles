@@ -16,12 +16,11 @@ A collection of configs and dot files for programs I use on Windows.
 * Install Python 3.6+ (requires at least 3.6 because of interpolated literals, f"")
 * Install Dropbox (fails if not installed, TODO) and make sure nvm is using a version of npm (fails if not installed, TODO)
 * Make a .bashrc if not exists (fails currently, TODO)
-* `python setup.py`
- * `--verify-only` - Lets you know the state of all the links, path operations, etc without doing anything
- * `--environment=XXX` - Uses files ending in `##XXX` if they exist instead
+* `python bootstrap/cli.py` (There's a `--help` now)
+ * Make sure to use the right `--environment=XXX`!
 
 ## Supports
-* Look at `packages.config`, `setup.py`, and `cobertos.bashrc` for what's supported
+* Look at `packages.config`, `bootstrap/cli.py`, and `cobertos.bashrc` for what's supported
 
 ## You need to manually
 * Install Chrome
@@ -37,6 +36,7 @@ A collection of configs and dot files for programs I use on Windows.
 * Dropbox selective sync large folders
 * Spotify download playlists
 * Install package control in Sublime to get it to recognize packages
+* Setup license for Sublime and FTP
 * Uninstall unwanted default apps
 * Connect phone to My Phone
 * Login to other Microsoft related products
