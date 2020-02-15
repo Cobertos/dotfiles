@@ -1,3 +1,4 @@
+import traceback
 import sys
 import os
 import shutil
@@ -188,9 +189,10 @@ class AddSymLink(BootstrapOperation):
 
   def execute(self):
     parentPath = os.path.join(*os.path.split(self.path)[:-1])
-    ensureDirectory(parentPath)
+    #TODO: Write this better...
+    EnsureDirectory(parentPath, verify_only=self.verify_only, environment=self.environment)()
     #Make the link and do things if it fails
-    while not isProperlyLinked(self.path)[1]:
+    while not self.test():
       try:
         os.symlink(self.target, self.path)
       except FileExistsError as e:
