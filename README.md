@@ -77,5 +77,6 @@ A collection of configs and dot files for programs I use on Windows.
 * Change windows bootup art and other shit like my phone
 * Add a console startup message owo
 * TODO: Computer name
+* Add z's config (but somehow without leaking all the path names, or don't...)
 
 * Yamllint isnt installed but it says it is
