@@ -291,6 +291,8 @@ class SetRegKey(BootstrapOperation):
       with winreg.OpenKey(self.registry, self.subKey, 0, winreg.KEY_READ | winreg.KEY_WRITE) as regKey:
         checkValue, checkType = winreg.QueryValueEx(regKey, self.key)
     except WindowsError as e:
+      if e.winerror != 2:
+        raise e #Not a "File not found" exception
       self.logger.info(e)
       self.logger.info("Key didnt exist")
       return False #Key didn't exist, most likely
