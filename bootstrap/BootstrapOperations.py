@@ -287,15 +287,16 @@ class SetRegKey(BootstrapOperation):
     return f"'{self.regPath}' is set to '{self.value}' ({vTypeToStr(self.vType)})?"
 
   def test(self):
-    with winreg.OpenKey(self.registry, self.subKey, 0, winreg.KEY_READ | winreg.KEY_WRITE) as regKey:
-      try:
+    try:
+      with winreg.OpenKey(self.registry, self.subKey, 0, winreg.KEY_READ | winreg.KEY_WRITE) as regKey:
         checkValue, checkType = winreg.QueryValueEx(regKey, self.key)
-      except Exception as e:
-        self.logger.info(e)
-        self.logger.info("Key didnt exist")
-        return False #Key didn't exist, most likely
-      self.logger.info(f"'{self.regPath}' is currently set to {checkValue} ({vTypeToStr(checkType)})")
-      return checkType == self.vType and checkValue == self.value
+    except WindowsError as e:
+      self.logger.info(e)
+      self.logger.info("Key didnt exist")
+      return False #Key didn't exist, most likely
+
+    self.logger.info(f"'{self.regPath}' is currently set to {checkValue} ({vTypeToStr(checkType)})")
+    return checkType == self.vType and checkValue == self.value
 
   def execute(self):
     with winreg.CreateKeyEx(self.registry, self.subKey, 0, winreg.KEY_READ | winreg.KEY_WRITE) as regKey:

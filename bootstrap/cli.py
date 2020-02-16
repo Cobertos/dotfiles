@@ -115,12 +115,34 @@ def bootstrap(opts):
       #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\FileTypes", f"{paintNetDataDir}\\FileTypes")
       #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
 
-    #Windows preferences
+    # == WINDOWS ==
     #Set the communication ducking to 'Do Nothing'
     SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Multimedia\\Audio', \
       'UserDuckingPreference', winreg.REG_DWORD, 3)() #Default is key not present
     #https://gist.github.com/NickCraver/7ebf9efbfd0c3eab72e9
     #TODO: Add more from here...
+    #Privacy related
+    # Disable "Allow advertisers to use my advertising ID", default 1
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo', \
+      'Enabled', winreg.REG_DWORD, 0)()
+    # WiFi sense shares the password for the WiFi with contacts in Outlook, Skype, etc (wtf...?)
+    # WiFi Sense: HotSpot Sharing: Disable, default 1
+    SetRegKey(winreg.HKEY_LOCAL_MACHINE, 'Software\\Microsoft\\PolicyManager\\default\\WiFi\\AllowWiFiHotSpotReporting', \
+      'value', winreg.REG_DWORD, 0)()
+    # WiFi Sense: Shared HotSpot Auto-Connect: Disable, default 1
+    SetRegKey(winreg.HKEY_LOCAL_MACHINE, 'Software\\Microsoft\\PolicyManager\\default\\WiFi\\AllowAutoConnectToWiFiSenseHotspots', \
+      'value', winreg.REG_DWORD, 0)()
+    # Disable Bing search results, rewards, etc in search, all really annoying default 1
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Search', \
+      'BingSearchEnabled', winreg.REG_DWORD, 0)()
+    #Activity sharing
+    SetRegKey(winreg.HKEY_LOCAL_MACHINE, 'Software\\Policies\\Microsoft\\Windows\\System', \
+      'EnableActivityFeed', winreg.REG_DWORD, 0)()
+    SetRegKey(winreg.HKEY_LOCAL_MACHINE, 'Software\\Policies\\Microsoft\\Windows\\System', \
+      'PublishUserActivities', winreg.REG_DWORD, 0)()
+    SetRegKey(winreg.HKEY_LOCAL_MACHINE, 'Software\\Policies\\Microsoft\\Windows\\System', \
+      'UploadUserActivities', winreg.REG_DWORD, 0)()
+    #Functionality related
     #Explorer launch to "This PC" (1) instead of default "Quick Access" (2)
     SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced', \
       'LaunchTo', winreg.REG_DWORD, 1)()
