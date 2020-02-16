@@ -50,8 +50,6 @@ A collection of configs and dot files for programs I use on Windows.
  * https://superuser.com/questions/1437590/typing-python-on-windows-10-version-1903-command-prompt-opens-microsoft-stor
 * Configure explorer preferences (hidden files and exteions)
 * Configure taskbar preferences (non grouping etc)
-* Turn off Windows sounds (the default sounds)
-* Communication 80% decrease turn off 
 * Remove certain pins from the taskbar
 * Make backspace faster/proper speed
 * Setup conemu here manually

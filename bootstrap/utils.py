@@ -1,4 +1,4 @@
-from winreg import HKEY_LOCAL_MACHINE, OpenKey, ConnectRegistry, QueryValueEx
+import winreg
 import os
 import json
 
@@ -22,12 +22,34 @@ def osEnvironNoExpand(envVar):
   """
   You have to get the variable from the Windows registry to not expand
   """
-  reg = ConnectRegistry(None,HKEY_LOCAL_MACHINE)
-  key = OpenKey(reg, f"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment")
-  return QueryValueEx(key,envVar)[0]
-  #Close is autocalled on GC
+  with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment") as regKey:
+    return winreg.QueryValueEx(regKey, envVar)[0]
+    #Close is autocalled on GC
 
-#TODO: Convert to using pathlib instead of string paths in the future
+def vTypeToStr(vType):
+  return [t[1] for t in [(winreg.REG_BINARY, 'REG_BINARY'),
+    (winreg.REG_DWORD, 'REG_DWORD'),
+    (winreg.REG_DWORD_LITTLE_ENDIAN, 'REG_DWORD_LITTLE_ENDIAN'),
+    (winreg.REG_DWORD_BIG_ENDIAN, 'REG_DWORD_BIG_ENDIAN'),
+    (winreg.REG_EXPAND_SZ, 'REG_EXPAND_SZ'),
+    (winreg.REG_LINK, 'REG_LINK'),
+    (winreg.REG_MULTI_SZ, 'REG_MULTI_SZ'),
+    (winreg.REG_NONE, 'REG_NONE'),
+    (winreg.REG_QWORD, 'REG_QWORD'),
+    (winreg.REG_QWORD_LITTLE_ENDIAN, 'REG_QWORD_LITTLE_ENDIAN'),
+    (winreg.REG_RESOURCE_LIST, 'REG_RESOURCE_LIST'),
+    (winreg.REG_FULL_RESOURCE_DESCRIPTOR, 'REG_FULL_RESOURCE_DESCRIPTOR'),
+    (winreg.REG_RESOURCE_REQUIREMENTS_LIST, 'REG_RESOURCE_REQUIREMENTS_LIST'),
+    (winreg.REG_SZ, 'REG_SZ')] if t[0] == vType][0]
+
+def registryToStr(registry):
+  return [r[1] for r in [(winreg.HKEY_CLASSES_ROOT, 'HKEY_CLASSES_ROOT'),
+    (winreg.HKEY_CURRENT_USER, 'HKEY_CURRENT_USER'),
+    (winreg.HKEY_LOCAL_MACHINE, 'HKEY_LOCAL_MACHINE'),
+    (winreg.HKEY_USERS, 'HKEY_USERS'),
+    (winreg.HKEY_PERFORMANCE_DATA, 'HKEY_PERFORMANCE_DATA'),
+    (winreg.HKEY_CURRENT_CONFIG, 'HKEY_CURRENT_CONFIG'),
+    (winreg.HKEY_DYN_DATA, 'HKEY_DYN_DATA')] if r[0] == registry][0]
 
 def getEnvironmentFilePath(path, environment):
   return f"{path}##{environment}" if environment and os.path.exists(f"{path}##{environment}") else path

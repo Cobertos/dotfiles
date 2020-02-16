@@ -3,10 +3,12 @@ import sys
 import os
 import platform
 import subprocess
+import logging
 from functools import partial
-from utils import getDropboxDir
+import winreg
+from utils import getDropboxDir, getEnvironmentFilePath
 from BootstrapOperations import AddToPath, AddSymLink, NpmInstallGlobal, \
-  PipInstallGlobal, AppendToEnvVar, SetEnvVar, BootstrapOpRunner
+  PipInstallGlobal, AppendToEnvVar, SetEnvVar, SetRegKey, SetTheme, BootstrapOpRunner
 
 LOG_RED = lambda s: f"\033[38;5;1m{s}\033[0m"
 LOG_GREEN = lambda s: f"\033[38;5;2m{s}\033[0m"
@@ -19,11 +21,13 @@ printnln = partial(print, end='')
 
 scriptDir = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
 
-def bootstrap(**opts):
+def bootstrap(opts):
   global scriptDir
   appData = os.environ["APPDATA"]
+  localAppData = os.environ["LOCALAPPDATA"]
   userProfile = os.environ["USERPROFILE"]
   dropboxDir = getDropboxDir()
+  env = lambda p: getEnvironmentFilePath(p, opts.environment)
 
   class BootstrapLoggingOpRunner(BootstrapOpRunner):
     def handleOp(self, op, *args, **kwargs):
@@ -37,7 +41,7 @@ def bootstrap(**opts):
           return # Already done
         else:
           printnln(f"\r[{LOG_YELLOW('TODO')}] {desc}")
-          if op.verify_only: #Only verifying, don't continue to execute
+          if opts.verify_only: #Only verifying, don't continue to execute
             print()
             return
       except Exception as e:
@@ -50,46 +54,46 @@ def bootstrap(**opts):
       print(f"\r[{LOG_GREEN(' OK ')}] {desc}")
 
   with BootstrapLoggingOpRunner():
-    AddToPath(f"{scriptDir}\\onpath", **opts)()
+    AddToPath(f"{scriptDir}\\onpath")()
 
     #SUBLIME
-    AddToPath("C:\\Program Files\\Sublime Text 3", **opts)() #Add sublime to path for `subl`
+    AddToPath("C:\\Program Files\\Sublime Text 3")() #Add sublime to path for `subl`
     #Make symbolic link to our Package\\User
-    AddSymLink(f"{os.path.realpath(scriptDir)}\\sublime\\APPDATA\\Packages\\User", f"{appData}\\Sublime Text 3\\Packages\\User", **opts)()
+    AddSymLink(env(f"{os.path.realpath(scriptDir)}\\sublime\\APPDATA\\Packages\\User"), f"{appData}\\Sublime Text 3\\Packages\\User")()
 
     #CONEMU
     #Symlink the .xml config
-    AddSymLink(f"{scriptDir}\\conemu\\ConEmu_191012.xml", f"{appData}\\ConEmu.xml", **opts)()
+    AddSymLink(env(f"{scriptDir}\\conemu\\ConEmu_191012.xml"), f"{appData}\\ConEmu.xml")()
 
     #Git
-    AddSymLink(f"{scriptDir}\\git\\.gitconfig", f"{userProfile}\\.gitconfig", **opts)()
-    AddSymLink(f"{scriptDir}\\git\\.gitignore", f"{userProfile}\\.gitignore", **opts)()
+    AddSymLink(env(f"{scriptDir}\\git\\.gitconfig"), f"{userProfile}\\.gitconfig")()
+    AddSymLink(env(f"{scriptDir}\\git\\.gitignore"), f"{userProfile}\\.gitignore")()
 
     #Bash
-    AddSymLink(f"{scriptDir}\\.bashrc", f"{userProfile}\\.bashrc", **opts)()
+    AddSymLink(env(f"{scriptDir}\\.bashrc"), f"{userProfile}\\.bashrc")()
 
     #Npm
     #Ability to use global packages in require() with NODE_PATH
     #Should work with NVM https://stackoverflow.com/a/49293370/2759427
-    AppendToEnvVar(NpmInstallGlobal.npmRoot(), "NODE_PATH", **opts)()
-    NpmInstallGlobal("@vue/cli", **opts)()   #CLI tool
-    NpmInstallGlobal("serverless", **opts)() #CLI tool
-    NpmInstallGlobal("eslint_d", **opts)()   #Sublime Text Plugin Dependency
-    NpmInstallGlobal("lessmd", **opts)()     #CLI utility to preview Markdown
-    NpmInstallGlobal("js-yaml", **opts)()    #Useful tool
+    AppendToEnvVar(NpmInstallGlobal.npmRoot(), "NODE_PATH")()
+    NpmInstallGlobal("@vue/cli")()   #CLI tool
+    NpmInstallGlobal("serverless")() #CLI tool
+    NpmInstallGlobal("eslint_d")()   #Sublime Text Plugin Dependency
+    NpmInstallGlobal("lessmd")()     #CLI utility to preview Markdown
+    NpmInstallGlobal("js-yaml")()    #Useful tool
 
     #Python
-    PipInstallGlobal("yamllint", **opts)()
-    PipInstallGlobal("pyenv-win", **opts)("--target", f"{userProfile}\\.pyenv") #This package is annoying...
+    PipInstallGlobal("yamllint")()
+    PipInstallGlobal("pyenv-win")("--target", f"{userProfile}\\.pyenv") #This package is annoying...
     #From https://github.com/pyenv-win/pyenv-win#finish-the-installation
-    SetEnvVar(f"{userProfile}\\.pyenv\\pyenv-win", "PYENV", **opts)()
-    AddToPath("%PYENV%\\bin", prepend=True, **opts)() #Needs to come before WindowsApps, cause Python is in there by default now?
-    AddToPath("%PYENV%\\shims", prepend=True, **opts)()
+    SetEnvVar(f"{userProfile}\\.pyenv\\pyenv-win", "PYENV")()
+    AddToPath("%PYENV%\\bin", prepend=True)() #Needs to come before WindowsApps, cause Python is in there by default now?
+    AddToPath("%PYENV%\\shims", prepend=True)()
     #print("Run pyenv rehash to get this to work...")
 
     #Other
-    AddSymLink(f"{scriptDir}\\.vuerc", f"{userProfile}\\.vuerc", **opts)()
-    AddSymLink(f"{scriptDir}\\.config\\yamllint\\config", f"{userProfile}\\.config\\yamllint\\config", **opts)()
+    AddSymLink(env(f"{scriptDir}\\.vuerc"), f"{userProfile}\\.vuerc")()
+    AddSymLink(env(f"{scriptDir}\\.config\\yamllint\\config"), f"{userProfile}\\.config\\yamllint\\config")()
 
     #Paint.NET - Supports Windows store version
     paintNetWindowsStore = bool(subprocess.check_output("powershell -Command \"Get-AppxPackage -Name dotPDNLLC.paint.net\""))
@@ -111,6 +115,20 @@ def bootstrap(**opts):
       #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\FileTypes", f"{paintNetDataDir}\\FileTypes")
       #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
 
+    #Windows preferences
+    #Set the communication ducking to 'Do Nothing'
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Multimedia\\Audio', \
+      'UserDuckingPreference', winreg.REG_DWORD, 3)() #Default is key not present
+    #https://gist.github.com/NickCraver/7ebf9efbfd0c3eab72e9
+    #TODO: Add more from here...
+    #Explorer launch to "This PC" (1) instead of default "Quick Access" (2)
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced', \
+      'LaunchTo', winreg.REG_DWORD, 1)()
+    #Theme personanlization - Use .theme file for ease without a ton of reg editting
+    #You can also sync it if you're using the same Windows account
+    #https://docs.microsoft.com/en-us/windows/win32/controls/themesfileformat-overview#slideshow-section
+    SetTheme(env(f"{scriptDir}\\cobertos.theme"))()
+
   #Blender
 
   #WSL (WIP)
@@ -127,12 +145,24 @@ if __name__ == '__main__':
                       help='Only verify the installation, dont actually do anything')
   parser.add_argument('--environment', type=str,
                       help='a string for the environment prefix to use, uses files ending wiith ##[environment] when applicable')
-  opts = vars(parser.parse_args(sys.argv[1:]))
+  opts = parser.parse_args(sys.argv[1:])
 
-  bootstrap(**opts)
+  logger = logging.getLogger('BootstrapOperation')
+  logger.setLevel(logging.DEBUG)
+  # class CustomFormatter(logging.Formatter):
+  #     def format(self, record):
+  #         title = record.title if hasattr(record, 'title') else ""
+  #         return f'[{record.process}] "{title[:20].ljust(20)}": {record.getMessage()}'
+  formatter = logging.Formatter('\n[%(name)20s] %(message)s') #%(levelname)s %(asctime)s - %(name)s - 
+  handler = logging.StreamHandler(sys.stdout)
+  handler.setFormatter(formatter)
+  handler.setLevel(logging.DEBUG)
+  logging.getLogger().addHandler(handler)
+
+  bootstrap(opts)
 
   # Refresh the environment after running if Windows
-  if platform.system() == "Windows" and not opts['verify_only']:
+  if platform.system() == "Windows" and not opts.verify_only:
     #If we don't do this, then the next time we run setup.py we won't see any of the
     #system wide environment variable changes in the same shell
     subprocess.run([f"{scriptDir}\\onpath\\refreshenv.cmd"]) #Will print out that it's refreshing environment variables

@@ -4,8 +4,11 @@ import os
 import shutil
 import platform
 import subprocess
+import winreg
+import logging
+import filecmp
 from pathlib import Path, PurePosixPath
-from utils import osEnvironNoExpand, getEnvironmentFilePath, event
+from utils import osEnvironNoExpand, event, vTypeToStr, registryToStr
 
 class BootstrapOpRunner:
   def handleOp(self, op, *args, **kwargs):
@@ -32,13 +35,8 @@ class BootstrapOperation:
   def opCall(self):
     pass
 
-  def __init__(self, *args, **kwargs):
-    self.verify_only = False
-    if 'verify_only' in kwargs:
-      self.verify_only = bool(kwargs['verify_only'])
-    self.environment = None
-    if 'environment' in kwargs:
-      self.environment = str(kwargs['environment'])
+  def __init__(self):
+    self.logger = logging.getLogger(f"BootstrapOperation.{self.__class__.__name__}")
     self._called = False
 
   def __call__(self, *args, **kwargs):
@@ -103,8 +101,8 @@ class SetEnvVar(BootstrapOperation):
   """
   Sets an EnvVar to a specific value
   """
-  def __init__(self, value, envVar, **kwargs):
-    super().__init__(**kwargs)
+  def __init__(self, value, envVar):
+    super().__init__()
     self._value = value
     self.envVar = envVar
 
@@ -134,8 +132,8 @@ class AppendToEnvVar(SetEnvVar):
   """
   Append the given path to the env var
   """
-  def __init__(self, appendPath, envVar, prepend=False, **kwargs):
-    super(SetEnvVar, self).__init__(**kwargs)
+  def __init__(self, appendPath, envVar, prepend=False):
+    super(SetEnvVar, self).__init__()
     self.appendPath = appendPath
     self.envVar = envVar
     self.prepend = prepend
@@ -158,14 +156,14 @@ class AddToPath(AppendToEnvVar):
   Adds a symlink at the given path pointing to target
   """
   #Requires admin on windows (the symlink permission)
-  def __init__(self, path, prepend=False, **kwargs):
-    super().__init__(path, "PATH", prepend, **kwargs)
+  def __init__(self, path, prepend=False):
+    super().__init__(path, "PATH", prepend)
 
 class AddSymLink(BootstrapOperation):
-  def __init__(self, target, path, **kwargs):
-    super().__init__(**kwargs)
+  def __init__(self, target, path):
+    super().__init__()
     #Determine which target to use based on environment
-    self.target = getEnvironmentFilePath(target, self.environment)
+    self.target = target
     self.path = path
 
   def description(self):
@@ -181,16 +179,19 @@ class AddSymLink(BootstrapOperation):
 
     isLink = os.path.islink(self.path)
     if not isLink:
+      #logger.log(f"Path was not a link")
       return False
     
     linkResolved = Path(self.path).resolve()
     isLinkedProperly = os.path.normpath(str(linkResolved)) == os.path.normpath(self.target)
+    #if not isLinkedProperly:
+      #logger.log(f"Path was not a linked to correct location, instead {linkResolved}")
     return isLinkedProperly
 
   def execute(self):
     parentPath = os.path.join(*os.path.split(self.path)[:-1])
     #TODO: Write this better...
-    EnsureDirectory(parentPath, verify_only=self.verify_only, environment=self.environment)()
+    EnsureDirectory(parentPath)()
     #Make the link and do things if it fails
     while not self.test():
       try:
@@ -208,8 +209,8 @@ class AddSymLink(BootstrapOperation):
           return
 
 class EnsureDirectory(BootstrapOperation):
-  def __init__(self, path, **kwargs):
-    super().__init__(**kwargs)
+  def __init__(self, path):
+    super().__init__()
     self.path = path
 
   def description(self):
@@ -230,8 +231,8 @@ class NpmInstallGlobal(BootstrapOperation):
       npmRoot = subprocess.check_output("npm root -g", shell=True).decode("utf-8").strip()
     return npmRoot
 
-  def __init__(self, packageName, **kwargs):
-    super().__init__(**kwargs)
+  def __init__(self, packageName):
+    super().__init__()
     self.packageName = packageName
 
   def description(self):
@@ -246,8 +247,8 @@ class NpmInstallGlobal(BootstrapOperation):
 
 
 class PipInstallGlobal(BootstrapOperation):
-  def __init__(self, packageName, **kwargs):
-    super().__init__(**kwargs)
+  def __init__(self, packageName):
+    super().__init__()
     self.packageName = packageName
 
   def description(self):
@@ -264,3 +265,67 @@ class PipInstallGlobal(BootstrapOperation):
 
   def execute(self, *args):
     subprocess.run(['pip', 'install', self.packageName, *args], shell=True)
+
+class SetRegKey(BootstrapOperation):
+  """
+  Sets a registry key, creates and sets if it doesn't exist
+  Fails if the registry path to the key does not exist
+  """
+  def __init__(self, registry, subKey, key, vType, value):
+    super().__init__()
+    self.registry = registry
+    self.subKey = subKey
+    self.key = key
+    self.vType = vType
+    self.value = value
+
+  @property
+  def regPath(self):
+    return f"{registryToStr(self.registry)}\\{self.subKey}\\{self.key}"
+
+  def description(self):
+    return f"'{self.regPath}' is set to '{self.value}' ({vTypeToStr(self.vType)})?"
+
+  def test(self):
+    with winreg.OpenKey(self.registry, self.subKey, 0, winreg.KEY_READ | winreg.KEY_WRITE) as regKey:
+      try:
+        checkValue, checkType = winreg.QueryValueEx(regKey, self.key)
+      except Exception as e:
+        self.logger.info(e)
+        self.logger.info("Key didnt exist")
+        return False #Key didn't exist, most likely
+      self.logger.info(f"'{self.regPath}' is currently set to {checkValue} ({vTypeToStr(checkType)})")
+      return checkType == self.vType and checkValue == self.value
+
+  def execute(self):
+    with winreg.CreateKeyEx(self.registry, self.subKey, 0, winreg.KEY_READ | winreg.KEY_WRITE) as regKey:
+      winreg.SetValueEx(regKey, self.key, 0, self.vType, self.value)
+
+class SetTheme(BootstrapOperation):
+  """
+  Check that the theme is set to the right file, windows 10 tested only
+  """
+  def __init__(self, themePath):
+    super().__init__()
+    self.themePath = themePath
+
+  def description(self):
+    return f"Is theme path set to '{self.themePath}'?"
+
+  def test(self):
+    #Windows 10 tested only...
+    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Themes') as regKey:
+      value, vType = winreg.QueryValueEx(regKey, 'CurrentTheme')
+      self.logger.info(f"Current theme is '{value}'.")
+      if not os.path.exists(value): #Theme referenced doesnt exist
+        return False
+      return filecmp.cmp(value, self.themePath, shallow=False)
+
+  def execute(self):
+    #There's a couple ways to install the theme
+    #https://stackoverflow.com/questions/546818/how-do-i-change-the-current-windows-theme-programmatically
+    #Invoking the theme seems to be the most forward thinking solution
+    #NOTE: This will make Windows actually copy the folder into the
+    #themes folder... We can't actually symlink or Windows will actually try
+    #to install the theme as a xxx (2).theme file. This is the best we can do
+    subprocess.run([self.themePath], shell=True)
