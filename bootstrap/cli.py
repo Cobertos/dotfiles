@@ -119,8 +119,7 @@ def bootstrap(opts):
     #Set the communication ducking to 'Do Nothing'
     SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Multimedia\\Audio', \
       'UserDuckingPreference', winreg.REG_DWORD, 3)() #Default is key not present
-    #https://gist.github.com/NickCraver/7ebf9efbfd0c3eab72e9
-    #TODO: Add more from here...
+    #A lot from: https://gist.github.com/NickCraver/7ebf9efbfd0c3eab72e9
     #Privacy related
     # Disable "Allow advertisers to use my advertising ID", default 1
     SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\AdvertisingInfo', \
@@ -135,7 +134,7 @@ def bootstrap(opts):
     # Disable Bing search results, rewards, etc in search, all really annoying default 1
     SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Search', \
       'BingSearchEnabled', winreg.REG_DWORD, 0)()
-    #Activity sharing
+    #Disable Activity sharing
     SetRegKey(winreg.HKEY_LOCAL_MACHINE, 'Software\\Policies\\Microsoft\\Windows\\System', \
       'EnableActivityFeed', winreg.REG_DWORD, 0)()
     SetRegKey(winreg.HKEY_LOCAL_MACHINE, 'Software\\Policies\\Microsoft\\Windows\\System', \
@@ -146,6 +145,33 @@ def bootstrap(opts):
     #Explorer launch to "This PC" (1) instead of default "Quick Access" (2)
     SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced', \
       'LaunchTo', winreg.REG_DWORD, 1)()
+    #Disable Recent Items and Frequent Folders (to stop porn and other stuff from popping up)
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer', \
+      'ShowRecent', winreg.REG_DWORD, 0)()
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer', \
+      'ShowFrequent', winreg.REG_DWORD, 0)()
+    #Show hidden files (show is 1, hide is 2)
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced', \
+      'Hidden', winreg.REG_DWORD, 1)() #Defaults to 2 (hidden)
+    #Show file extensions (show is 0, hide is 1)
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced', \
+      'HideFileExt', winreg.REG_DWORD, 0)() #Defaults to 1 (hidden)
+    #Disable Sticky Keys, Filter Key, Toggle Keys (I dont think these work until a restart?)
+    #https://answers.microsoft.com/en-us/windows/forum/windows_vista-desktop/i-cant-turn-off-sticky-keys/a7c9fc02-2d0f-4db6-89fb-e36eca3e2ac7
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Control Panel\\Accessibility\\StickyKeys', \
+      'Flags', winreg.REG_SZ, '506')() #disable sticky keys
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Control Panel\\Accessibility\\Keyboard Response', \
+      'Flags', winreg.REG_SZ, '122')() #Disable filter keys
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Control Panel\\Accessibility\\ToggleKeys', \
+      'Flags', winreg.REG_SZ, '58')() #Disable toggle keys
+    #Disable mouse precision
+    #https://www.tenforums.com/tutorials/101691-turn-off-enhance-pointer-precision-windows.html
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Control Panel\\Mouse', \
+      'MouseSpeed', winreg.REG_SZ, '0')()
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Control Panel\\Mouse', \
+      'MouseThreshold1', winreg.REG_SZ, '0')()
+    SetRegKey(winreg.HKEY_CURRENT_USER, 'Control Panel\\Mouse', \
+      'MouseThreshold2', winreg.REG_SZ, '0')()
     #Theme personanlization - Use .theme file for ease without a ton of reg editting
     #You can also sync it if you're using the same Windows account
     #https://docs.microsoft.com/en-us/windows/win32/controls/themesfileformat-overview#slideshow-section
