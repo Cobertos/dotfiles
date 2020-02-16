@@ -149,6 +149,7 @@ def bootstrap(opts):
     #Theme personanlization - Use .theme file for ease without a ton of reg editting
     #You can also sync it if you're using the same Windows account
     #https://docs.microsoft.com/en-us/windows/win32/controls/themesfileformat-overview#slideshow-section
+    #%LOCALAPPDATA%\Microsoft\Windows\Themes\
     SetTheme(env(f"{scriptDir}\\cobertos.theme"))()
 
   #Blender

@@ -53,6 +53,7 @@ A collection of configs and dot files for programs I use on Windows.
 * Remove certain pins from the taskbar
 * Make backspace faster/proper speed
 * Setup conemu here manually
+* Remove OneDrive
 
 ## Future Support
 * WSL Install/Enable
