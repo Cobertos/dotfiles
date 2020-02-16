@@ -54,6 +54,7 @@ A collection of configs and dot files for programs I use on Windows.
 * Make backspace faster/proper speed
 * Setup conemu here manually
 * Remove OneDrive
+* Turn off dropbox notifications (so certain files dont unexpectedly popup...)
 
 ## Future Support
 * WSL Install/Enable
