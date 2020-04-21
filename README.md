@@ -65,3 +65,6 @@ ansible-playbook ansible-main.yml
 ## TODO
 * Hide excess folders I don't use anymore like 3D Objects, etc... (they're all in dropbox now)
 * Add z's config (but somehow without leaking all the path names, or don't...)
+* Add a little indicator to PS1 when dotfiles is out of date
+* Add back the --environemtn flag
+* Migrate everything that needs to be into bashrc
