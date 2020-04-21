@@ -2,4 +2,4 @@
   when: ansible_facts['os_family'] == "Windows"
   block:
     - name: Symlink ConEmu configuration
-      win_shell: cmd /k mklink {{ playbook_dir }}\conemu\ConEmu_191012.xml "%APPDATA%\ConEmu.xml"
+      win_shell: cmd /k mklink {{ playbook_dir }}\dotfiles\conemu\ConEmu_191012.xml "%APPDATA%\ConEmu.xml"

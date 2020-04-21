@@ -1,13 +1,30 @@
 # Dot Files
 
-A collection of configs and dot files for programs I use on Windows and Linux.
+An Ansible Playbook to rollout my environment and dotfiles, on Windows or Linux.
 
-* **Public** - Private keys and licenses are separate (for now...)
+* **Public** - Private keys and licenses are separate (for now... look into git-crypt)
 * **Automatic** - `ansible-playbook ansible-main.yml` sets up everything. `--check` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
-* **Console** - Only console dev related configs live in here (everything else in Dropbox for now...)
-* **Portable** - Use different configs ending in `##XXX` suffix with `-e dotfiles_env=XXX` flag
 * **Cross Platform** - Work on Windows _and_ Linux
+* **Multi Environment** - Use different configs ending in `##XXX` suffix with `-e dotfiles_env=XXX` flag
 * **Linking** - Symlinks over copying
+
+#### All my actual config files are in [`dotfiles/`](./dotfiles)
+
+This Playbook supports installing:
+
+* ConEmu (Windows)
+* Nvm
+* Pyenv (eventually, see ansible-tasks/pyenv)
+* Sublime
+* Packages (Apt or Chocolatey)
+    * Dropbox
+    * Discord
+    * Krita
+    * ffmpeg
+    * ...
+    * for a full list check [`ansible-tasks/packages.yaml`](./ansible-tasks/packages.yaml)
+* dotfiles linking [`dotfiles/`](./dotfiles)
+* Windows Registry edits for privacy and other small things
 
 ## Installation
 * Linux
@@ -69,3 +86,4 @@ ansible-playbook ansible-main.yml
 * Migrate everything that needs to be into bashrc
 * Finish readding paint.net and pyenv
 * Better NVM management (might be nice to use a role...)
+* Symlink dotfiles on Windows

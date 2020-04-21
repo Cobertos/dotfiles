@@ -6,7 +6,7 @@
         elements:
         - 'C:\Program Files\Sublime Text 3'
     - name: Symlink user files
-      win_shell: cmd /k mklink {{ playbook_dir }}\sublime\APPDATA\Packages\User "%APPDATA%\Sublime Text 3\Packages\User"
+      win_shell: cmd /k mklink {{ playbook_dir }}\dotfiles\sublime\Packages\User "%APPDATA%\Sublime Text 3\Packages\User"
 
 - name: Sublime Text 3 - Linux
   when: ansible_facts['os_family'] != "Windows"
@@ -34,7 +34,7 @@
         state: absent
     - name: Symlink data files on Linux
       file:
-        src: '{{ playbook_dir }}/sublime/APPDATA/Packages/User'
+        src: '{{ playbook_dir }}/dotfiles/sublime/Packages/User'
         dest: ~/.config/sublime-text-3/Packages/User
         state: link
         force: yes

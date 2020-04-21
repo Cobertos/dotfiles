@@ -2,7 +2,6 @@
   when: ansible_facts['os_family'] == "Windows"
   block:
     - name: Install packages on Windows
-      when: ansible_facts['os_family'] == "Windows"
       win_chocolatey:
         name:
           - 7zip
@@ -32,7 +31,6 @@
           - sublimetext3
           - vlc
     - name: Install git on Windows
-      when: ansible_facts['os_family'] == "Windows"
       win_chocolatey:
         name: git.install
         params: /NoGuiHereIntegration /SChannel

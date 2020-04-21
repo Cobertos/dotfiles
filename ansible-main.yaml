@@ -12,7 +12,7 @@
     # - name: Ensure dotfiles 'onpath' is on path
     #   win_path:
     #     elements:
-    #     - '{{ playbook_dir }}\onpath'
+    #     - '{{ playbook_dir }}\dotfiles\onpath'
     - name: Ensure folders for Symlinks
       file:
         path: ~/.config/yamllint
@@ -24,11 +24,11 @@
         state: link
         force: yes
       loop:
-        - { src: '{{ playbook_dir }}/git/.gitconfig', dest: ~/.gitconfig }
-        - { src: '{{ playbook_dir }}/git/.gitignore', dest: ~/.gitignore }
-        - { src: '{{ playbook_dir }}/.bashrc', dest: ~/.bashrc }
-        - { src: '{{ playbook_dir }}/.vuerc', dest: ~/.vuerc }
-        - { src: '{{ playbook_dir }}/.config/yamllint/config', dest: ~/.config/yamllint/config }
+        - { src: '{{ playbook_dir }}/dotfiles/.gitconfig', dest: ~/.gitconfig }
+        - { src: '{{ playbook_dir }}/dotfiles/.gitignore', dest: ~/.gitignore }
+        - { src: '{{ playbook_dir }}/dotfiles/.bashrc', dest: ~/.bashrc }
+        - { src: '{{ playbook_dir }}/dotfiles/.vuerc', dest: ~/.vuerc }
+        - { src: '{{ playbook_dir }}/dotfiles/.config/yamllint/config', dest: ~/.config/yamllint/config }
     - name: Install Packages
       import_tasks: ansible-tasks/packages.yaml
     - name: Install Sublime
@@ -66,11 +66,7 @@
     #   pip:
     #     name: yamllint
 
-
-- hosts: localhost
-  name: Windows specific
-  tasks:
-    - name: Registry
+    - name: Windows Registry
       when: ansible_facts['os_family'] == "Windows"
       win_regedit: '{{ item }}'
       loop:
