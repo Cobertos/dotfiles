@@ -68,3 +68,4 @@ ansible-playbook ansible-main.yml
 * Add a little indicator to PS1 when dotfiles is out of date
 * Add back the --environemtn flag
 * Migrate everything that needs to be into bashrc
+* Finish readding paint.net and pyenv and all other windows environment stuff like registry
