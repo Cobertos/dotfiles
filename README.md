@@ -6,28 +6,20 @@ A collection of configs and dot files for programs I use on Windows and Linux.
 * **Automatic** - `python setup.py` sets up everything. `--verify-only` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
 * **Console** - Only console dev related configs live in here (everything else in Dropbox for now...)
 * **Portable** - Use different configs ending in `##XXX` suffix with `--environment=XXX` flag
+* **Cross Platform** - Work on Windows _and_ Linux
 * **Linking** - Symlinks over copying
 
 ## Installation
 * Linux
 ```bash
 sudo apt install git ansible
-git clone https://github.com/davestephens/ansible-playbook-ubuntu-dev-desktop.git && cd ansible-playbook-ubuntu-dev-desktop
-ansible-galaxy install -r requirements.yml
-ansible-playbook desktop.yml
+git clone https://github.com/Cobertos/dotfiles.git && cd dotfiles
+ansible-playbook ansible-main.yml
 ```
 * Windows
-* Install Ansible in WSL
+* Enable and install WSL
+* Follow the above linux steps in WSL
 * Do https://stackoverflow.com/questions/58345011/setup-windows-10-workstation-using-ansible-installed-on-wsl
-* Follow the above linux inatructions
-
-## Installation Old
-* Install `pyenv` by downloading and extracting at the correct location and setting up variables
-* Install Python 3.6+ (requires at least 3.6 because of interpolated literals, f"")
-* Install Dropbox (fails if not installed, TODO) and make sure nvm is using a version of npm (fails if not installed, TODO)
-* Make a .bashrc if not exists (fails currently, TODO)
-* `python bootstrap/cli.py` (There's a `--help` now)
- * Make sure to use the right `--environment=XXX`!
 
 ## You need to manually
 * Install office (TODO: https://chocolatey.org/packages/office-tool#files)
@@ -44,8 +36,6 @@ ansible-playbook desktop.yml
  * Remove OneDrive
  * Rename computer
  * Install Windows App Store apps (including Paint.NET and Spotify)
- * Remove Python execution aliases (no way to do it from cmd found yet)
-  * https://superuser.com/questions/1437590/typing-python-on-windows-10-version-1903-command-prompt-opens-microsoft-stor
 * Dropbox
  * Turn off dropbox notifications (so certain files dont unexpectedly popup...)
  * Selectively sync proper folders
@@ -61,10 +51,8 @@ ansible-playbook desktop.yml
 * Setup conemu here manually
 
 ## Future Support
-* WSL Install/Enable
 * Voicemeeter Banana
 * Setup correct file associations (for .xml, .html, etc...)
-* Choco git installation requires custom flags (which I didn't notate...)
 * VLC Plugins
 * Audacity and configurations
 * A separate packages.config for different workflows
