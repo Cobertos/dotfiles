@@ -1,6 +1,6 @@
 # Dot Files
 
-A collection of configs and dot files for programs I use on Windows.
+A collection of configs and dot files for programs I use on Windows and Linux.
 
 * **Public** - Private keys and licenses are separate (for now...)
 * **Automatic** - `python setup.py` sets up everything. `--verify-only` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
@@ -9,9 +9,19 @@ A collection of configs and dot files for programs I use on Windows.
 * **Linking** - Symlinks over copying
 
 ## Installation
-* [Install chocolatey](https://chocolatey.org/docs/installation)
- * I would like to automate this but there's a lot of overhead with Python)
-* `choco install ./packages.config`
+* Linux
+```bash
+sudo apt install git ansible
+git clone https://github.com/davestephens/ansible-playbook-ubuntu-dev-desktop.git && cd ansible-playbook-ubuntu-dev-desktop
+ansible-galaxy install -r requirements.yml
+ansible-playbook desktop.yml
+```
+* Windows
+* Install Ansible in WSL
+* Do https://stackoverflow.com/questions/58345011/setup-windows-10-workstation-using-ansible-installed-on-wsl
+* Follow the above linux inatructions
+
+## Installation Old
 * Install `pyenv` by downloading and extracting at the correct location and setting up variables
 * Install Python 3.6+ (requires at least 3.6 because of interpolated literals, f"")
 * Install Dropbox (fails if not installed, TODO) and make sure nvm is using a version of npm (fails if not installed, TODO)
@@ -19,21 +29,14 @@ A collection of configs and dot files for programs I use on Windows.
 * `python bootstrap/cli.py` (There's a `--help` now)
  * Make sure to use the right `--environment=XXX`!
 
-## Supports
-* Look at `packages.config`, `bootstrap/cli.py`, and `cobertos.bashrc` for what's supported
-
 ## You need to manually
-* Install Chrome
- * Login to Chrome
- * Login to Lastpass
- * Login to InoReader
+* Install office (TODO: https://chocolatey.org/packages/office-tool#files)
+* Login to Chrome, Lastpass, InoReader, Dropbox, Microsoft related products (office)
 * Windows settings
  * Turn off device rotation
  * Lockscreen picture
  * Uninstall unwanted default apps
  * Connect phone to My Phone
- * Login to other Microsoft related products
- * Install office
  * Set surface pen pressure to like 8-9?
  * Configure taskbar preferences (non grouping etc)
  * Remove certain pins from the taskbar
@@ -68,11 +71,9 @@ A collection of configs and dot files for programs I use on Windows.
 * Add symbolic links to Dropbox bin/ folder (requires a Symlink to the Dropbox folder)
  * Move the ones that support it form the tools folder into Chocolatey
 * ShareX config
-* Installing chocolatey packages
 * Make sure that Chrome syncs settings for refined GitHub (looks like it worked)
 * Rust
 
 ## TODO
 * Hide excess folders I don't use anymore like 3D Objects, etc... (they're all in dropbox now)
 * Add z's config (but somehow without leaking all the path names, or don't...)
-* Yamllint isnt installed but it says it is
