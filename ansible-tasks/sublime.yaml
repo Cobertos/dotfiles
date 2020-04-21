@@ -11,11 +11,6 @@
 - name: Sublime Text 3 - Linux
   when: ansible_facts['os_family'] != "Windows"
   block:
-    - name: Update apt
-      become: yes
-      apt:
-        cache_valid_time: 1800
-        update_cache: yes
     - name: Install apt keys
       become: yes
       apt_key:
@@ -28,7 +23,12 @@
       become: yes
       package:
         name: sublime-text
-    - name: Ensure folders for Symlinks
+    - name: Check the current Symlink
+      stat:
+        path: ~/.config/sublime-text-3/Packages/User
+      register: user_symlink
+    - name: Remove current folder if present
+      when: user_symlink.stat.isdir is defined and user_symlink.stat.isdir
       file:
         path: ~/.config/sublime-text-3/Packages/User
         state: absent

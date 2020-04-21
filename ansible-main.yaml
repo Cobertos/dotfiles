@@ -1,6 +1,13 @@
 ---
 - hosts: localhost
   name: Everything
+  # TODO: Does this go here or does it need to go before the
+  # actual install... I just don't want it to show "changed"
+  pre_tasks:
+    - name: Update apt
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
   tasks:
     # - name: Ensure dotfiles 'onpath' is on path
     #   win_path:
@@ -33,6 +40,12 @@
     - name: Install nvm
       import_tasks: ansible-tasks/nvm.yaml
     - name: Install npm packages globally
+      environment:
+        #TODO: It'd be better to let a role handle this...
+        # but this is what ansible recommends 
+        # https://docs.ansible.com/ansible/latest/user_guide/playbooks_environment.html#working-with-language-specific-version-managers
+        NVM_DIR: "{{ ansible_env.HOME }}/.nvm"
+        PATH: "{{ ansible_env.HOME }}/.nvm/versions/node/v12.16.1/bin:{{ ansible_env.PATH }}"
       npm:
         name: '{{ item }}'
         global: yes
@@ -56,55 +69,51 @@
 
 - hosts: localhost
   name: Windows specific
-  when: ansible_facts['os_family'] == "Windows"
   tasks:
     - name: Registry
-    win_regedit:
-      path: {{ item.path }}
-      name: {{ item.name }}
-      data: {{ item.data }}
-      type: {{ item.type }}
-    loop:
-      #Set the communication ducking to 'Do Nothing' | Default, key is not present
-      - { path: HKCU:\Software\Microsoft\Multimedia\Audio, name: UserDuckingPreference, data: 3, type: dword }
-      # A lot from: https://gist.github.com/NickCraver/7ebf9efbfd0c3eab72e9
-      # Privacy related
-      # Disable "Allow advertisers to use my advertising ID", default 1
-      - { path: HKCU:\Software\Microsoft\CurrentVersion\AdvertisingInfo, name: Enabled, data: 0, type: dword }
-      # WiFi sense shares the password for the WiFi with contacts in Outlook, Skype, etc (wtf...?)
-      # WiFi Sense: HotSpot Sharing: Disable, default 1
-      - { path: HKLM:\Software\\Microsoft\\PolicyManager\\default\\WiFi\\AllowWiFiHotSpotReporting, name: value, data: 0, type: dword }
-      # WiFi Sense: Shared HotSpot Auto-Connect: Disable, default 1
-      - { path: HKLM:\Software\\Microsoft\\PolicyManager\\default\\WiFi\\AllowAutoConnectToWiFiSenseHotspots, name: value, data: 0, type: dword }
-      # Disable Bing search results, rewards, etc in search, all really annoying default 1
-      - { path: HKCU:\Software\\Microsoft\\Windows\\CurrentVersion\\Search, name: BingSearchEnabled, data: 0, type: dword }
-      # Disable Activity sharing
-      - { path: HKLM:\Software\\Policies\\Microsoft\\Windows\\System, name: EnableActivityFeed, data: 0, type: dword }
-      - { path: HKLM:\Software\\Policies\\Microsoft\\Windows\\System, name: PublishUserActivities, data: 0, type: dword }
-      - { path: HKLM:\Software\\Policies\\Microsoft\\Windows\\System, name: UploadUserActivities, data: 0, type: dword }
-      # Functionality related
-      # Explorer launch to "This PC" (1) instead of default "Quick Access" (2)
-      - { path: HKCU:\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced, name: LaunchTo, data: 1, type: dword }
-      # Disable Recent Items and Frequent Folders (to stop porn and other stuff from popping up)
-      - { path: HKCU:\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer, name: ShowRecent, data: 0, type: dword }
-      - { path: HKCU:\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer, name: ShowFrequent, data: 0, type: dword }
-      #Show hidden files (show is 1, hide is 2 which is default)
-      - { path: HKCU:\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced, name: Hidden, data: 1, type: dword }
-      #Show file extensions (show is 0, hide is 1 which is default)
-      - { path: HKCU:\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced, name: HideFileExt, data: 0, type: dword }
-      #Disable Sticky Keys, Filter Key, Toggle Keys (I dont think these work until a restart?)
-      #https://answers.microsoft.com/en-us/windows/forum/windows_vista-desktop/i-cant-turn-off-sticky-keys/a7c9fc02-2d0f-4db6-89fb-e36eca3e2ac7
-      - { path: HKCU:\Control Panel\\Accessibility\\StickyKey, name: Flags, data: '506', type: string } #disable sticky keys
-      - { path: HKCU:\Control Panel\\Accessibility\\Keyboard Response', name: Flags, data: '122', type: string } #disable filter keys
-      - { path: HKCU:\Control Panel\\Accessibility\\ToggleKeys, name: Flags, data: '58', type: string } #disable toggle keys
-      #Disable mouse precision
-      #https://www.tenforums.com/tutorials/101691-turn-off-enhance-pointer-precision-windows.html
-      - { path: HKCU:\Control Panel\\Mouse, name: MouseSpeed, data: '0', type: string }
-      - { path: HKCU:\Control Panel\\MouseThreshold1, name: MouseSpeed, data: '0', type: string }
-      - { path: HKCU:\Control Panel\\MouseThreshold2, name: MouseSpeed, data: '0', type: string }
-      #Disabled auto device rotation
-      #https://www.windowscentral.com/how-disable-screen-automatic-rotation-windows-10
-      - { path: HKLM:\Software\Microsoft\Windows\CurrentVersion\AutoRotation, name: Enable, data: 0, type: dword }
+      when: ansible_facts['os_family'] == "Windows"
+      win_regedit: '{{ item }}'
+      loop:
+        #Set the communication ducking to 'Do Nothing' | Default, key is not present
+        - { path: 'HKCU:\Software\Microsoft\Multimedia\Audio', name: UserDuckingPreference, data: 3, type: dword }
+        # A lot from: https://gist.github.com/NickCraver/7ebf9efbfd0c3eab72e9
+        # Privacy related
+        # Disable "Allow advertisers to use my advertising ID", default 1
+        - { path: 'HKCU:\Software\Microsoft\CurrentVersion\AdvertisingInfo', name: Enabled, data: 0, type: dword }
+        # WiFi sense shares the password for the WiFi with contacts in Outlook, Skype, etc (wtf...?)
+        # WiFi Sense: HotSpot Sharing: Disable, default 1
+        - { path: 'HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting', name: value, data: 0, type: dword }
+        # WiFi Sense: Shared HotSpot Auto-Connect: Disable, default 1
+        - { path: 'HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots', name: value, data: 0, type: dword }
+        # Disable Bing search results, rewards, etc in search, all really annoying default 1
+        - { path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search', name: BingSearchEnabled, data: 0, type: dword }
+        # Disable Activity sharing
+        - { path: 'HKLM:\Software\Policies\Microsoft\Windows\System', name: EnableActivityFeed, data: 0, type: dword }
+        - { path: 'HKLM:\Software\Policies\Microsoft\Windows\System', name: PublishUserActivities, data: 0, type: dword }
+        - { path: 'HKLM:\Software\Policies\Microsoft\Windows\System', name: UploadUserActivities, data: 0, type: dword }
+        # Functionality related
+        # Explorer launch to "This PC" (1) instead of default "Quick Access" (2)
+        - { path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: LaunchTo, data: 1, type: dword }
+        # Disable Recent Items and Frequent Folders (to stop porn and other stuff from popping up)
+        - { path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer', name: ShowRecent, data: 0, type: dword }
+        - { path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer', name: ShowFrequent, data: 0, type: dword }
+        #Show hidden files (show is 1, hide is 2 which is default)
+        - { path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: Hidden, data: 1, type: dword }
+        #Show file extensions (show is 0, hide is 1 which is default)
+        - { path: 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: HideFileExt, data: 0, type: dword }
+        #Disable Sticky Keys, Filter Key, Toggle Keys (I dont think these work until a restart?)
+        #https://answers.microsoft.com/en-us/windows/forum/windows_vista-desktop/i-cant-turn-off-sticky-keys/a7c9fc02-2d0f-4db6-89fb-e36eca3e2ac7
+        - { path: 'HKCU:\Control Panel\Accessibility\StickyKey', name: Flags, data: '506', type: string } #disable sticky keys
+        - { path: 'HKCU:\Control Panel\Accessibility\Keyboard Response', name: Flags, data: '122', type: string } #disable filter keys
+        - { path: 'HKCU:\Control Panel\Accessibility\ToggleKeys', name: Flags, data: '58', type: string } #disable toggle keys
+        #Disable mouse precision
+        #https://www.tenforums.com/tutorials/101691-turn-off-enhance-pointer-precision-windows.html
+        - { path: 'HKCU:\Control Panel\Mouse', name: MouseSpeed, data: '0', type: string }
+        - { path: 'HKCU:\Control Panel\MouseThreshold1', name: MouseSpeed, data: '0', type: string }
+        - { path: 'HKCU:\Control Panel\MouseThreshold2', name: MouseSpeed, data: '0', type: string }
+        #Disabled auto device rotation
+        #https://www.windowscentral.com/how-disable-screen-automatic-rotation-windows-10
+        - { path: 'HKLM:\Software\Microsoft\Windows\CurrentVersion\AutoRotation', name: Enable, data: 0, type: dword }
 
 
 

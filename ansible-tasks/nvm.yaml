@@ -7,7 +7,15 @@
 # https://github.com/nvm-sh/nvm#ansible
 - name: nvm - Linux
   when: ansible_facts['os_family'] != "Windows"
-  shell: >
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-  args:
-    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+  block:
+    - name: Install nvm shell script
+      shell: >
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+      args:
+        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    - name: Checkout LTS for other node things
+      shell: >
+        . {{ ansible_env.HOME }}/.nvm/nvm.sh &&
+        nvm install --lts &&
+        nvm list --no-colors &&
+        nvm use --lts

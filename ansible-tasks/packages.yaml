@@ -1,4 +1,4 @@
-- name: Sublime Text 3 - Windows
+- name: Packages - Windows
   when: ansible_facts['os_family'] == "Windows"
   block:
     - name: Install packages on Windows
@@ -37,20 +37,27 @@
         name: git.install
         params: /NoGuiHereIntegration /SChannel
 
-- name: Sublime Text 3 - Linux
+- name: Packages - Linux
   when: ansible_facts['os_family'] != "Windows"
   become: yes
   block:
-    - name: Update apt
-      apt:
-        cache_valid_time: 1800
-        update_cache: yes
+    - name: Install apt key for Chrome PPA
+      apt_key:
+        url: '{{ item }}'
+      loop:
+        - https://dl-ssl.google.com/linux/linux_signing_key.pub
+    - name: Install apt key for Dropbox PPA
+      apt_key:
+        keyserver: pgp.mit.edu
+        id: 1C61A2656FB57B7E4DE0F4C1FC918B335044912E
     - name: Install apt repositories
       apt_repository:
         repo: '{{ item }}'
       loop:
-        - ppa:kritalime/ppa
-        - ppa:obsproject/obs-studio
+        - deb http://ppa.launchpad.net/kritalime/ppa/ubuntu bionic main 
+        - deb http://ppa.launchpad.net/obsproject/obs-studio/ubuntu bionic main
+        - deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+        - deb https://linux.dropbox.com/ubuntu bionic main
     - name: Install apt packages
       package:
         name:
@@ -60,8 +67,9 @@
           - git
           - krita
           - nmap
-          #TODO: nvm... requires a curl
           - obs-studio
+          - remmina
+          - remmina-plugin-rdp #Windows RDP
           #TODO: postman is a tar.gz
           - vlc
           - xclip
@@ -71,5 +79,3 @@
         deb: '{{ item }}'
       loop:
         - https://discordapp.com/api/download?platform=linux&format=deb
-        - https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
-        - https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb

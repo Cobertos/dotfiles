@@ -3,7 +3,7 @@
 A collection of configs and dot files for programs I use on Windows and Linux.
 
 * **Public** - Private keys and licenses are separate (for now...)
-* **Automatic** - `python setup.py` sets up everything. `--verify-only` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
+* **Automatic** - `ansible-playbook ansible-main.yml` sets up everything. `--check` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
 * **Console** - Only console dev related configs live in here (everything else in Dropbox for now...)
 * **Portable** - Use different configs ending in `##XXX` suffix with `-e dotfiles_env=XXX` flag
 * **Cross Platform** - Work on Windows _and_ Linux
@@ -60,6 +60,7 @@ ansible-playbook ansible-main.yml
 * ShareX config
 * Make sure that Chrome syncs settings for refined GitHub (looks like it worked)
 * Rust
+* Docker (removal of old and getting new)
 
 ## TODO
 * Hide excess folders I don't use anymore like 3D Objects, etc... (they're all in dropbox now)
@@ -67,3 +68,4 @@ ansible-playbook ansible-main.yml
 * Add a little indicator to PS1 when dotfiles is out of date
 * Migrate everything that needs to be into bashrc
 * Finish readding paint.net and pyenv
+* Better NVM management (might be nice to use a role...)
