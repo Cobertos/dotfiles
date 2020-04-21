@@ -1,0 +1,75 @@
+- name: Sublime Text 3 - Windows
+  when: ansible_facts['os_family'] == "Windows"
+  block:
+    - name: Install packages on Windows
+      when: ansible_facts['os_family'] == "Windows"
+      win_chocolatey:
+        name:
+          - 7zip
+          - brave
+          - googlechrome
+          - ConEmu
+          - discord
+          - dropbox
+          - ffmpeg
+          #- fluent-terminal
+          - foobar2000
+          - handle
+          - insideclipboard
+          - krita
+          - nmap
+          #- notion #Don't think it worked
+          - obs-studio
+          - openhardwaremonitor
+          - postman
+          - pngcheck
+          - procexp
+          - procmon
+          #- rammap #Bad checksum
+          - regshot #Excess Dependencies
+          - screentogif
+          - sharex
+          - sublimetext3
+          - vlc
+    - name: Install git on Windows
+      when: ansible_facts['os_family'] == "Windows"
+      win_chocolatey:
+        name: git.install
+        params: /NoGuiHereIntegration /SChannel
+
+- name: Sublime Text 3 - Linux
+  when: ansible_facts['os_family'] != "Windows"
+  become: yes
+  block:
+    - name: Update apt
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+    - name: Install apt repositories
+      apt_repository:
+        repo: '{{ item }}'
+      loop:
+        - ppa:kritalime/ppa
+        - ppa:obsproject/obs-studio
+    - name: Install apt packages
+      package:
+        name:
+          - p7zip-full
+          - ffmpeg
+          # Need a media player
+          - git
+          - krita
+          - nmap
+          #TODO: nvm... requires a curl
+          - obs-studio
+          #TODO: postman is a tar.gz
+          - vlc
+          - xclip
+        state: present
+    - name: Install debs
+      apt:
+        deb: '{{ item }}'
+      loop:
+        - https://discordapp.com/api/download?platform=linux&format=deb
+        - https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
+        - https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb

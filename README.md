@@ -5,7 +5,7 @@ A collection of configs and dot files for programs I use on Windows and Linux.
 * **Public** - Private keys and licenses are separate (for now...)
 * **Automatic** - `python setup.py` sets up everything. `--verify-only` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
 * **Console** - Only console dev related configs live in here (everything else in Dropbox for now...)
-* **Portable** - Use different configs ending in `##XXX` suffix with `--environment=XXX` flag
+* **Portable** - Use different configs ending in `##XXX` suffix with `-e dotfiles_env=XXX` flag
 * **Cross Platform** - Work on Windows _and_ Linux
 * **Linking** - Symlinks over copying
 
@@ -25,7 +25,6 @@ ansible-playbook ansible-main.yml
 * Install office (TODO: https://chocolatey.org/packages/office-tool#files)
 * Login to Chrome, Lastpass, InoReader, Dropbox, Microsoft related products (office)
 * Windows settings
- * Turn off device rotation
  * Lockscreen picture
  * Uninstall unwanted default apps
  * Connect phone to My Phone
@@ -66,6 +65,5 @@ ansible-playbook ansible-main.yml
 * Hide excess folders I don't use anymore like 3D Objects, etc... (they're all in dropbox now)
 * Add z's config (but somehow without leaking all the path names, or don't...)
 * Add a little indicator to PS1 when dotfiles is out of date
-* Add back the --environemtn flag
 * Migrate everything that needs to be into bashrc
-* Finish readding paint.net and pyenv and all other windows environment stuff like registry
+* Finish readding paint.net and pyenv
