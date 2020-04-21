@@ -1,0 +1,30 @@
+# UNTESTED! But dapted from old working script
+
+- name: PyEnv - Windows
+  when: ansible_facts['os_family'] == "Windows"
+  block:
+    # Installation from https://github.com/pyenv-win/pyenv-win#finish-the-installation
+    - name: Pip install pyenv-win
+      win_shell: >
+        pip install pyenv-win --target %USERPROFILE%\.pyenv
+    - name: Set PYENV
+      win_environment:
+        level: machine
+        name: PYENV
+        value: '%USERPROFILE%\.pyenv\pyenv-win'
+    # Remove python.exe stub that opens Windows App Store https://superuser.com/a/1442909/471023
+    - name: Remove python.exe stub from PATH
+      win_path:
+        elements:
+          - C:\Users\Username\AppData\Local\Microsoft\WindowsApps\
+        state: absent
+    - name: Add pyenv paths to PATH
+      win_path:
+        elements:
+        - '%PYENV%\bin' #Unexpanced!
+        - '%PYENV%\shims'
+
+#TODO: Use a prexisting role!
+# - name: PyEnv - Linux
+#   when: ansible_facts['os_family'] == "Windows"
+#   include_role: 
