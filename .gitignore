@@ -9,3 +9,4 @@ __pycache__/
 **/Package Control.merged-ca-bundle
 **/Package Control.user-ca-bundle
 **/oscrypto-ca-bundle.crt
+*.pyc
