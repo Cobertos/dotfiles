@@ -76,3 +76,8 @@ A collection of configs and dot files for programs I use on Windows.
 * Hide excess folders I don't use anymore like 3D Objects, etc... (they're all in dropbox now)
 * Add z's config (but somehow without leaking all the path names, or don't...)
 * Yamllint isnt installed but it says it is
+* Consider removing WavesMaxxAudio to stop popup and background processing
+ * https://github.com/GrzegorzKozub/xps
+ * https://github.com/kevinshroff/KSMRD-Modded-Realtek-Audio-Drivers
+* Consider applying filter keys faster repeats fix
+ * https://superuser.com/questions/1058474/increase-keyboard-repeat-rate-beyond-control-panel-limits-in-windows-10
