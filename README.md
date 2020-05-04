@@ -56,6 +56,8 @@ A collection of configs and dot files for programs I use on Windows.
 * Install Unity-Hub (broken on Chocolatey)
 * Blender is installed separately (managing multiple Blender versions)
 * Setup conemu here manually
+* Setup OBS to record into Dropbox (save these prefs)
+* Setup Unity defaults (External editor and stuff) (would be nice to capture these prefs)
 
 ## Future Support
 * WSL Install/Enable
