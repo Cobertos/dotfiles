@@ -20,7 +20,6 @@
 		"SublimeLinter",
 		"SublimeLinter-contrib-yamllint",
 		"SublimeLinter-eslint",
-		"TabNine",
-		"TemplateToolkit"
+		"Tabnine"
 	]
 }

@@ -18,7 +18,7 @@ alias gitcc="git --git-dir=${cobconf}/.git --work-tree=${cobconf}"
 # Git aliases
 alias gitkcon='git log --all --decorate --oneline --graph'
 
-
+alias explr="nemo"
 alias lclip="xclip -selection clipboard"
 
 # ConEmu Integration
