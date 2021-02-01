@@ -26,54 +26,6 @@ class BootstrapOpRunner:
         return False
     return True
 
-
-class BootstrapOperation:
-  """
-  Base class for bootstrap operations. Call it like a function, it's a callable
-  """
-  @event(static=True)
-  def opCall(self):
-    pass
-
-  def __init__(self):
-    self.logger = logging.getLogger(f"BootstrapOperation.{self.__class__.__name__}")
-    self._called = False
-
-  def __call__(self, *args, **kwargs):
-    """
-    Performs the operation
-    """
-    self._called = True
-    BootstrapOperation.opCall(self, *args, **kwargs)
-
-    # try:
-    #   test = self.test()
-    #   print(f"[{LOG_GREEN('OK')}] {self.description()}")
-    # except Exception as e:
-    #   test = False
-    #   print(f"[{LOG_RED('NO')}] {self.description()}")
-    #   print(e)
-    # if self.verify_only or not test:
-    #   return
-
-    # self.execute(*args, **kwargs)
-
-  def __del__(self):
-    if not self._called:
-      print(LOG_RED("Missed one"))
-
-  #Has 3 functions that need to be implemented...
-  #description
-  #Returns a string with debugging output, should return fast
-  #test
-  #Returns if the operation needs to be performed or not
-  #Should throw if the environment is not setup properly and other stuff needs
-  #to happen first.
-  #should return as fast as possible as the user might have to wait for this multiple
-  #times an hour
-  #execute
-  #Does the actual operation, should only be called if test is false
-
 # class AppendToFile(BootstrapOperation):
 #   """
 #   Appends string appendString to the file at path path
@@ -158,69 +110,6 @@ class AddToPath(AppendToEnvVar):
   #Requires admin on windows (the symlink permission)
   def __init__(self, path, prepend=False):
     super().__init__(path, "PATH", prepend)
-
-class AddSymLink(BootstrapOperation):
-  def __init__(self, target, path):
-    super().__init__()
-    #Determine which target to use based on environment
-    self.target = target
-    self.path = path
-
-  def description(self):
-    #[isLink, isLinkedProperly, linkResolved] = isProperlyLinked(path)
-    #errStr = ('properly linked.' if isLinkedProperly else f"pointing to '{linkResolved}'.") if isLink else 'not a link.'
-    #print(f"[{'OK' if isLinkedProperly else 'NO' }]: '{path}' is {errStr}")
-    return f"'{self.path}' is properly linked to '{self.target}'?"
-
-  def test(self):
-    if not os.path.exists(self.target):
-      #If target doesn't exist, Windows silently fails, so assert
-      raise RuntimeError(f"Target '{self.target}' does not exist to be symlinked to.")
-
-    isLink = os.path.islink(self.path)
-    if not isLink:
-      #logger.log(f"Path was not a link")
-      return False
-    
-    linkResolved = Path(self.path).resolve()
-    isLinkedProperly = os.path.normpath(str(linkResolved)) == os.path.normpath(self.target)
-    #if not isLinkedProperly:
-      #logger.log(f"Path was not a linked to correct location, instead {linkResolved}")
-    return isLinkedProperly
-
-  def execute(self):
-    parentPath = os.path.join(*os.path.split(self.path)[:-1])
-    #TODO: Write this better...
-    EnsureDirectory(parentPath)()
-    #Make the link and do things if it fails
-    while not self.test():
-      try:
-        os.symlink(self.target, self.path)
-      except FileExistsError as e:
-        print(e)
-        if input(f"File to symlink already exists, delete? y/N ") == 'y':
-          if os.path.isfile(self.path):
-            os.remove(self.path)
-          elif os.path.isdir(self.path):
-            shutil.rmtree(self.path)
-          else:
-            raise RuntimeError("Path was not a file or directory")
-        else:
-          return
-
-class EnsureDirectory(BootstrapOperation):
-  def __init__(self, path):
-    super().__init__()
-    self.path = path
-
-  def description(self):
-    return f"'{self.path}' exists?"
-
-  def test(self):
-    return os.path.exists(self.path)
-
-  def execute(self):
-    os.makedirs(self.path)
 
 npmRoot = None
 class NpmInstallGlobal(BootstrapOperation):

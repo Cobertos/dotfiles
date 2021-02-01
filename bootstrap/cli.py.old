@@ -6,14 +6,9 @@ import subprocess
 import logging
 from functools import partial
 import winreg
-from utils import getDropboxDir, getEnvironmentFilePath
+from utils import getEnvironmentFilePath
 from BootstrapOperations import AddToPath, AddSymLink, NpmInstallGlobal, \
   PipInstallGlobal, AppendToEnvVar, SetEnvVar, SetRegKey, SetTheme, BootstrapOpRunner
-
-LOG_RED = lambda s: f"\033[38;5;1m{s}\033[0m"
-LOG_GREEN = lambda s: f"\033[38;5;2m{s}\033[0m"
-LOG_YELLOW = lambda s: f"\033[38;5;3m{s}\033[0m"
-LOG_LEFT = "\033[D"
 
 #Overwrite print to always flush
 print = partial(print, flush=True)
@@ -26,7 +21,6 @@ def bootstrap(opts):
   appData = os.environ["APPDATA"]
   localAppData = os.environ["LOCALAPPDATA"]
   userProfile = os.environ["USERPROFILE"]
-  dropboxDir = getDropboxDir()
   env = lambda p: getEnvironmentFilePath(p, opts.environment)
 
   class BootstrapLoggingOpRunner(BootstrapOpRunner):
@@ -116,10 +110,6 @@ source {cobertosRCPath}/cobertos.bashrc
 
       #if paintNetWindowsStore:
       #  ensureDirectory(paintNetDataDir)
-
-      #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Effects", f"{paintNetDataDir}\\Effects")
-      #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\FileTypes", f"{paintNetDataDir}\\FileTypes")
-      #addSymlink(f"{dropboxDir}\\Environment\\Paint.NET\\Paint.NET User Files", f"{userProfile}\\Documents\\paint.net User Files")
 
     # == WINDOWS ==
     #Set the communication ducking to 'Do Nothing'
