@@ -1,38 +1,70 @@
 # Dot Files
 
-A collection of configs and dot files for programs I use on Windows.
+A collection of configs and dot files I use
 
-* **Public** - Private keys and licenses are separate (for now...)
-* **Automatic** - `python setup.py` sets up everything. `--verify-only` will verify an install without performing any operation and is eventually meant to be used every time I boot my machine or something...
-* **Console** - Only console dev related configs live in here (everything else in Dropbox for now...)
-* **Portable** - Use different configs ending in `##XXX` suffix with `--environment=XXX` flag
+* **Cross Platform** - Meant to work on Linux _and_ Windows
+* **All Use Cases** - All configs have defaults, though special configs with suffix `##XXX` can be chosen with priority using `--environment=XXX` flag
 * **Linking** - Symlinks over copying
+* **Public** - Private keys and licenses are separate (for now... keeping an eye on git-crypt)
+* **Automatic** - `python bootstrap.py` sets up everything. `--verify-only` only verifies, and is run every time I open a terminal
+
+Supports:
+* A bunch of stuff, though [`bootstrap.py`](/bootstrap.py) gives the best overview.
 
 ## Installation
+### Linux Installation
+```bash
+cd ~
+sudo apt update && sudo apt install git
+git clone https://github.com/Cobertos/dotfiles.git
+cd dotfiles
+python3 bootstrap.py # Make sure to use the right --environment=XXX
+```
+
+### Windows (WSL) Installation
+* Enable and install WSL
+* Follow the above Linux steps in WSL (might need to manually install Python too)
+
+### Windows Native Installation (old, might not work)
 * [Install chocolatey](https://chocolatey.org/docs/installation)
  * I would like to automate this but there's a lot of overhead with Python)
 * `choco install ./packages.config`
 * Install `pyenv` by downloading and extracting at the correct location and setting up variables
-* Install Python 3.6+ (requires at least 3.6 because of interpolated literals, f"")
-* Install Dropbox (fails if not installed, TODO) and make sure nvm is using a version of npm (fails if not installed, TODO)
-* Make a .bashrc if not exists (fails currently, TODO)
-* `python bootstrap/cli.py` (There's a `--help` now)
+* Install Python 3.6+
+* `python bootstrap.py`
  * Make sure to use the right `--environment=XXX`!
 
-## Supports
-* Look at `packages.config`, `bootstrap/cli.py`, and `cobertos.bashrc` for what's supported
-
-## You need to manually
-* Install Chrome
- * Login to Chrome
- * Login to Lastpass
+## Installation Part 2 (everything that I have yet to automate)
+* Install Firefox
+ * Login to Firefox
+ * Disable DNS over HTTPS (or figure out a way to get hosts file working without it)
+ * Setup the search engine aliases for `@google` and switch from Yahoo to DDG
  * Login to InoReader
+ * Login to Mangools
+ * Migrate any Tampermonkey scripts
+* Sublime
+ * Install package control to recognize symlinked packages
+ * Install license and license for FTP
+ * Setup TabNine (TabNine::Config then paste key for TabNine Local)
+* Spotify
+ * Download playlists
+* Install Unity-Hub (broken on Chocolatey)
+* Blender is installed separately (managing multiple Blender versions)
+* Setup OBS to record into Seafile (save these prefs)
+* Setup Unity defaults (External editor and stuff) (would be nice to capture these prefs)
+* Hide excess folders in explorer/nemo, like Picture, Videos, etc
+* Docker (removal of old and getting new)
+
+### Linux specific manually
+* Configure Linux Mint Desktop
+* Install NVIDIA and eGPU drivers and all the work that goes into that
+
+### Windows specific manually
 * Windows settings
- * Turn off device rotation
  * Lockscreen picture
  * Uninstall unwanted default apps
  * Connect phone to My Phone
- * Login to other Microsoft related products
+ * Login to other Microsoft related products (Office)
  * Install office
  * Set surface pen pressure to like 8-9?
  * Configure taskbar preferences (non grouping etc)
@@ -41,45 +73,38 @@ A collection of configs and dot files for programs I use on Windows.
  * Remove OneDrive
  * Rename computer
  * Install Windows App Store apps (including Paint.NET and Spotify)
- * Remove Python execution aliases (no way to do it from cmd found yet)
-  * https://superuser.com/questions/1437590/typing-python-on-windows-10-version-1903-command-prompt-opens-microsoft-stor
-* Dropbox
- * Turn off dropbox notifications (so certain files dont unexpectedly popup...)
- * Selectively sync proper folders
- * TODO: Switch to Seafile to use an ignore file
-* Spotify
- * Download playlists
-* Sublime
- * Install package control to recognize symlinked packages
- * Install license and license for FTP
- * Setup TabNine (TabNine::Config then paste key for TabNine Local)
-* Install Unity-Hub (broken on Chocolatey)
-* Blender is installed separately (managing multiple Blender versions)
-* Setup conemu here manually
-* Setup OBS to record into Dropbox (save these prefs)
-* Setup Unity defaults (External editor and stuff) (would be nice to capture these prefs)
+* ConEmu
+ * Setup conemu here manually
+ * TODO: Re-evaluate even using ConEmu, Windows terminal new is fine
 
 ## Future Support
-* WSL Install/Enable
 * Voicemeeter Banana
 * Setup correct file associations (for .xml, .html, etc...)
-* Choco git installation requires custom flags (which I didn't notate...)
 * VLC Plugins
 * Audacity and configurations
 * A separate packages.config for different workflows
-* Add symbolic links to Dropbox bin/ folder (requires a Symlink to the Dropbox folder)
- * Move the ones that support it form the tools folder into Chocolatey
 * ShareX config
 * Installing chocolatey packages
-* Make sure that Chrome syncs settings for refined GitHub (looks like it worked)
+* Make sure that Chrome/Firefox syncs settings for refined GitHub (looks like it worked)
 * Rust
+* Readd all the windows registry, theme stuff, and paint.NET
+  * The ansible branch had some extras for screen rotation disable and removing Python execution aliases on Windows
+  * The ansible branch also solves choco git install flags better, and by default asks for WSL to be installed (which IMO is smarter)
+* /etc/hosts and C:\Windows\System32\drivers\etc\hosts or wherever it is in Windows
+* Seafile notifications disabling?
+* Windows PowerTools?
+
+### Won't Support
+* Pulling in z's config, as it should honeslty be separate per-machine, due to file path differences, and it can contain things I don't want public
 
 ## TODO
-* Hide excess folders I don't use anymore like 3D Objects, etc... (they're all in dropbox now)
-* Add z's config (but somehow without leaking all the path names, or don't...)
+* Add a little indicator to PS1 when dotfiles is out of date
 * Yamllint isnt installed but it says it is
 * Consider removing WavesMaxxAudio to stop popup and background processing
  * https://github.com/GrzegorzKozub/xps
  * https://github.com/kevinshroff/KSMRD-Modded-Realtek-Audio-Drivers
 * Consider applying filter keys faster repeats fix
  * https://superuser.com/questions/1058474/increase-keyboard-repeat-rate-beyond-control-panel-limits-in-windows-10
+ * This seems to be a Windows 10/Dell Latitude issue. I dont have this issue on this computer in Linux Mint...
+* Better NVM management
+* Disable Intel AMT
