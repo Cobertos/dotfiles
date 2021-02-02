@@ -4,15 +4,17 @@ import os
 import platform
 import subprocess
 import logging
-from bootstrap.utils import getEnvironmentFilePath
+from bootstrap.utils import getEnvironmentFilePath, getUserHome
 from bootstrap.SymLinkOp import SymLinkOp
 from bootstrap.NpmInstallGlobalOp import NpmInstallGlobalOp
 from bootstrap.PipInstallGlobalOp import PipInstallGlobalOp
 from bootstrap.BootstrapOpRunner import BootstrapLoggingOpRunner
+from bootstrap.AptInstallOp import AptInstallOp
+from bootstrap.AptKeyOp import AptKeyOp
+from bootstrap.AptRepositoryOp import AptRepositoryOp
 
 scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
-userHome = os.environ["HOME"] if platform.system() != "Windows" else os.environ["USERPROFILE"]
-
+userHome = getUserHome()
 
 def bootstrap(opts):
   global scriptDir, userHome
@@ -24,13 +26,26 @@ def bootstrap(opts):
     # AddToPath(f"{scriptDir}/onpath")()
 
     # Sublime
+    AptInstallOp("apt-transport-https")()
+    AptKeyOp("https://download.sublimetext.com/sublimehq-pub.gpg")()
+    AptRepositoryOp('deb https://download.sublimetext.com/ apt/stable/')()
+    AptInstallOp("sublime-text")()
     sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User" if platform.system() != "Windows" else f"{appData}/Sublime Text 3/Packages/User"
     SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
     # TODO:
     # Only needed on Windows
     # AddToPath("C:/Program Files/Sublime Text 3")() #Add sublime to path for `subl`
 
+    # Typora
+    AptKeyOp("https://typora.io/linux/public-key.asc")()
+    AptRepositoryOp('deb https://typora.io/linux ./')()
+    AptInstallOp("typora")()
+
+    # Seafile
+
+
     # Git
+    AptInstallOp("git")()
     SymLinkOp(env(f"{scriptDir}/git/.gitconfig"), f"{userHome}/.gitconfig")()
     SymLinkOp(env(f"{scriptDir}/git/.gitignore"), f"{userHome}/.gitignore")()
 
@@ -54,7 +69,7 @@ source {cobertosRCPath}/cobertos.bashrc
     # AppendToEnvVar(NpmInstallGlobalOp.npmRoot(), "NODE_PATH")()
 
     # Python
-    PipInstallGlobalOp("yamllint")()
+    #PipInstallGlobalOp("yamllint")()
 
 
     # PipInstallGlobal("pyenv-win")("--target", f"{userHome}/.pyenv") #This package is annoying...
@@ -63,6 +78,30 @@ source {cobertosRCPath}/cobertos.bashrc
     # AddToPath("%PYENV%/bin", prepend=True)() #Needs to come before WindowsApps, cause Python is in there by default now?
     # AddToPath("%PYENV%/shims", prepend=True)()
     # #print("Run pyenv rehash to get this to work...")
+
+    # TODO: If apt is running anything, it needs an update first
+
+    #TODO: nvm... requires a curl
+
+    # Misc Packages
+    # TODO: Slack
+    # TODO: Ripcord
+    # TODO: Sublime Merge or Gitk
+    # TODO: Seafile
+    # TODO: Need a media player
+    # - https://discordapp.com/api/download?platform=linux&format=deb
+    AptInstallOp("p7zip-full")()
+    AptInstallOp("ffmpeg")()
+    AptRepositoryOp('ppa:kritalime/ppa')()
+    AptKeyOp("https://insomnia.rest/keys/debian-public.key.asc")()
+    AptRepositoryOp('deb https://dl.bintray.com/getinsomnia/Insomnia /')()
+    AptInstallOp("insomnia")()
+    AptInstallOp("krita")()
+    AptInstallOp("nmap")()
+    AptRepositoryOp('ppa:obsproject/obs-studio')()
+    AptInstallOp("obs-studio")()
+    AptInstallOp("vlc")()
+    AptInstallOp("xclip")()
 
     #Other
     SymLinkOp(env(f"{scriptDir}/.vuerc"), f"{userHome}/.vuerc")()
