@@ -26,23 +26,15 @@ def bootstrap(opts):
     # AddToPath(f"{scriptDir}/onpath")()
 
     # Sublime
-    AptInstallOp("apt-transport-https")()
-    AptKeyOp("https://download.sublimetext.com/sublimehq-pub.gpg")()
-    AptRepositoryOp('deb https://download.sublimetext.com/ apt/stable/')()
-    AptInstallOp("sublime-text")()
+    AptInstallOp("apt-transport-https")() # Ensure https packages
+    AptInstallOp("sublime-text",
+      addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
+      addRepo='deb https://download.sublimetext.com/ apt/stable/')()
     sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User" if platform.system() != "Windows" else f"{appData}/Sublime Text 3/Packages/User"
     SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
     # TODO:
     # Only needed on Windows
     # AddToPath("C:/Program Files/Sublime Text 3")() #Add sublime to path for `subl`
-
-    # Typora
-    AptKeyOp("https://typora.io/linux/public-key.asc")()
-    AptRepositoryOp('deb https://typora.io/linux ./')()
-    AptInstallOp("typora")()
-
-    # Seafile
-
 
     # Git
     AptInstallOp("git")()
@@ -92,14 +84,17 @@ source {cobertosRCPath}/cobertos.bashrc
     # - https://discordapp.com/api/download?platform=linux&format=deb
     AptInstallOp("p7zip-full")()
     AptInstallOp("ffmpeg")()
-    AptRepositoryOp('ppa:kritalime/ppa')()
-    AptKeyOp("https://insomnia.rest/keys/debian-public.key.asc")()
-    AptRepositoryOp('deb https://dl.bintray.com/getinsomnia/Insomnia /')()
-    AptInstallOp("insomnia")()
-    AptInstallOp("krita")()
+    AptInstallOp("insomnia",
+      addKey="https://insomnia.rest/keys/debian-public.key.asc",
+      addRepo="deb https://dl.bintray.com/getinsomnia/Insomnia /")()
+    AptInstallOp("krita",
+      addRepo='ppa:kritalime/ppa')()
     AptInstallOp("nmap")()
-    AptRepositoryOp('ppa:obsproject/obs-studio')()
-    AptInstallOp("obs-studio")()
+    AptInstallOp("obs-studio",
+      addRepo='ppa:obsproject/obs-studio')()
+    AptInstallOp("typora",
+      addKey="https://typora.io/linux/public-key.asc",
+      addRepo='deb https://typora.io/linux ./')()
     AptInstallOp("vlc")()
     AptInstallOp("xclip")()
 

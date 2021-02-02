@@ -1,4 +1,5 @@
 import traceback
+import subprocess
 from functools import partial
 from .BootstrapOp import BootstrapOp
 
@@ -7,17 +8,20 @@ print = partial(print, flush=True)
 printnln = partial(print, end='')
 
 class BootstrapOpRunner:
+  """
+  Collects created ops
+  """
   def __init__(self):
-    self.opStack = [] # Bookkeeping for current stack of operations
+    self.opExecStack = [] # Bookkeeping for current stack of operations
 
   def _handleOp(self, op, *args, **kwargs):
     """
     Handles some bookkeeping related to the operation while forwarding it off to
     the inheriting class
     """
-    self.opStack.append(op)
+    self.opExecStack.append(op)
     self.handleOp(op, *args, **kwargs)
-    self.opStack.pop()
+    self.opExecStack.pop()
 
   def handleOp(self, op, *args, **kwargs):
     """
@@ -51,7 +55,7 @@ class BootstrapLoggingOpRunner(BootstrapOpRunner):
     self.verifyOnly = verifyOnly
 
   def handleOp(self, op, *args, **kwargs):
-    opNestedLevel = len(self.opStack) - 1
+    opNestedLevel = len(self.opExecStack) - 1
     desc = op.description()
     if opNestedLevel >= 1:
       printnln("\n") # Print a new line to not overwrite our parent

@@ -1,12 +1,16 @@
 import os
 import subprocess
 from .BootstrapOp import BootstrapOp
+from .AptKeyOp import AptKeyOp
+from .AptRepositoryOp import AptRepositoryOp
 
 npmRoot = None
 class AptInstallOp(BootstrapOp):
-  def __init__(self, packageName):
+  def __init__(self, packageName, addKey=None, addRepo=None):
     super().__init__()
     self.packageName = packageName
+    self.aptKeyAdd = addKey
+    self.aptRepoAdd = addRepo
 
   def description(self):
     return f"'{self.packageName}' installed via apt?"
@@ -19,4 +23,15 @@ class AptInstallOp(BootstrapOp):
     return os.path.exists(os.path.join(NpmInstallGlobalOp.npmRoot(), *self.packageName.split('/')))
 
   def execute(self):
+    aptNeedsUpdate = False
+    if self.aptKeyAdd:
+      AptKeyOp(self.aptKeyAdd)()
+      aptNeedsUpdate = True
+    if self.aptRepoAdd:
+      AptRepositoryOp(self.aptRepoAdd)()
+      aptNeedsUpdate = True
+
+    if aptNeedsUpdate:
+      subprocess.run(['apt', 'update'], check=True)
+
     subprocess.run(['apt', 'install', self.packageName], check=True)

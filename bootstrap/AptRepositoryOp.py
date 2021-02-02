@@ -17,4 +17,3 @@ class AptRepositoryOp(BootstrapOp):
 
   def execute(self):
     subprocess.run(['/usr/bin/pkexec', 'add-apt-repository', self.repository], check=True)
-    subprocess.run(['apt', 'update'], check=True)
