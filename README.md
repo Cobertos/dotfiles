@@ -54,6 +54,7 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 * Setup Unity defaults (External editor and stuff) (would be nice to capture these prefs)
 * Hide excess folders in explorer/nemo, like Picture, Videos, etc
 * Docker (removal of old and getting new)
+* Configure Typora
 
 ### Linux specific manually
 * Configure Linux Mint Desktop
@@ -93,6 +94,7 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 * /etc/hosts and C:\Windows\System32\drivers\etc\hosts or wherever it is in Windows
 * Seafile notifications disabling?
 * Windows PowerTools?
+* nvm, pyenv
 
 ### Won't Support
 * Pulling in z's config, as it should honeslty be separate per-machine, due to file path differences, and it can contain things I don't want public
@@ -106,5 +108,4 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 * Consider applying filter keys faster repeats fix
  * https://superuser.com/questions/1058474/increase-keyboard-repeat-rate-beyond-control-panel-limits-in-windows-10
  * This seems to be a Windows 10/Dell Latitude issue. I dont have this issue on this computer in Linux Mint...
-* Better NVM management
 * Disable Intel AMT

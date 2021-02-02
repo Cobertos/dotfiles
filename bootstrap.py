@@ -16,6 +16,9 @@ from bootstrap.AptRepositoryOp import AptRepositoryOp
 scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
 userHome = getUserHome()
 
+def ni():
+  raise NotImplementedError
+
 def bootstrap(opts):
   global scriptDir, userHome
   #appData = os.environ["APPDATA"]
@@ -32,14 +35,22 @@ def bootstrap(opts):
       addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
       addRepo='deb https://download.sublimetext.com/ apt/stable/')()
     sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User" if platform.system() != "Windows" else f"{appData}/Sublime Text 3/Packages/User"
-    # sublime-merge
     SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
+    # sublime-merge
     AptInstallOp("sublime-merge",
       addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
       addRepo='deb https://download.sublimetext.com/ apt/stable/')()
     # TODO:
     # Only needed on Windows
     # AddToPath("C:/Program Files/Sublime Text 3")() #Add sublime to path for `subl`
+
+    # Typora
+    AptInstallOp("typora",
+      addKey="https://typora.io/linux/public-key.asc",
+      addRepo='deb https://typora.io/linux ./')()
+    # TODO: These only capture the "Advanced Preferences", awaiting email reply to see if the preferences live somewhere else
+    # typoraConfigPath = f"{userHome}/.config/Typora/conf/conf.user.json" if platform.system() != "Windows" else ni()
+    # SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), typoraConfigPath)()
 
     # Git
     AptInstallOp("git")()
@@ -100,9 +111,6 @@ source {cobertosRCPath}/cobertos.bashrc
       addRepo='deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/focal/ stable main')()
     AptInstallOp("slack-desktop",
       debUrl="https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb")() #TODO: Find a latest deb, if Slack provides it
-    AptInstallOp("typora",
-      addKey="https://typora.io/linux/public-key.asc",
-      addRepo='deb https://typora.io/linux ./')()
     AptInstallOp("vlc")()
     AptInstallOp("xclip")()
 
