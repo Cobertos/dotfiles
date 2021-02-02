@@ -26,12 +26,17 @@ def bootstrap(opts):
     # AddToPath(f"{scriptDir}/onpath")()
 
     # Sublime
+    # sublime-text
     AptInstallOp("apt-transport-https")() # Ensure https packages
     AptInstallOp("sublime-text",
       addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
       addRepo='deb https://download.sublimetext.com/ apt/stable/')()
     sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User" if platform.system() != "Windows" else f"{appData}/Sublime Text 3/Packages/User"
+    # sublime-merge
     SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
+    AptInstallOp("sublime-merge",
+      addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
+      addRepo='deb https://download.sublimetext.com/ apt/stable/')()
     # TODO:
     # Only needed on Windows
     # AddToPath("C:/Program Files/Sublime Text 3")() #Add sublime to path for `subl`
@@ -76,13 +81,11 @@ source {cobertosRCPath}/cobertos.bashrc
     #TODO: nvm... requires a curl
 
     # Misc Packages
-    # TODO: Slack
-    # TODO: Ripcord
-    # TODO: Sublime Merge or Gitk
-    # TODO: Seafile
+    # TODO: Ripcord, only provides an AppImage
     # TODO: Need a media player
-    # - https://discordapp.com/api/download?platform=linux&format=deb
     AptInstallOp("p7zip-full")()
+    AptInstallOp("discord",
+      debUrl="https://discord.com/api/download?platform=linux&format=deb")()
     AptInstallOp("ffmpeg")()
     AptInstallOp("insomnia",
       addKey="https://insomnia.rest/keys/debian-public.key.asc",
@@ -92,6 +95,11 @@ source {cobertosRCPath}/cobertos.bashrc
     AptInstallOp("nmap")()
     AptInstallOp("obs-studio",
       addRepo='ppa:obsproject/obs-studio')()
+    AptInstallOp("seafile-gui",
+      addKey='https://linux-clients.seafile.com/seafile.asc',
+      addRepo='deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/focal/ stable main')()
+    AptInstallOp("slack-desktop",
+      debUrl="https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb")() #TODO: Find a latest deb, if Slack provides it
     AptInstallOp("typora",
       addKey="https://typora.io/linux/public-key.asc",
       addRepo='deb https://typora.io/linux ./')()

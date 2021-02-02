@@ -1,6 +1,8 @@
 import logging
 from .utils import event
 
+LOG_RED = lambda s: f"\033[38;5;1m{s}\033[0m"
+
 class BootstrapOp:
   """
   Base class for bootstrap operations. Call it like a function, it's a callable
@@ -27,7 +29,7 @@ class BootstrapOp:
   def __del__(self):
     if not self._called:
       # Op was created but never called, which is most likely a bug
-      print(LOG_RED("Missed one"))
+      print(LOG_RED(f"Missed instance of {type(self).__name__}. {self.description()}"))
 
   def description(self):
     """Returns a string with debugging output, should return fast"""
