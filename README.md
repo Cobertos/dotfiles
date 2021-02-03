@@ -1,15 +1,18 @@
 # Dot Files
 
-A collection of configs and dot files I use
+My collection of dotfiles + a [bootstrapping](./bootstrap.py) script
 
 * **Cross Platform** - Meant to work on Linux _and_ Windows
-* **All Use Cases** - All configs have defaults, though special configs with suffix `##XXX` can be chosen with priority using `--environment=XXX` flag
 * **Linking** - Symlinks over copying
 * **Public** - Private keys and licenses are separate (for now... keeping an eye on git-crypt)
 * **Automatic** - `python bootstrap.py` sets up everything. `--verify-only` only verifies, and is run every time I open a terminal
+* **Multi-environment** - All configs have defaults, though special configs with suffix `##XXX` can be chosen with priority using `--environment=XXX` flag
 
-Supports:
-* A bunch of stuff, though [`bootstrap.py`](/bootstrap.py) gives the best overview.
+<p align="center">
+
+![](./meta/dotfiles-verify.png)
+
+</p>
 
 ## Installation
 ### Linux Installation
