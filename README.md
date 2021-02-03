@@ -30,27 +30,27 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 
 ### Windows Native Installation (old, might not work)
 * [Install chocolatey](https://chocolatey.org/docs/installation)
- * I would like to automate this but there's a lot of overhead with Python)
+  * I would like to automate this but there's a lot of overhead with Python)
 * `choco install ./packages.config`
 * Install `pyenv` by downloading and extracting at the correct location and setting up variables
 * Install Python 3.6+
 * `python bootstrap.py`
- * Make sure to use the right `--environment=XXX`!
+  * Make sure to use the right `--environment=XXX`!
 
 ## Installation Part 2 (everything that I have yet to automate)
 * Install Firefox
- * Login to Firefox
- * Disable DNS over HTTPS (or figure out a way to get hosts file working without it)
- * Setup the search engine aliases for `@google` and switch from Yahoo to DDG
- * Login to InoReader
- * Login to Mangools
- * Migrate any Tampermonkey scripts
+  * Login to Firefox
+  * Disable DNS over HTTPS (or figure out a way to get hosts file working without it)
+  * Setup the search engine aliases for `@google` and switch from Yahoo to DDG
+  * Login to InoReader
+  * Login to Mangools
+  * Migrate any Tampermonkey scripts
 * Sublime
- * Install package control to recognize symlinked packages
- * Install license and license for FTP
- * Setup TabNine (TabNine::Config then paste key for TabNine Local)
+  * Install package control to recognize symlinked packages
+  * Install license and license for FTP
+  * Setup TabNine (TabNine::Config then paste key for TabNine Local)
 * Spotify
- * Download playlists
+  * Download playlists
 * Install Unity-Hub (broken on Chocolatey)
 * Blender is installed separately (managing multiple Blender versions)
 * Setup OBS to record into Seafile (save these prefs)
@@ -65,21 +65,21 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 
 ### Windows specific manually
 * Windows settings
- * Lockscreen picture
- * Uninstall unwanted default apps
- * Connect phone to My Phone
- * Login to other Microsoft related products (Office)
- * Install office
- * Set surface pen pressure to like 8-9?
- * Configure taskbar preferences (non grouping etc)
- * Remove certain pins from the taskbar
- * Make backspace faster/proper speed
- * Remove OneDrive
- * Rename computer
- * Install Windows App Store apps (including Paint.NET and Spotify)
+  * Lockscreen picture
+  * Uninstall unwanted default apps
+  * Connect phone to My Phone
+  * Login to other Microsoft related products (Office)
+  * Install office
+  * Set surface pen pressure to like 8-9?
+  * Configure taskbar preferences (non grouping etc)
+  * Remove certain pins from the taskbar
+  * Make backspace faster/proper speed
+  * Remove OneDrive
+  * Rename computer
+  * Install Windows App Store apps (including Paint.NET and Spotify)
 * ConEmu
- * Setup conemu here manually
- * TODO: Re-evaluate even using ConEmu, Windows terminal new is fine
+  * Setup conemu here manually
+  * TODO: Re-evaluate even using ConEmu, Windows terminal new is fine
 
 ## Future Support
 * Voicemeeter Banana
@@ -106,9 +106,9 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 * Add a little indicator to PS1 when dotfiles is out of date
 * Yamllint isnt installed but it says it is
 * Consider removing WavesMaxxAudio to stop popup and background processing
- * https://github.com/GrzegorzKozub/xps
- * https://github.com/kevinshroff/KSMRD-Modded-Realtek-Audio-Drivers
+  * https://github.com/GrzegorzKozub/xps
+  * https://github.com/kevinshroff/KSMRD-Modded-Realtek-Audio-Drivers
 * Consider applying filter keys faster repeats fix
- * https://superuser.com/questions/1058474/increase-keyboard-repeat-rate-beyond-control-panel-limits-in-windows-10
- * This seems to be a Windows 10/Dell Latitude issue. I dont have this issue on this computer in Linux Mint...
+  * https://superuser.com/questions/1058474/increase-keyboard-repeat-rate-beyond-control-panel-limits-in-windows-10
+  * This seems to be a Windows 10/Dell Latitude issue. I dont have this issue on this computer in Linux Mint...
 * Disable Intel AMT
