@@ -98,6 +98,7 @@ source {cobertosRCPath}/cobertos.bashrc
     AptInstallOp("discord",
       debUrl="https://discord.com/api/download?platform=linux&format=deb")()
     AptInstallOp("ffmpeg")()
+    AptInstallOp("flameshot")()
     AptInstallOp("insomnia",
       addKey="https://insomnia.rest/keys/debian-public.key.asc",
       addRepo="deb https://dl.bintray.com/getinsomnia/Insomnia /")()
@@ -111,6 +112,9 @@ source {cobertosRCPath}/cobertos.bashrc
       addRepo='deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/focal/ stable main')()
     AptInstallOp("slack-desktop",
       debUrl="https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb")() #TODO: Find a latest deb, if Slack provides it
+    AptInstallOp("spotify-client",
+      addKey='https://download.spotify.com/debian/pubkey_0D811D58.gpg',
+      addRepo='deb http://repository.spotify.com stable non-free')()
     AptInstallOp("vlc")()
     AptInstallOp("xclip")()
 
