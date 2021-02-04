@@ -2,7 +2,7 @@
 
 My collection of dotfiles + a [bootstrapping](./bootstrap.py) script
 
-* **Cross Platform** - Meant to work on Linux _and_ Windows
+* **Cross Platform** - Meant to work on Linux (Mint) _and_ Windows
 * **Linking** - Symlinks over copying
 * **Public** - Private keys and licenses are separate (for now... keeping an eye on git-crypt)
 * **Automatic** - `python bootstrap.py` sets up everything. `--verify-only` only verifies, and is run every time I open a terminal
@@ -97,7 +97,9 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 * /etc/hosts and C:\Windows\System32\drivers\etc\hosts or wherever it is in Windows
 * Seafile notifications disabling?
 * Windows PowerTools?
-* nvm, pyenv
+* nvm, pyenv, or instead [asdf](https://asdf-vm.com/#/)
+* Configure fonts
+* Configure keybindings (like for flameshot)
 
 ### Won't Support
 * Pulling in z's config, as it should honeslty be separate per-machine, due to file path differences, and it can contain things I don't want public
