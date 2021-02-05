@@ -88,6 +88,7 @@ python3 bootstrap.py
 * Configure fonts
   * Just install the Twemoji font, or Blobmoji if RipCord ever supports it/unless we can pass Twemoji to just RipCord and use Blobmoji elsewhere?
   * https://dev.cancel.fm/tktview?name=acaddd470e
+  * https://wiki.archlinux.org/index.php/font_configuration#Force_emoji_font
 
 ### Linux specific manually
 * Configure Linux Mint Desktop
