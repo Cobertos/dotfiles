@@ -16,7 +16,7 @@ class PipInstallGlobalOp(BootstrapOp):
     if hasattr(sys, 'real_prefix'):
       raise RuntimeError("Don't use in a virtualenv")
     # https://askubuntu.com/questions/588390/
-    check = subprocess.run(["python3", "-c", f"import {self.packageName}"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    check = subprocess.run(["python", "-c", f"import {self.packageName}"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
     #print(check)
     #print(subprocess.check_output(f"python3 -c \"import {self.packageName}\"", shell=True).decode("utf-8").strip())
     return check.returncode == 0

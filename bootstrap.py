@@ -98,15 +98,17 @@ source {cobertosRCPath}/cobertos.bashrc
     AptInstallOp("p7zip-full")()
     AptInstallOp("discord",
       debUrl="https://discord.com/api/download?platform=linux&format=deb")()
-    AptInstallOp("ffmpeg")()
+    AptInstallOp("ffmpeg")() # Required for obs
     AptInstallOp("flameshot")()
     AptInstallOp("insomnia",
       addKey="https://insomnia.rest/keys/debian-public.key.asc",
       addRepo="deb https://dl.bintray.com/getinsomnia/Insomnia /")()
     AptInstallOp("krita",
+      # Krita official PPA
       addRepo='ppa:kritalime/ppa')()
     AptInstallOp("nmap")()
     AptInstallOp("obs-studio",
+      # OBS official PPA
       addRepo='ppa:obsproject/obs-studio')()
     AptInstallOp("seafile-gui",
       addKey='https://linux-clients.seafile.com/seafile.asc',
@@ -116,6 +118,10 @@ source {cobertosRCPath}/cobertos.bashrc
     AptInstallOp("spotify-client",
       addKey='https://download.spotify.com/debian/pubkey_0D811D58.gpg',
       addRepo='deb http://repository.spotify.com stable non-free')()
+    AptInstallOp("sqlitebrowser",
+      # PPA maintained by https://github.com/deepsidhu1313
+      # though the docs officially mention it as existing
+      addRepo='ppa:linuxgndu/sqlitebrowser')()
     AptInstallOp("vlc")()
     AptInstallOp("xclip")()
 
