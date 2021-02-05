@@ -44,6 +44,7 @@ python3 bootstrap.py
 
 ### Windows Native Installation using Git Bash (old, might not work)
 (TODO: This is super old, no idea if asdf will work with windows git bash)
+(TODO: This definitely might break in Windows because all the paths got changed from \\ to /)
 * [Install chocolatey](https://chocolatey.org/docs/installation)
   * I would like to automate this but there's a lot of overhead with Python)
 * `choco install ./packages.config`
@@ -77,16 +78,20 @@ python3 bootstrap.py
   * Setup TabNine (TabNine::Config then paste key for TabNine Local)
 * Spotify
   * Toggle download playlists
-* Install Unity-Hub (broken on Chocolatey)
+* Install Unity Hub
 * Blender is installed separately (managing multiple Blender versions)
 * Setup OBS to record into Seafile (save these prefs)
 * Setup Unity defaults (External editor and stuff) (would be nice to capture these prefs)
 * Hide excess folders in explorer/nemo, like Picture, Videos, etc
 * Docker (removal of old and getting new)
-* Configure Typora
+* Configure Typora settings
 
 ### Linux specific manually
 * Configure Linux Mint Desktop
+  * Change the theme to Dark (for Window borders, controls, and desktop)
+  * Change wallpapers/backgrouns to the folder that has them all in it
+  * Add a panel to every monitor, without grouped list applet merging and with window titles
+  * Change the Linux Mint start menu icon
 * Install NVIDIA and eGPU drivers and all the work that goes into that
 
 ### Windows specific manually
@@ -103,35 +108,30 @@ python3 bootstrap.py
   * Remove OneDrive
   * Rename computer
   * Install Windows App Store apps (including Paint.NET and Spotify)
-* ConEmu
-  * Setup conemu here manually
-  * TODO: Re-evaluate even using ConEmu, Windows terminal new is fine
 
 ## Future Support
-* Voicemeeter Banana
+* Voicemeeter Banana (Linux / Ubuntu equivalent?)
 * Setup correct file associations (for .xml, .html, etc...)
 * VLC Plugins
 * Audacity and configurations
-* A separate packages.config for different workflows
-* ShareX config
-* Installing chocolatey packages
 * Make sure that Chrome/Firefox syncs settings for refined GitHub (looks like it worked)
-* Rust
-* Readd all the windows registry, theme stuff, and paint.NET
-  * The ansible branch had some extras for screen rotation disable and removing Python execution aliases on Windows
-  * The ansible branch also solves choco git install flags better, and by default asks for WSL to be installed (which IMO is smarter)
 * /etc/hosts and C:\Windows\System32\drivers\etc\hosts or wherever it is in Windows
 * Seafile notifications disabling?
-* Windows PowerTools?
 * Configure fonts
 * Configure keybindings (like for flameshot)
+* Add a little indicator to PS1 when dotfiles is out of date
 
 ### Won't Support
 * Pulling in z's config, as it should honeslty be separate per-machine, due to file path differences, and it can contain things I don't want public
 
-## TODO
-* Add a little indicator to PS1 when dotfiles is out of date
-* Yamllint isnt installed but it says it is
+## Windows TODOs
+* Re-evaluate if ConEmu needs to be used at all
+* Installing chocolatey packages
+* A separate packages.config for different workflows
+* Readd all the windows registry, theme stuff, and paint.NET
+  * The ansible branch had some extras for screen rotation disable and removing Python execution aliases on Windows
+  * The ansible branch also solves choco git install flags better, and by default asks for WSL to be installed (which IMO is smarter)
+* Windows PowerTools?
 * Consider removing WavesMaxxAudio to stop popup and background processing
   * https://github.com/GrzegorzKozub/xps
   * https://github.com/kevinshroff/KSMRD-Modded-Realtek-Audio-Drivers
