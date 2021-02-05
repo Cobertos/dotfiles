@@ -85,6 +85,9 @@ python3 bootstrap.py
 * Hide excess folders in explorer/nemo, like Picture, Videos, etc
 * Docker (removal of old and getting new)
 * Configure Typora settings
+* Configure fonts
+  * Just install the Twemoji font, or Blobmoji if RipCord ever supports it/unless we can pass Twemoji to just RipCord and use Blobmoji elsewhere?
+  * https://dev.cancel.fm/tktview?name=acaddd470e
 
 ### Linux specific manually
 * Configure Linux Mint Desktop
@@ -117,7 +120,6 @@ python3 bootstrap.py
 * Make sure that Chrome/Firefox syncs settings for refined GitHub (looks like it worked)
 * /etc/hosts and C:\Windows\System32\drivers\etc\hosts or wherever it is in Windows
 * Seafile notifications disabling?
-* Configure fonts
 * Configure keybindings (like for flameshot)
 * Add a little indicator to PS1 when dotfiles is out of date
 
