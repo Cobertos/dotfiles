@@ -9,15 +9,15 @@ My collection of dotfiles + a [bootstrapping](./bootstrap.py) script
 * **Multi-environment** - All configs have defaults, though special configs with suffix `##XXX` can be chosen with priority using `--environment=XXX` flag
 
 <p align="center">
-    <img alt="sample output of dotfiles verification" src="./meta/dotfiles-verify.png">
+  <img alt="sample output of dotfiles verification" src="./meta/dotfiles-verify.png">
 </p>
 
 Supports:
 
 <p align="justify">
-    <img alt="git" src="./meta/git-logo-75h.png">
-    <img alt="sublime text" src="./meta/sublime-logo-75h.png">
-    <img alt="typora" src="./meta/typora-logo-75h.png">
+  <img alt="git" src="./meta/git-logo-75h.png">
+  <img alt="sublime text" src="./meta/sublime-logo-75h.png">
+  <img alt="typora" src="./meta/typora-logo-75h.png">
 </p>
 
 as well as [asdf](https://github.com/asdf-vm/asdf), [Z](https://github.com/rupa/z), [flameshot](https://flameshot.org/), [Discord](https://discord.com), [ffmpeg](https://ffmpeg.org/), [Insomnia](https://insomnia.rest/), [Krita](https://krita.org/en/), [OBS](https://obsproject.com/), [Seafile](https://www.seafile.com/en/home/), and a ton more,,,
