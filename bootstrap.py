@@ -52,12 +52,20 @@ def bootstrap(opts):
     # typoraConfigPath = f"{userHome}/.config/Typora/conf/conf.user.json" if platform.system() != "Windows" else ni()
     # SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), typoraConfigPath)()
 
+    # Krita
+    AptInstallOp("krita",
+      # Krita official PPA
+      addRepo='ppa:kritalime/ppa')()
+    kritaHomePath = f"{userHome}/.local/share/krita" if platform.system() != "Windows" else ni()
+    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/krita"), kritaHomePath)()
+
     # Git
     AptInstallOp("git")()
     SymLinkOp(env(f"{scriptDir}/git/.gitconfig"), f"{userHome}/.gitconfig")()
     SymLinkOp(env(f"{scriptDir}/git/.gitignore"), f"{userHome}/.gitignore")()
 
-    # Bash
+    # Bash - We generate an absolute path to the cobertos.bashrc and source it.
+    # this file is what gets symlinked as .bashrc
     with open(env(f"{scriptDir}/.bashrc"), 'w', encoding="utf-8") as f:
       cobertosRCPath = os.path.abspath(scriptDir).replace("/","/")
       f.write( \
@@ -103,9 +111,6 @@ source {cobertosRCPath}/cobertos.bashrc
     AptInstallOp("insomnia",
       addKey="https://insomnia.rest/keys/debian-public.key.asc",
       addRepo="deb https://dl.bintray.com/getinsomnia/Insomnia /")()
-    AptInstallOp("krita",
-      # Krita official PPA
-      addRepo='ppa:kritalime/ppa')()
     AptInstallOp("nmap")()
     AptInstallOp("obs-studio",
       # OBS official PPA
