@@ -28,6 +28,13 @@ def bootstrap(opts):
     # TODO:
     # AddToPath(f"{scriptDir}/onpath")()
 
+    # Fonts
+    fontsPath = f"{userHome}/.local/share/fonts" if platform.system() != "Windows" else ni()
+    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/Blobmoji.ttf"), f"{fontsPath}/Blobmoji.ttf")()
+    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/TwitterColorEmoji-SVGinOT.ttf"), f"{fontsPath}/TwitterColorEmoji-SVGinOT.ttf")()
+    fontConfPath = f"{userHome}/.config/fontconfig" if platform.system() != "Windows" else ni()
+    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/55-prefer-blobmoji-except-ripcord.conf"), f"{fontConfPath}/conf.d/55-prefer-blobmoji-except-ripcord.conf")()
+
     # Sublime
     # sublime-text
     AptInstallOp("apt-transport-https")() # Ensure https packages

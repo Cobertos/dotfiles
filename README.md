@@ -85,10 +85,6 @@ python3 bootstrap.py
 * Hide excess folders in explorer/nemo, like Picture, Videos, etc
 * Docker (removal of old and getting new)
 * Configure Typora settings
-* Configure fonts
-  * Just install the Twemoji font, or Blobmoji if RipCord ever supports it/unless we can pass Twemoji to just RipCord and use Blobmoji elsewhere?
-  * https://dev.cancel.fm/tktview?name=acaddd470e
-  * https://wiki.archlinux.org/index.php/font_configuration#Force_emoji_font
 
 ### Linux specific manually
 * Configure Linux Mint Desktop
