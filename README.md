@@ -9,10 +9,18 @@ My collection of dotfiles + a [bootstrapping](./bootstrap.py) script
 * **Multi-environment** - All configs have defaults, though special configs with suffix `##XXX` can be chosen with priority using `--environment=XXX` flag
 
 <p align="center">
-
-![](./meta/dotfiles-verify.png)
-
+    <img alt="sample output of dotfiles verification" src="./meta/dotfiles-verify.png">
 </p>
+
+Supports:
+
+<p align="justify">
+    <img alt="git" src="./meta/git-logo-75h.png">
+    <img alt="sublime text" src="./meta/sublime-logo-75h.png">
+    <img alt="typora" src="./meta/typora-logo-75h.png">
+</p>
+
+as well as [asdf](https://github.com/asdf-vm/asdf), [Z](https://github.com/rupa/z), [flameshot](https://flameshot.org/), [Discord](https://discord.com), [ffmpeg](https://ffmpeg.org/), [Insomnia](https://insomnia.rest/), [Krita](https://krita.org/en/), [OBS](https://obsproject.com/), [Seafile](https://www.seafile.com/en/home/), and a ton more,,,
 
 ## Installation
 ### Linux Installation
@@ -22,13 +30,20 @@ sudo apt update && sudo apt install git
 git clone https://github.com/Cobertos/dotfiles.git
 cd dotfiles
 python3 bootstrap.py # Make sure to use the right --environment=XXX
+
+# TODO: Might need to manually install asdf first to get a python version, but
+# you have to run this anyway after installing asdf to get the version managers
+# python3 came with my system which at least allowed me to bootstrap my stuff
+asdf plugin add python
+python3 bootstrap.py
 ```
 
-### Windows (WSL) Installation
+### Windows (WSL) Installation (untested, ;w;)
 * Enable and install WSL
 * Follow the above Linux steps in WSL (might need to manually install Python too)
 
-### Windows Native Installation (old, might not work)
+### Windows Native Installation using Git Bash (old, might not work)
+(TODO: This is super old, no idea if asdf will work with windows git bash)
 * [Install chocolatey](https://chocolatey.org/docs/installation)
   * I would like to automate this but there's a lot of overhead with Python)
 * `choco install ./packages.config`
@@ -36,8 +51,19 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 * Install Python 3.6+
 * `python bootstrap.py`
   * Make sure to use the right `--environment=XXX`!
+* You will need to manually install nvm for Windows for nodejs stuff
 
 ## Installation Part 2 (everything that I have yet to automate)
+* asdf installation complications
+  * `asdf plugin add python && asdf plugin add nodejs`
+  * Nodejs
+  * https://github.com/asdf-vm/asdf-nodejs
+  * `bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'`
+  * `asdf reshim` after installs that update whats on the path
+  * Python
+  * https://github.com/danhper/asdf-python
+  * https://github.com/pyenv/pyenv/wiki/Common-build-problems
+  * `sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git`
 * Install Firefox
   * Login to Firefox
   * Disable DNS over HTTPS (or figure out a way to get hosts file working without it)
@@ -50,7 +76,7 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
   * Install license and license for FTP
   * Setup TabNine (TabNine::Config then paste key for TabNine Local)
 * Spotify
-  * Download playlists
+  * Toggle download playlists
 * Install Unity-Hub (broken on Chocolatey)
 * Blender is installed separately (managing multiple Blender versions)
 * Setup OBS to record into Seafile (save these prefs)
@@ -97,7 +123,6 @@ python3 bootstrap.py # Make sure to use the right --environment=XXX
 * /etc/hosts and C:\Windows\System32\drivers\etc\hosts or wherever it is in Windows
 * Seafile notifications disabling?
 * Windows PowerTools?
-* nvm, pyenv, or instead [asdf](https://asdf-vm.com/#/)
 * Configure fonts
 * Configure keybindings (like for flameshot)
 

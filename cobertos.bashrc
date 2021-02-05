@@ -1,7 +1,11 @@
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
 init () {
-
-
-
 # Meta (dotfiles related)
 cobconf="${BASH_SOURCE%/*}"
 export cobconf
@@ -31,8 +35,14 @@ if [[ -n "${ConEmuPID}" ]]; then
   PS1="\[\e]9;9;\"\$PWD\"\007\e]9;12\007\]$PS1"
 fi
 
-# z
-source "${cobconf}/scripts/z.sh"
+# asdf, for python and node version control
+# https://asdf-vm.com
+source "${cobconf}/deps/asdf/asdf.sh"
+source "${cobconf}/deps/completions/asdf.bash"
+
+# Z, a fuzzy 'cd' sort of program
+# https://github.com/rupa/z
+source "${cobconf}/deps/z/z.sh"
 
 # Other stuff, default with Linux Mint, slightly modified
 source ${cobconf}/default.sh
@@ -43,7 +53,7 @@ if ! cobverify; then
     read -p "Verification has failed, do you wish to perform an install? (y/n)" yn
     case $yn in
       [Yy]* ) cobsetup; break;;
-      * ) echo "Ignoring verification failure and continueing"; break;;
+      * ) echo "Ignoring verification failure and dropping into shell"; break;;
     esac
   done
 fi

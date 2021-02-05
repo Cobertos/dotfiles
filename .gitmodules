@@ -1,0 +1,6 @@
+[submodule "deps/asdf"]
+	path = deps/asdf
+	url = https://github.com/asdf-vm/asdf.git
+[submodule "deps/z"]
+	path = deps/z
+	url = git@github.com:rupa/z.git

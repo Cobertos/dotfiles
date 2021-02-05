@@ -77,7 +77,8 @@ source {cobertosRCPath}/cobertos.bashrc
     # AppendToEnvVar(NpmInstallGlobalOp.npmRoot(), "NODE_PATH")()
 
     # Python
-    #PipInstallGlobalOp("yamllint")()
+    PipInstallGlobalOp("yamllint")()
+    PipInstallGlobalOp("grip")()
 
 
     # PipInstallGlobal("pyenv-win")("--target", f"{userHome}/.pyenv") #This package is annoying...
