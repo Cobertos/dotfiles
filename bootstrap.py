@@ -4,14 +4,14 @@ import os
 import platform
 import subprocess
 import logging
-from bootstrap.utils import getEnvironmentFilePath, getUserHome
-from bootstrap.SymLinkOp import SymLinkOp
-from bootstrap.NpmInstallGlobalOp import NpmInstallGlobalOp
-from bootstrap.PipInstallGlobalOp import PipInstallGlobalOp
-from bootstrap.DFOp import DFOp, DFOpLoggingFormatter
-from bootstrap.AptInstallOp import AptInstallOp
-from bootstrap.AptKeyOp import AptKeyOp
-from bootstrap.AptRepositoryOp import AptRepositoryOp
+from df.utils import getEnvironmentFilePath, getUserHome
+from df.SymLinkOp import SymLinkOp
+from df.NpmInstallGlobalOp import NpmInstallGlobalOp
+from df.PipInstallGlobalOp import PipInstallGlobalOp
+from df.DFOp import DFOp, DFOpLoggingFormatter
+from df.AptInstallOp import AptInstallOp
+from df.AptKeyOp import AptKeyOp
+from df.AptRepositoryOp import AptRepositoryOp
 
 scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
 userHome = getUserHome()
