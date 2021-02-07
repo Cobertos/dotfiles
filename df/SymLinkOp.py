@@ -36,10 +36,10 @@ class SymLinkOp(DFOpGroup):
       #If target doesn't exist, Windows silently fails, so assert
       raise RuntimeError(f"Target '{self.target}' does not exist to be symlinked to.")
 
-    super().forceExecute() # Execute all the children of the group
+    super().forceExecute() # Call all the childrens .execute()s
 
     #Make the link and do things if it fails
-    while not self.test():
+    while self.needsExecute():
       try:
         os.symlink(self.target, self.path)
       except FileExistsError as e:

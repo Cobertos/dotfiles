@@ -27,7 +27,7 @@ class AptInstallOp(DFOpGroup):
 
   def forceExecute(self):
     aptNeedsUpdate = super().needsExecute() # Check all the children
-    super().execute() # Run all the children
+    super().forceExecute() # Run all the children executes
 
     if aptNeedsUpdate:
       subprocess.run(['apt', 'update'], check=True)

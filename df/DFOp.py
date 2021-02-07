@@ -10,11 +10,10 @@ class DFOp:
 
   def __init__(self):
     self.logger = logging.getLogger(f"DFOp.{self.__class__.__name__}")
-    self._called = False
 
-  def __call__(self, verifyOnly=True):
+  def __call__(self):
     """Calls execute"""
-    self.execute(verifyOnly=verifyOnly)
+    self.execute()
 
   def description(self):
     """Returns an optional description of this Op, shown next to the name"""
@@ -35,13 +34,11 @@ class DFOp:
     """
     raise NotImplementedError
 
-  def execute(self, verifyOnly=True):
+  def execute(self):
     """
-    Runs the op if the needsExecute() passes. If verifyOnly, it will only test
+    Runs the op if the needsExecute() passes. If DFOp.verifyOnly, it will only test
     needsExecute() and return, unless it returns None, then it forceExecute()s it
     """
-    self._called = True
-
     opName = self.__class__.__name__
     opDesc = self.description()
     def extra(action, ne=None):
@@ -59,6 +56,7 @@ class DFOp:
       needsExecute = self.needsExecute()
     except Exception as e:
       self.logger.debug("Op fail", extra=extra('fail'))
+      self.logger.exception(e)
       self.logger.debug("Leave op", extra=extra('end'))
       return
 
@@ -66,15 +64,15 @@ class DFOp:
     if needsExecute != None:
       self.logger.debug("Op needs execute", extra=extra('ne', needsExecute))
 
-    vo = verifyOnly or DFOp.verifyOnly
-    if needsExecute == False or (vo and needsExecute != None):
+    if needsExecute == False or (DFOp.verifyOnly and needsExecute != None):
       self.logger.debug("Leave op", extra=extra('end'))
       return #Only verifying (and test is not None) or it doesn't need execute
 
     try:
-      self.forceExecute(verifyOnly=verifyOnly)
+      self.forceExecute()
     except Exception as e:
       self.logger.debug("Op fail", extra=extra('fail'))
+      self.logger.exception(e)
       self.logger.debug("Leave op", extra=extra('end'))
       return
 
@@ -103,10 +101,10 @@ class DFOpGroup(DFOp):
     """Tests all the children"""
     return any([op.needsExecute() for op in self._ops])
 
-  def forceExecute(self, verifyOnly):
+  def forceExecute(self):
     """The actual op will execute all the children, if needsExecute passes for those children too"""
     for op in self._ops:
-      op.execute(verifyOnly=verifyOnly)
+      op.execute()
 
 # TODO
 # class DFOpLogicalGroup(DFOpGroup):
@@ -167,8 +165,9 @@ class DFOpLoggingFormatter(logging.Formatter):
     # test
 
     if not hasattr(record, 'opName'):
-      print(dir(record))
-      return super().format(record)
+      # Newline because we turned off the terminator, and use the super class
+      # to format it like normal
+      return f'\n{super().format(record)}'
 
     if record.opAction == 'start':
       self._opStack.append(record.opName)

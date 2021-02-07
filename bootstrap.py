@@ -6,6 +6,7 @@ import subprocess
 import logging
 from df.utils import getEnvironmentFilePath, getUserHome
 from df.SymLinkOp import SymLinkOp
+from df.RemoveFileOp import RemoveFileOp
 from df.NpmInstallGlobalOp import NpmInstallGlobalOp
 from df.PipInstallGlobalOp import PipInstallGlobalOp
 from df.DFOp import DFOp, DFOpLoggingFormatter
@@ -35,6 +36,7 @@ def bootstrap(opts):
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/TwitterColorEmoji-SVGinOT.ttf"), f"{fontsPath}/TwitterColorEmoji-SVGinOT.ttf")()
   fontConfPath = f"{userHome}/.config/fontconfig" if platform.system() != "Windows" else ni()
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/55-prefer-blobmoji-except-ripcord.conf"), f"{fontConfPath}/conf.d/55-prefer-blobmoji-except-ripcord.conf")()
+  RemoveFileOp(f"/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf")() # Delete normal NotoColorEmoji font
 
   # Sublime
   # sublime-text
@@ -156,11 +158,7 @@ if __name__ == '__main__':
 
   logger = logging.getLogger('DFOp')
   logger.setLevel(logging.DEBUG)
-  # class CustomFormatter(logging.Formatter):
-  #     def format(self, record):
-  #         title = record.title if hasattr(record, 'title') else ""
-  #         return f'[{record.process}] "{title[:20].ljust(20)}": {record.getMessage()}'
-  formatter = DFOpLoggingFormatter() #logging.Formatter('\n[%(name)20s] %(message)s') #%(levelname)s %(asctime)s - %(name)s - 
+  formatter = DFOpLoggingFormatter('\n[%(name)20s] %(message)s')
   handler = logging.StreamHandler(sys.stdout)
   handler.terminator = ""
   handler.setFormatter(formatter)

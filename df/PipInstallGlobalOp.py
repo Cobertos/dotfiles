@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import sys
 from .DFOp import DFOp
 
 class PipInstallGlobalOp(DFOp):
@@ -16,7 +17,8 @@ class PipInstallGlobalOp(DFOp):
     if hasattr(sys, 'real_prefix'):
       raise RuntimeError("Don't use in a virtualenv")
     # https://askubuntu.com/questions/588390/
-    check = subprocess.run(["python", "-c", f"import {self.packageName}"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    # Also use sys.executable to use the current running python, regardless of what it is, assume pip is tied to it
+    check = subprocess.run([sys.executable, "-c", f"import {self.packageName}"], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
     #print(check)
     #print(subprocess.check_output(f"python3 -c \"import {self.packageName}\"", shell=True).decode("utf-8").strip())
     return check.returncode != 0
