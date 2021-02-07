@@ -3,3 +3,5 @@
     email = me+git@cobertos.com
 [core]
     excludesfile = ~/.gitignore
+[init]
+    defaultBranch = owo
