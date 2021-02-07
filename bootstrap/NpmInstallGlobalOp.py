@@ -1,9 +1,9 @@
 import os
 import subprocess
-from .BootstrapOp import BootstrapOp
+from .DFOp import DFOp
 
 npmRoot = None
-class NpmInstallGlobalOp(BootstrapOp):
+class NpmInstallGlobalOp(DFOp):
   @staticmethod
   def npmRoot():
     global npmRoot
@@ -18,11 +18,12 @@ class NpmInstallGlobalOp(BootstrapOp):
   def description(self):
     return f"'{self.packageName}' installed via npm?"
 
-  def test(self):
-    #TODO: Does this work in all cases?
-    return os.path.exists(os.path.join(NpmInstallGlobalOp.npmRoot(), *self.packageName.split('/')))
+  def needsExecute(self):
+    # Checks whether the current npm root has the given package folder
+    # Also works for packages like @vue/cli
+    return not os.path.exists(os.path.join(NpmInstallGlobalOp.npmRoot(), *self.packageName.split('/')))
 
-  def execute(self):
+  def forceExecute(self):
     # NOTE: We use this to skip reshimming behavior in asdf, which is a real pain
     # this also requires shell=True, env={ ... } wasn't working :c
     # https://github.com/asdf-vm/asdf-nodejs/issues/46

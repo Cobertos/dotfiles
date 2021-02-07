@@ -1,15 +1,17 @@
 import os
 import shutil
 from pathlib import Path
-from .BootstrapOp import BootstrapOp
+from .DFOp import DFOpGroup
 from .EnsureDirectoryOp import EnsureDirectoryOp
 
-class SymLinkOp(BootstrapOp):
+class SymLinkOp(DFOpGroup):
   def __init__(self, target, path):
     super().__init__()
     #Determine which target to use based on environment
     self.target = target
     self.path = path
+    self.parentPath = os.path.join(*os.path.split(self.path)[:-1])
+    self.addOp(EnsureDirectoryOp(self.parentPath))
 
   def description(self):
     #[isLink, isLinkedProperly, linkResolved] = isProperlyLinked(path)
@@ -17,25 +19,25 @@ class SymLinkOp(BootstrapOp):
     #print(f"[{'OK' if isLinkedProperly else 'NO' }]: '{path}' is {errStr}")
     return f"'{self.path}' is properly linked to '{self.target}'?"
 
-  def test(self):
+  def needsExecute(self):
     isLink = os.path.islink(self.path)
     if not isLink:
       #logger.log(f"Path was not a link")
-      return False
+      return True
     
     linkResolved = Path(self.path).resolve()
     isLinkedProperly = os.path.normpath(str(linkResolved)) == os.path.normpath(self.target)
     #if not isLinkedProperly:
       #logger.log(f"Path was not a linked to correct location, instead {linkResolved}")
-    return isLinkedProperly
+    return not isLinkedProperly
 
-  def execute(self):
+  def forceExecute(self):
     if not os.path.exists(self.target):
       #If target doesn't exist, Windows silently fails, so assert
       raise RuntimeError(f"Target '{self.target}' does not exist to be symlinked to.")
 
-    parentPath = os.path.join(*os.path.split(self.path)[:-1])
-    EnsureDirectoryOp(parentPath)()
+    super().forceExecute() # Execute all the children of the group
+
     #Make the link and do things if it fails
     while not self.test():
       try:

@@ -2,37 +2,32 @@ import os
 import subprocess
 import tempfile
 import requests
-from .BootstrapOp import BootstrapOp
+from .DFOp import DFOpGroup
 from .AptKeyOp import AptKeyOp
 from .AptRepositoryOp import AptRepositoryOp
 
 npmRoot = None
-class AptInstallOp(BootstrapOp):
+class AptInstallOp(DFOpGroup):
   def __init__(self, packageName, addKey=None, addRepo=None, debUrl=None):
     super().__init__()
     self.packageName = packageName
-    self.aptKeyAdd = addKey
-    self.aptRepoAdd = addRepo
     self.debUrl = debUrl
+    if addKey:
+      self.addOp(AptKeyOp(addKey))
+    if addRepo:
+      self.addOp(AptRepositoryOp(addRepo))
 
   def description(self):
     return f"'{self.packageName}' installed via apt?"
 
-  def test(self):
+  def needsExecute(self):
     # https://stackoverflow.com/questions/1298066
     check = subprocess.run(["dpkg", "-s", self.packageName], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-    return check.returncode == 0
+    return check.returncode != 0
 
-    return os.path.exists(os.path.join(NpmInstallGlobalOp.npmRoot(), *self.packageName.split('/')))
-
-  def execute(self):
-    aptNeedsUpdate = False
-    if self.aptKeyAdd:
-      AptKeyOp(self.aptKeyAdd)()
-      aptNeedsUpdate = True
-    if self.aptRepoAdd:
-      AptRepositoryOp(self.aptRepoAdd)()
-      aptNeedsUpdate = True
+  def forceExecute(self):
+    aptNeedsUpdate = super().needsExecute() # Check all the children
+    super().execute() # Run all the children
 
     if aptNeedsUpdate:
       subprocess.run(['apt', 'update'], check=True)

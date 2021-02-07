@@ -1,10 +1,10 @@
 import os
 import subprocess
 import requests
-from .BootstrapOp import BootstrapOp
+from .DFOp import DFOp
 
 npmRoot = None
-class AptRepositoryOp(BootstrapOp):
+class AptRepositoryOp(DFOp):
   def __init__(self, repository):
     super().__init__()
     self.repository = repository
@@ -12,8 +12,8 @@ class AptRepositoryOp(BootstrapOp):
   def description(self):
     return f"'{self.repository}' repository sourcing?"
 
-  def test(self):
-    return False # TODO
+  def needsExecute(self):
+    return True # TODO
 
-  def execute(self):
+  def forceExecute(self):
     subprocess.run(['/usr/bin/pkexec', 'add-apt-repository', self.repository], check=True)

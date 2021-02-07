@@ -8,7 +8,7 @@ from bootstrap.utils import getEnvironmentFilePath, getUserHome
 from bootstrap.SymLinkOp import SymLinkOp
 from bootstrap.NpmInstallGlobalOp import NpmInstallGlobalOp
 from bootstrap.PipInstallGlobalOp import PipInstallGlobalOp
-from bootstrap.BootstrapOpRunner import BootstrapLoggingOpRunner
+from bootstrap.DFOp import DFOp, DFOpLoggingFormatter
 from bootstrap.AptInstallOp import AptInstallOp
 from bootstrap.AptKeyOp import AptKeyOp
 from bootstrap.AptRepositoryOp import AptRepositoryOp
@@ -24,125 +24,126 @@ def bootstrap(opts):
   #appData = os.environ["APPDATA"]
   env = lambda p: getEnvironmentFilePath(p, opts.environment)
 
-  with BootstrapLoggingOpRunner(opts.verify_only):
-    # TODO:
-    # AddToPath(f"{scriptDir}/onpath")()
+  DFOp.verifyOnly = opts.verify_only
 
-    # Fonts
-    fontsPath = f"{userHome}/.local/share/fonts" if platform.system() != "Windows" else ni()
-    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/Blobmoji.ttf"), f"{fontsPath}/Blobmoji.ttf")()
-    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/TwitterColorEmoji-SVGinOT.ttf"), f"{fontsPath}/TwitterColorEmoji-SVGinOT.ttf")()
-    fontConfPath = f"{userHome}/.config/fontconfig" if platform.system() != "Windows" else ni()
-    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/55-prefer-blobmoji-except-ripcord.conf"), f"{fontConfPath}/conf.d/55-prefer-blobmoji-except-ripcord.conf")()
+  # TODO:
+  # AddToPath(f"{scriptDir}/onpath")()
 
-    # Sublime
-    # sublime-text
-    AptInstallOp("apt-transport-https")() # Ensure https packages
-    AptInstallOp("sublime-text",
-      addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
-      addRepo='deb https://download.sublimetext.com/ apt/stable/')()
-    sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User" if platform.system() != "Windows" else f"{appData}/Sublime Text 3/Packages/User"
-    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
-    # sublime-merge
-    AptInstallOp("sublime-merge",
-      addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
-      addRepo='deb https://download.sublimetext.com/ apt/stable/')()
-    # TODO:
-    # Only needed on Windows
-    # AddToPath("C:/Program Files/Sublime Text 3")() #Add sublime to path for `subl`
+  # Fonts
+  fontsPath = f"{userHome}/.local/share/fonts" if platform.system() != "Windows" else ni()
+  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/Blobmoji.ttf"), f"{fontsPath}/Blobmoji.ttf")()
+  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/TwitterColorEmoji-SVGinOT.ttf"), f"{fontsPath}/TwitterColorEmoji-SVGinOT.ttf")()
+  fontConfPath = f"{userHome}/.config/fontconfig" if platform.system() != "Windows" else ni()
+  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/55-prefer-blobmoji-except-ripcord.conf"), f"{fontConfPath}/conf.d/55-prefer-blobmoji-except-ripcord.conf")()
 
-    # Typora
-    AptInstallOp("typora",
-      addKey="https://typora.io/linux/public-key.asc",
-      addRepo='deb https://typora.io/linux ./')()
-    # TODO: These only capture the "Advanced Preferences", awaiting email reply to see if the preferences live somewhere else
-    # typoraConfigPath = f"{userHome}/.config/Typora/conf/conf.user.json" if platform.system() != "Windows" else ni()
-    # SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), typoraConfigPath)()
+  # Sublime
+  # sublime-text
+  AptInstallOp("apt-transport-https")() # Ensure https packages
+  AptInstallOp("sublime-text",
+    addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
+    addRepo='deb https://download.sublimetext.com/ apt/stable/')()
+  sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User" if platform.system() != "Windows" else f"{appData}/Sublime Text 3/Packages/User"
+  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
+  # sublime-merge
+  AptInstallOp("sublime-merge",
+    addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
+    addRepo='deb https://download.sublimetext.com/ apt/stable/')()
+  # TODO:
+  # Only needed on Windows
+  # AddToPath("C:/Program Files/Sublime Text 3")() #Add sublime to path for `subl`
 
-    # Krita
-    AptInstallOp("krita",
-      # Krita official PPA
-      addRepo='ppa:kritalime/ppa')()
-    kritaHomePath = f"{userHome}/.local/share/krita" if platform.system() != "Windows" else ni()
-    SymLinkOp(env(f"{os.path.realpath(scriptDir)}/krita"), kritaHomePath)()
+  # Typora
+  AptInstallOp("typora",
+    addKey="https://typora.io/linux/public-key.asc",
+    addRepo='deb https://typora.io/linux ./')()
+  # TODO: These only capture the "Advanced Preferences", awaiting email reply to see if the preferences live somewhere else
+  # typoraConfigPath = f"{userHome}/.config/Typora/conf/conf.user.json" if platform.system() != "Windows" else ni()
+  # SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), typoraConfigPath)()
 
-    # Git
-    AptInstallOp("git")()
-    SymLinkOp(env(f"{scriptDir}/git/.gitconfig"), f"{userHome}/.gitconfig")()
-    SymLinkOp(env(f"{scriptDir}/git/.gitignore"), f"{userHome}/.gitignore")()
+  # Krita
+  AptInstallOp("krita",
+    # Krita official PPA
+    addRepo='ppa:kritalime/ppa')()
+  kritaHomePath = f"{userHome}/.local/share/krita" if platform.system() != "Windows" else ni()
+  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/krita"), kritaHomePath)()
 
-    # Bash - We generate an absolute path to the cobertos.bashrc and source it.
-    # this file is what gets symlinked as .bashrc
-    with open(env(f"{scriptDir}/.bashrc"), 'w', encoding="utf-8") as f:
-      cobertosRCPath = os.path.abspath(scriptDir).replace("/","/")
-      f.write( \
+  # Git
+  AptInstallOp("git")()
+  SymLinkOp(env(f"{scriptDir}/git/.gitconfig"), f"{userHome}/.gitconfig")()
+  SymLinkOp(env(f"{scriptDir}/git/.gitignore"), f"{userHome}/.gitignore")()
+
+  # Bash - We generate an absolute path to the cobertos.bashrc and source it.
+  # this file is what gets symlinked as .bashrc
+  with open(env(f"{scriptDir}/.bashrc"), 'w', encoding="utf-8") as f:
+    cobertosRCPath = os.path.abspath(scriptDir).replace("/","/")
+    f.write( \
 f'''#AUTOGENERATED - Run cli.py to regenerate
 source {cobertosRCPath}/cobertos.bashrc
 ''')
-    SymLinkOp(f"{scriptDir}/.bashrc", f"{userHome}/.bashrc")()
+  SymLinkOp(f"{scriptDir}/.bashrc", f"{userHome}/.bashrc")()
 
-    # Npm
-    NpmInstallGlobalOp("@vue/cli")()   # CLI tool
-    NpmInstallGlobalOp("serverless")() # CLI tool
-    NpmInstallGlobalOp("eslint_d")()   # Sublime Text Plugin Dependency
-    NpmInstallGlobalOp("js-yaml")()    # Useful tool
-    # TODO:
-    # Ability to use global packages in require() with NODE_PATH
-    # Should work with NVM https://stackoverflow.com/a/49293370/2759427
-    # AppendToEnvVar(NpmInstallGlobalOp.npmRoot(), "NODE_PATH")()
+  # Npm
+  NpmInstallGlobalOp("@vue/cli")()   # CLI tool
+  NpmInstallGlobalOp("serverless")() # CLI tool
+  NpmInstallGlobalOp("eslint_d")()   # Sublime Text Plugin Dependency
+  NpmInstallGlobalOp("js-yaml")()    # Useful tool
+  # TODO:
+  # Ability to use global packages in require() with NODE_PATH
+  # Should work with NVM https://stackoverflow.com/a/49293370/2759427
+  # AppendToEnvVar(NpmInstallGlobalOp.npmRoot(), "NODE_PATH")()
 
-    # Python
-    PipInstallGlobalOp("yamllint")()
-    PipInstallGlobalOp("grip")()
+  # Python
+  PipInstallGlobalOp("yamllint")()
+  PipInstallGlobalOp("grip")()
 
 
-    # PipInstallGlobal("pyenv-win")("--target", f"{userHome}/.pyenv") #This package is annoying...
-    # #From https://github.com/pyenv-win/pyenv-win#finish-the-installation
-    # SetEnvVar(f"{userHome}/.pyenv/pyenv-win", "PYENV")()
-    # AddToPath("%PYENV%/bin", prepend=True)() #Needs to come before WindowsApps, cause Python is in there by default now?
-    # AddToPath("%PYENV%/shims", prepend=True)()
-    # #print("Run pyenv rehash to get this to work...")
+  # PipInstallGlobal("pyenv-win")("--target", f"{userHome}/.pyenv") #This package is annoying...
+  # #From https://github.com/pyenv-win/pyenv-win#finish-the-installation
+  # SetEnvVar(f"{userHome}/.pyenv/pyenv-win", "PYENV")()
+  # AddToPath("%PYENV%/bin", prepend=True)() #Needs to come before WindowsApps, cause Python is in there by default now?
+  # AddToPath("%PYENV%/shims", prepend=True)()
+  # #print("Run pyenv rehash to get this to work...")
 
-    # TODO: If apt is running anything, it needs an update first
+  # TODO: If apt is running anything, it needs an update first
 
-    #TODO: nvm... requires a curl
+  #TODO: nvm... requires a curl
 
-    # Misc Packages
-    # TODO: Ripcord, only provides an AppImage
-    # TODO: Need a media player
-    AptInstallOp("p7zip-full")()
-    AptInstallOp("discord",
-      debUrl="https://discord.com/api/download?platform=linux&format=deb")()
-    AptInstallOp("ffmpeg")() # Required for obs
-    AptInstallOp("flameshot")()
-    AptInstallOp("insomnia",
-      addKey="https://insomnia.rest/keys/debian-public.key.asc",
-      addRepo="deb https://dl.bintray.com/getinsomnia/Insomnia /")()
-    AptInstallOp("nmap")()
-    AptInstallOp("obs-studio",
-      # OBS official PPA
-      addRepo='ppa:obsproject/obs-studio')()
-    AptInstallOp("seafile-gui",
-      addKey='https://linux-clients.seafile.com/seafile.asc',
-      addRepo='deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/focal/ stable main')()
-    AptInstallOp("slack-desktop",
-      debUrl="https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb")() #TODO: Find a latest deb, if Slack provides it
-    AptInstallOp("spotify-client",
-      addKey='https://download.spotify.com/debian/pubkey_0D811D58.gpg',
-      addRepo='deb http://repository.spotify.com stable non-free')()
-    AptInstallOp("sqlitebrowser",
-      # PPA maintained by https://github.com/deepsidhu1313
-      # though the docs officially mention it as existing
-      addRepo='ppa:linuxgndu/sqlitebrowser')()
-    AptInstallOp("vlc")()
-    AptInstallOp("xclip")()
+  # Misc Packages
+  # TODO: Ripcord, only provides an AppImage
+  # TODO: Need a media player
+  AptInstallOp("p7zip-full")()
+  AptInstallOp("discord",
+    debUrl="https://discord.com/api/download?platform=linux&format=deb")()
+  AptInstallOp("ffmpeg")() # Required for obs
+  AptInstallOp("flameshot")()
+  AptInstallOp("insomnia",
+    addKey="https://insomnia.rest/keys/debian-public.key.asc",
+    addRepo="deb https://dl.bintray.com/getinsomnia/Insomnia /")()
+  AptInstallOp("nmap")()
+  AptInstallOp("obs-studio",
+    # OBS official PPA
+    addRepo='ppa:obsproject/obs-studio')()
+  AptInstallOp("seafile-gui",
+    addKey='https://linux-clients.seafile.com/seafile.asc',
+    addRepo='deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/focal/ stable main')()
+  AptInstallOp("slack-desktop",
+    debUrl="https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb")() #TODO: Find a latest deb, if Slack provides it
+  AptInstallOp("spotify-client",
+    addKey='https://download.spotify.com/debian/pubkey_0D811D58.gpg',
+    addRepo='deb http://repository.spotify.com stable non-free')()
+  AptInstallOp("sqlitebrowser",
+    # PPA maintained by https://github.com/deepsidhu1313
+    # though the docs officially mention it as existing
+    addRepo='ppa:linuxgndu/sqlitebrowser')()
+  AptInstallOp("vlc")()
+  AptInstallOp("xclip")()
 
-    #Other
-    SymLinkOp(env(f"{scriptDir}/.vuerc"), f"{userHome}/.vuerc")()
-    SymLinkOp(env(f"{scriptDir}/.config/yamllint/config"), f"{userHome}/.config/yamllint/config")()
+  #Other
+  SymLinkOp(env(f"{scriptDir}/.vuerc"), f"{userHome}/.vuerc")()
+  SymLinkOp(env(f"{scriptDir}/.config/yamllint/config"), f"{userHome}/.config/yamllint/config")()
 
-    #Blender
-    #TODO
+  #Blender
+  #TODO
 
 if __name__ == '__main__':
   # Parse all the arguments
@@ -153,14 +154,15 @@ if __name__ == '__main__':
                       help='a string for the environment prefix to use, uses files ending wiith ##[environment] when applicable')
   opts = parser.parse_args(sys.argv[1:])
 
-  logger = logging.getLogger('BootstrapOp')
+  logger = logging.getLogger('DFOp')
   logger.setLevel(logging.DEBUG)
   # class CustomFormatter(logging.Formatter):
   #     def format(self, record):
   #         title = record.title if hasattr(record, 'title') else ""
   #         return f'[{record.process}] "{title[:20].ljust(20)}": {record.getMessage()}'
-  formatter = logging.Formatter('\n[%(name)20s] %(message)s') #%(levelname)s %(asctime)s - %(name)s - 
+  formatter = DFOpLoggingFormatter() #logging.Formatter('\n[%(name)20s] %(message)s') #%(levelname)s %(asctime)s - %(name)s - 
   handler = logging.StreamHandler(sys.stdout)
+  handler.terminator = ""
   handler.setFormatter(formatter)
   handler.setLevel(logging.DEBUG)
   logging.getLogger().addHandler(handler)
