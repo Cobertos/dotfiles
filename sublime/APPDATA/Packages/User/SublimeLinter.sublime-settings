@@ -2,7 +2,8 @@
 {
     "linters": {
         "eslint": {
-            "executable": "eslint_d"
+            "executable": "eslint_d",
+            "selector": "text.html.vue, source.js - meta.attribute-with-value"
         }
     }
 }

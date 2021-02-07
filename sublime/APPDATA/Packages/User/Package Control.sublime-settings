@@ -8,6 +8,7 @@
 		"ApplySyntax",
 		"Color Highlight",
 		"Discord Rich Presence",
+		"Dockerfile Syntax Highlighting",
 		"Git blame",
 		"HexViewer",
 		"JsFormat",
@@ -20,7 +21,9 @@
 		"SublimeLinter",
 		"SublimeLinter-contrib-yamllint",
 		"SublimeLinter-eslint",
-		"TabNine",
-		"TemplateToolkit"
+		"Tabnine",
+		"TemplateToolkit",
+		"Vue Syntax Highlight",
+		"Zig Language"
 	]
 }
