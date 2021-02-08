@@ -29,22 +29,38 @@ cd ~
 sudo apt update && sudo apt install git
 git clone https://github.com/Cobertos/dotfiles.git
 cd dotfiles
+git submodule init
+git submodule update # For ASDF and Z
 python3 bootstrap.py # Make sure to use the right --environment=XXX
-
-# TODO: Might need to manually install asdf first to get a python version, but
-# you have to run this anyway after installing asdf to get the version managers
-# python3 came with my system which at least allowed me to bootstrap my stuff
+# https://github.com/danhper/asdf-python
+# https://github.com/pyenv/pyenv/wiki/Common-build-problems
 asdf plugin add python
-python3 bootstrap.py
+sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+asdf install python latest:3.8
+asdf global python 3.8.7
+# https://github.com/asdf-vm/asdf-nodejs
+asdf plugin add nodejs
+bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'
+asdf install nodejs lts
+asdf global nodejs 14.15.4
+pip install requests
+python bootstrap.py # To get all node and python dependencies
+
+# TODO: If you have no system python in your OS, you will probably want to get one
+# or install asdf manually (source the correct file into your terminal first)
 ```
 
-### Windows (WSL) Installation (untested, ;w;)
-* Enable and install WSL
-* Follow the above Linux steps in WSL (might need to manually install Python too)
+### Windows Native Installation using Git Bash
 
-### Windows Native Installation using Git Bash (old, might not work)
-(TODO: This is super old, no idea if asdf will work with windows git bash)
-(TODO: This definitely might break in Windows because all the paths got changed from \\ to /)
+This no longer works, but should I go back to Windows I'll have to update. The steps to get this to work on Windows will be something like
+
+* Find a replacement for asdf on Windows
+  * The current code will work with plain old pyenv and nvm, so you could always install those manually first
+* Fix all issues with \\ and / paths
+* Find comparable packages in chocolatey, or use Ninite or something
+
+The old installation:
+
 * [Install chocolatey](https://chocolatey.org/docs/installation)
   * I would like to automate this but there's a lot of overhead with Python)
 * `choco install ./packages.config`
@@ -55,23 +71,13 @@ python3 bootstrap.py
 * You will need to manually install nvm for Windows for nodejs stuff
 
 ## Installation Part 2 (everything that I have yet to automate)
-* asdf installation complications
-  * `asdf plugin add python && asdf plugin add nodejs`
-  * Nodejs
-  * https://github.com/asdf-vm/asdf-nodejs
-  * `bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'`
-  * `asdf reshim` after installs that update whats on the path
-  * Python
-  * https://github.com/danhper/asdf-python
-  * https://github.com/pyenv/pyenv/wiki/Common-build-problems
-  * `sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git`
 * Install Firefox
   * Login to Firefox
   * Disable DNS over HTTPS (or figure out a way to get hosts file working without it)
-  * Setup the search engine aliases for `@google` and switch from Yahoo to DDG
+  * Setup the search engine aliases for `@google`, `@gh` switch to Startpage for default engine
   * Login to InoReader
   * Login to Mangools
-  * Migrate any Tampermonkey scripts
+  * Migrate any Tampermonkey scripts (or put them in here or something)
 * Sublime
   * Install package control to recognize symlinked packages
   * Install license and license for FTP
@@ -85,6 +91,13 @@ python3 bootstrap.py
 * Hide excess folders in explorer/nemo, like Picture, Videos, etc
 * Docker (removal of old and getting new)
 * Configure Typora settings
+* Migrate from old computer
+  * Insomnia configs (all the sqlite databases in Insomnia's home directory)
+  * .aws keys
+  * .ssh keys
+  * .npmrc keys
+  * Any environment variables holding keys
+  * Firefox/Chrome/wherever history
 
 ### Linux specific manually
 * Configure Linux Mint Desktop
@@ -93,6 +106,9 @@ python3 bootstrap.py
   * Add a panel to every monitor, without grouped list applet merging and with window titles
   * Change the Linux Mint start menu icon
 * Install NVIDIA and eGPU drivers and all the work that goes into that
+  * `sudo apt install nvidia-driver-460`
+  * Disable secure boot and thunderbolt security
+  * Add the XOrg configuration, and double check the PCIe Bus IDs
 
 ### Windows specific manually
 * Windows settings
