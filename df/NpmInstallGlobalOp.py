@@ -30,7 +30,7 @@ class NpmInstallGlobalOp(DFOp):
     subprocess.run(f'ASDF_SKIP_RESHIM=1 npm install -g {self.packageName}', shell=True, check=True)
 
     # If asdf is installed, perform a reshim
-    asdfInstalled = subprocess.run("type asdf", stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, shell=True)
+    asdfInstalled = subprocess.run("type asdf", stdout=subprocess.DEVNULL, shell=True)
     asdfInstalled = asdfInstalled.returncode == 0
     if asdfInstalled:
-      subprocess.run("asdf reshim", shell=True)
+      subprocess.run("asdf reshim", shell=True, check=True)

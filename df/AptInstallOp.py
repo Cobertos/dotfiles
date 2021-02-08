@@ -22,7 +22,7 @@ class AptInstallOp(DFOpGroup):
 
   def needsExecute(self):
     # https://stackoverflow.com/questions/1298066
-    check = subprocess.run(["dpkg", "-s", self.packageName], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    check = subprocess.run(["dpkg", "-s", self.packageName], stdout=subprocess.DEVNULL)
     return check.returncode != 0
 
   def forceExecute(self):

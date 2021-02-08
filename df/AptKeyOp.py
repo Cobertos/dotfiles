@@ -27,7 +27,7 @@ class AptKeyOp(DFOp):
     # TODO: Need to test against apt-key list
     return True
     # https://stackoverflow.com/questions/1298066
-    # check = subprocess.run(["dpkg", "-s", self.packageName], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    # check = subprocess.run(["dpkg", "-s", self.packageName], stdout=subprocess.DEVNULL)
     # return check.returncode == 0
 
     # return os.path.exists(os.path.join(NpmInstallGlobalOp.npmRoot(), *self.packageName.split('/')))

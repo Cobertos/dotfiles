@@ -8,7 +8,7 @@ from df.utils import getEnvironmentFilePath, getUserHome
 from df.SymLinkOp import SymLinkOp
 from df.RemoveFileOp import RemoveFileOp
 from df.NpmInstallGlobalOp import NpmInstallGlobalOp
-from df.PipInstallGlobalOp import PipInstallGlobalOp
+from df.PipInstallGlobalOp import PipInstallGlobalOp, PipXInstallGlobalOp
 from df.DFOp import DFOp, DFOpLoggingFormatter
 from df.AptInstallOp import AptInstallOp
 from df.AptKeyOp import AptKeyOp
@@ -95,8 +95,9 @@ source {cobertosRCPath}/cobertos.bashrc
   # AppendToEnvVar(NpmInstallGlobalOp.npmRoot(), "NODE_PATH")()
 
   # Python
-  PipInstallGlobalOp("yamllint")()
-  PipInstallGlobalOp("grip")()
+  PipXInstallGlobalOp("yamllint")()
+  PipXInstallGlobalOp("grip")()
+  PipXInstallGlobalOp("pipenv")()
 
 
   # PipInstallGlobal("pyenv-win")("--target", f"{userHome}/.pyenv") #This package is annoying...
