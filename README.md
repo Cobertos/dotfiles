@@ -109,6 +109,7 @@ The old installation:
   * `sudo apt install nvidia-driver-460`
   * Disable secure boot and thunderbolt security
   * Add the XOrg configuration, and double check the PCIe Bus IDs
+  * Consider working on HotPlug support https://jpamills.wordpress.com/2017/03/18/hotplug-support-for-egpu-on-linux/
 
 ### Windows specific manually
 * Windows settings
