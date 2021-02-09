@@ -90,7 +90,6 @@ The old installation:
 * Setup Unity defaults (External editor and stuff) (would be nice to capture these prefs)
 * Hide excess folders in explorer/nemo, like Picture, Videos, etc
 * Docker (removal of old and getting new)
-* Configure Typora settings
 * Migrate from old computer
   * Insomnia configs (all the sqlite databases in Insomnia's home directory)
   * .aws keys
@@ -98,6 +97,7 @@ The old installation:
   * .npmrc keys
   * Any environment variables holding keys
   * Firefox/Chrome/wherever history
+* Setup filesystem favorites
 
 ### Linux specific manually
 * Configure Linux Mint Desktop

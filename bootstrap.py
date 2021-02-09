@@ -58,9 +58,9 @@ def bootstrap(opts):
   AptInstallOp("typora",
     addKey="https://typora.io/linux/public-key.asc",
     addRepo='deb https://typora.io/linux ./')()
-  # TODO: These only capture the "Advanced Preferences", awaiting email reply to see if the preferences live somewhere else
-  # typoraConfigPath = f"{userHome}/.config/Typora/conf/conf.user.json" if platform.system() != "Windows" else ni()
-  # SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), typoraConfigPath)()
+  typoraConfigPath = f"{userHome}/.config/Typora" if platform.system() != "Windows" else ni()
+  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/profile.data"), f"{typoraConfigPath}/profile.data")() # Non-human readable normal settings, per Abner
+  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), f"{typoraConfigPath}/conf/conf.user.json")() # Advanced settings
 
   # Krita
   AptInstallOp("krita",
