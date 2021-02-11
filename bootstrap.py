@@ -85,20 +85,20 @@ source {cobertosRCPath}/cobertos.bashrc
   SymLinkOp(f"{scriptDir}/.bashrc", f"{userHome}/.bashrc")()
 
   # Npm
-  NpmInstallGlobalOp("@vue/cli")()   # CLI tool
-  NpmInstallGlobalOp("serverless")() # CLI tool
-  NpmInstallGlobalOp("eslint_d")()   # Sublime Text Plugin Dependency
-  NpmInstallGlobalOp("js-yaml")()    # Useful tool
+  NpmInstallGlobalOp("@vue/cli")()    # Tool
+  NpmInstallGlobalOp("serverless")()  # Tool
+  NpmInstallGlobalOp("eslint_d")()    # Dependency for Sublime Linter
+  NpmInstallGlobalOp("js-yaml")()     # Tool
   # TODO:
   # Ability to use global packages in require() with NODE_PATH
   # Should work with NVM https://stackoverflow.com/a/49293370/2759427
   # AppendToEnvVar(NpmInstallGlobalOp.npmRoot(), "NODE_PATH")()
 
   # Python
-  PipXInstallGlobalOp("yamllint")()
-  PipXInstallGlobalOp("grip")()
+  PipXInstallGlobalOp("yamllint")()   # Dependency for Sublime Linter
+  PipXInstallGlobalOp("grip")()       # Tool - Markdown preview for GitHub
   PipXInstallGlobalOp("pipenv")()
-
+  #PipXInstallGlobalOp("awscli")()
 
   # PipInstallGlobal("pyenv-win")("--target", f"{userHome}/.pyenv") #This package is annoying...
   # #From https://github.com/pyenv-win/pyenv-win#finish-the-installation
