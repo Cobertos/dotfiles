@@ -117,6 +117,7 @@ source {cobertosRCPath}/cobertos.bashrc
   AptInstallOp("p7zip-full")()
   AptInstallOp("discord",
     debUrl="https://discord.com/api/download?platform=linux&format=deb")()
+  AptInstallOp("dos2unix")()
   AptInstallOp("ffmpeg")() # Required for obs
   AptInstallOp("flameshot")()
   AptInstallOp("insomnia",
