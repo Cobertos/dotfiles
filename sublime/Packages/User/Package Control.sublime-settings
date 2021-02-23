@@ -22,6 +22,7 @@
 		"SublimeLinter",
 		"SublimeLinter-contrib-yamllint",
 		"SublimeLinter-eslint",
+		"SublimeLinter-json",
 		"Tabnine",
 		"Vue Syntax Highlight"
 	]
