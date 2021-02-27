@@ -71,7 +71,7 @@ findcode() {
     #-type f -path "*$1*" -o \
 }
 findnotes() {
-  grep --include=*.md -RnI ~/Seafile/notes -e "$1"
+  grep --include={*.md,*.csv,*.pdf} -RnI ~/Seafile/notes -e "$1"
 }
 
 # Verify the setup
