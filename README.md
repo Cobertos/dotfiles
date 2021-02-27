@@ -136,6 +136,7 @@ The old installation:
 * Seafile notifications disabling?
 * Configure keybindings (like for flameshot)
 * Add a little indicator to PS1 when dotfiles is out of date
+* Make `findcode` better/nicer. Can we have some sort of indexing search?
 
 ### Won't Support
 * Pulling in z's config, as it should honeslty be separate per-machine, due to file path differences, and it can contain things I don't want public
