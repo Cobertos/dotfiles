@@ -137,6 +137,8 @@ The old installation:
 * Configure keybindings (like for flameshot)
 * Add a little indicator to PS1 when dotfiles is out of date
 * Make `findcode` better/nicer. Can we have some sort of indexing search?
+* Put Userscripts for Tampermonkey in here (or maybe submodule? would be nice to use their WebDAV interface)
+* Switch pip over to use the --user flag, or make it an option? Not sure what pipx needs?
 
 ### Won't Support
 * Pulling in z's config, as it should honeslty be separate per-machine, due to file path differences, and it can contain things I don't want public
