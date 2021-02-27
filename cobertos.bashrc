@@ -25,7 +25,7 @@ alias gitkcon='git log --all --decorate --oneline --graph'
 alias explr="nemo"
 alias lclip="xclip -selection clipboard"
 
-# ConEmu Integration
+# Windows: ConEmu Integration
 if [[ -n "${ConEmuPID}" ]]; then
   # For WSL and cygwin/msys connector (which ConEmu will use for Git bash). It
   # sends an operating system command (OSC) to cygwin/msys connector to update the
@@ -72,6 +72,37 @@ findcode() {
 }
 findnotes() {
   grep --include={*.md,*.csv,*.pdf} -RnI ~/Seafile/notes -e "$1"
+}
+
+cdp() {
+  # Opens a project in the current terminal
+  if [[ -d "${HOME}/Seafile/projects/${1}" ]]; then
+    local PRJ_PATH="${HOME}/Seafile/projects/${1}"
+  elif [[ -d "~/Seafile/projects/COMMISIONED/${1}" ]]; then
+    local PRJ_PATH="${HOME}/Seafile/projects/COMMISIONED/${1}"
+  elif [[ -d "~/Seafile/projects/FORKED/${1}" ]]; then
+    echo "Project was a fork"
+    local PRJ_PATH="${HOME}/Seafile/projects/FORKED/${1}"
+  else
+    echo "No project '${1}' found in ~/Seafile/projects folders"
+    return
+  fi
+
+  # Got a project path, but does it have a repo/ or repository/
+  if [[ -d "${PRJ_PATH}/repo" ]]; then
+    local PRJ_PATH="${PRJ_PATH}/repo"
+  elif [[ -d "${PRJ_PATH}/repository" ]]; then
+    local PRJ_PATH="${PRJ_PATH}/repository"
+  fi
+
+  # Finally, cd and try to subl the project file if there is one
+  cd ${PRJ_PATH}
+  # local PRJ_FILE=$(find *.sublime-project)
+  # if [[ ! -z "${PRJ_FILE}" ]]; then
+  #   subl ${PRJ_FILE}
+  # else
+  #   subl .
+  # fi
 }
 
 # Verify the setup
