@@ -16,15 +16,22 @@ class PipInstallGlobalOp(DFOp):
     # https://stackoverflow.com/a/1883251/2759427
     if hasattr(sys, 'real_prefix'):
       raise RuntimeError("Don't use in a virtualenv")
+
+    testPackageName = self.packageName
+    if "[" in self.packageName:
+      # Uses setuptools/pip extras_require
+      # TODO: This just rewrites it so that it will use the base name, but doesn't
+      # actually ensure all the dependencies are installed
+      testPackageName = self.packageName[0:self.packageName.find("[")]
+
     # https://askubuntu.com/questions/588390/
     # Also use sys.executable to use the current running python, regardless of what it is, assume pip is tied to it
-    check = subprocess.run([sys.executable, "-c", f"import {self.packageName}"], stdout=subprocess.DEVNULL)
-    #print(check)
-    #print(subprocess.check_output(f"python3 -c \"import {self.packageName}\"", shell=True).decode("utf-8").strip())
+    check = subprocess.run([sys.executable, "-c", f"import {testPackageName}"], stdout=subprocess.DEVNULL)
     return check.returncode != 0
 
   def forceExecute(self, *args):
-    subprocess.run([pipExecutable, 'install', self.packageName, *args], check=True)
+    # Use the --user directory, makes it so we don't need root
+    subprocess.run([pipExecutable, 'install', '--user', self.packageName, *args], check=True)
 
     # If asdf is installed, perform a reshim
     asdfInstalled = subprocess.run("type asdf", stdout=subprocess.DEVNULL, shell=True)
