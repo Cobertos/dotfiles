@@ -28,6 +28,8 @@ def bootstrap(opts):
   DFOp.verifyOnly = opts.verify_only
 
   # TODO:
+  # Only needed on windows, in Linux we're just putting everything in .bashrc/
+  # shell scripts for now...
   # AddToPath(f"{scriptDir}/onpath")()
 
   # Fonts
@@ -107,18 +109,19 @@ source {cobertosRCPath}/cobertos.bashrc
   # AddToPath("%PYENV%/shims", prepend=True)()
   # #print("Run pyenv rehash to get this to work...")
 
-  # TODO: If apt is running anything, it needs an update first
-
-  #TODO: nvm... requires a curl
-
   # Misc Packages
   # TODO: Ripcord, only provides an AppImage
   # TODO: Need a media player
   AptInstallOp("p7zip-full")()
+  # Some issues with this chromium being available into the future?
+  # Might switch to just Chrome, cause Mint is one of the only ones that looks to have this for the forseeable future
+  # https://www.zdnet.com/article/linux-distributors-frustrated-by-googles-new-chromium-web-browser-restrictions/
+  AptInstallOp("chromium-browser")() # For web-dev only, don't let it be default browser
   AptInstallOp("discord",
     debUrl="https://discord.com/api/download?platform=linux&format=deb")()
   AptInstallOp("dos2unix")()
   AptInstallOp("ffmpeg")() # Required for obs
+  AptInstallOp("firefox")()
   AptInstallOp("flameshot")()
   AptInstallOp("insomnia",
     addKey="https://insomnia.rest/keys/debian-public.key.asc",
