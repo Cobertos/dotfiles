@@ -76,11 +76,14 @@ def bootstrap(opts):
   SymLinkOp(env(f"{scriptDir}/git/.gitconfig"), f"{userHome}/.gitconfig")()
   SymLinkOp(env(f"{scriptDir}/git/.gitignore"), f"{userHome}/.gitignore")()
 
-  # Promnesia
+  # HPI/Promnesia
   PipInstallGlobalOp("promnesia")()
   PipInstallGlobalOp("promnesia[optional]")()
   PipInstallGlobalOp("promnesia[markdown]")()
   SymLinkOp(env(f"{scriptDir}/promnesia/config.py"), f"{userHome}/.config/promnesia/config.py")()
+  SymLinkOp(env(f"{scriptDir}/hpi/config"), f"{userHome}/.config/my/my/config")()
+
+
 
   # Bash - We generate an absolute path to the cobertos.bashrc and source it.
   # this file is what gets symlinked as .bashrc
