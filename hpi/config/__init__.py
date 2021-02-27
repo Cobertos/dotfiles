@@ -14,3 +14,16 @@ class reddit:
   python3 -m rexport.export --secrets ~/.hpi-reddit-secrets.py >"${HOME}/Seafile/archive/ExportedServiceData/reddit/export-$(date -I).json"
   '''
   export_path: Paths = '/home/cobertos/Seafile/archive/ExportedServiceData/reddit/'
+
+# class commits:
+# '''
+# local Filesystem git repo commits
+# From https://github.com/karlicoss/HPI/blob/master/my/coding/commits.py (search 'config')
+# '''
+#   # TODO: Use the output of `find ~/Seafile/projects/*/*.git` (Basically, all non-forked or whatever else projects, also make sure to check repo and repository!)
+#   roots: Paths = []
+#   emails: List = ['me@cobertos.com', 'me+git@cobertos.com', 'minimalist37@gmail.com']
+#   names: List = []
+
+# class my.github.gdpr
+# class my.github.ghexport
