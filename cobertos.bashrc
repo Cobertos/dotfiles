@@ -50,26 +50,35 @@ source ${cobconf}/default.sh
 
 # Tools
 findcode() {
-  # Finds string in code files path or contents
-  # Old Iterations
-  #grep --exclude-dir={node_modules,.git,dist,FORKED,venv,Library,_nuxt} --exclude={*.min.js,*.js.map,*-lock.json,*.fbx} -RnI ~/Seafile/projects -e "$1"
-  # TODO: Maybe use .gitignore with git check-ignore?
-  # https://unix.stackexchange.com/questions/358270/find-files-that-are-not-in-gitignore
+  # Finds string in all code files path or contents
+  # egrep -I is don't match binary data
+  fdfind . ~/Seafile/projects \
+    --type f \
+    --exclude '*{.min.js,.js.map,-lock.json,.fbx,.dll,.exe,.mp4,.png,.jpg,.jpeg,.kra,.pdn,.zip,.7z,.meta,.gif,.tif,.tiff,.ogg,.svg}' \
+    --exclude '{FORKED,reveal.js-dependencies}' \
+      | xargs -d '\n' egrep --color --line-number -I "$1"
+
+  # Then just look at filenames
+  fdfind "$1" ~/Seafile/projects \
+    --exclude '{FORKED,reveal.js-dependencies}'
+
+  # Old iteration - find + xargs egrep
   # Prune sections will prune those subtrees from search but always evaluate to false
-  find ~/Seafile/projects \
-    -type d \( \
-      -name node_modules -o -name .git -o -name .pytest_cache -o -name dist -o \
-      -name __pycache__ -o -name FORKED -o -name venv -o -name Library -o -name _nuxt -o \
-      -name reveal.js-dependencies -o -name .nuxt -o -path dotfiles/deps \
-    \) -prune -false -o \
-    -type f -a -not \( \
-      -name '*.min.js' -o -name '*.js.map' -o -name '*-lock.json' -o -name '*.fbx' -o \
-      -name '*.dll' -o -name '*.exe' -o -name '*.mp4' -o -name '*.png' -o -name '*.jpg' -o \
-      -name '*.jpeg' -o -name '*.kra' -o -name '*.pdn' -o -name '*.zip' -o -name '*.7z' -o \
-      -name '*.meta' -o -name '*.gif' -o -name '*.tif' -o -name '*.ogg' \
-    \) | xargs -d '\n' egrep -n "$1"
-    #-type f -exec egrep -l "$1" '{}' + -print
-    #-type f -path "*$1*" -o \
+  # find ~/Seafile/projects \
+  #   -type d \( \
+  #     -name node_modules -o -name .git -o -name .pytest_cache -o -name dist -o \
+  #     -name __pycache__ -o -name FORKED -o -name venv -o -name Library -o -name _nuxt -o \
+  #     -name reveal.js-dependencies -o -name .nuxt -o -path dotfiles/deps \
+  #   \) -prune -false -o \
+  #   -type f -a -not \( \
+  #     -name '*.min.js' -o -name '*.js.map' -o -name '*-lock.json' -o -name '*.fbx' -o \
+  #     -name '*.dll' -o -name '*.exe' -o -name '*.mp4' -o -name '*.png' -o -name '*.jpg' -o \
+  #     -name '*.jpeg' -o -name '*.kra' -o -name '*.pdn' -o -name '*.zip' -o -name '*.7z' -o \
+  #     -name '*.meta' -o -name '*.gif' -o -name '*.tif' -o -name '*.ogg' \
+  #   \) | xargs -d '\n' egrep -n "$1"
+
+  # Old iteration - grep
+  # grep --exclude-dir={node_modules,.git,dist,FORKED,venv,Library,_nuxt} --exclude={*.min.js,*.js.map,*-lock.json,*.fbx} -RnI ~/Seafile/projects -e "$1"
 }
 findnotes() {
   grep --include={*.md,*.csv,*.pdf} -RnI ~/Seafile/notes -e "$1"
