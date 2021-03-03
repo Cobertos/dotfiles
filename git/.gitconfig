@@ -1,7 +1,12 @@
 [user]
-    name = cobertos
-    email = me+git@cobertos.com
+  name = cobertos
+  email = me+git@cobertos.com
 [core]
-    excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore
 [init]
-    defaultBranch = owo
+  defaultBranch = owo
+
+# Convert typora.data from hex to ascii (it's just json -> hex) for viewing in
+# diffs and such, but isn't something that will be in the saved format-patch
+[diff "typora"]
+  textconv="xxd -r -p"
