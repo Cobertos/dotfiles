@@ -24,6 +24,7 @@ alias gitkcon='git log --all --decorate --oneline --graph'
 
 alias explr="nemo"
 alias lclip="xclip -selection clipboard"
+alias dos2unix="dos2unix --keepdate"
 
 # Windows: ConEmu Integration
 if [[ -n "${ConEmuPID}" ]]; then
