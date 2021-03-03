@@ -1,0 +1,2 @@
+/* Hide the top tabs, we usin' tree tabs on the sidebar*/
+#TabsToolbar { visibility: collapse !important; }

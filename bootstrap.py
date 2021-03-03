@@ -4,6 +4,7 @@ import os
 import platform
 import subprocess
 import logging
+import glob
 from df.utils import getEnvironmentFilePath, getUserHome
 from df.SymLinkOp import SymLinkOp
 from df.RemoveFileOp import RemoveFileOp
@@ -83,6 +84,18 @@ def bootstrap(opts):
   SymLinkOp(env(f"{scriptDir}/promnesia/config.py"), f"{userHome}/.config/promnesia/config.py")()
   SymLinkOp(env(f"{scriptDir}/hpi/config"), f"{userHome}/.config/my/my/config")()
 
+  # Firefox
+  AptInstallOp("firefox")()
+  firefoxConfigPathProfileMatches = glob.glob(f"{userHome}/.mozilla/firefox/*.default-release")
+  if not firefoxConfigPathProfileMatches:
+    print("No firefox profiles found!")
+    #TODO: Maybe this should fail?
+    #TODO: Maybe this should fail if more than one?
+  else:
+    firefoxConfigPathProfile = firefoxConfigPathProfileMatches[0]
+    print(f"Firefox profile at '{firefoxConfigPathProfile}'")
+    SymLinkOp(env(f"{scriptDir}/firefox/userChrome.css"), f"{firefoxConfigPathProfile}/chrome/userChrome.css")()
+    SymLinkOp(env(f"{scriptDir}/firefox/user.js"), f"{firefoxConfigPathProfile}/user.js")()
 
 
   # Bash - We generate an absolute path to the cobertos.bashrc and source it.
@@ -130,7 +143,6 @@ source {cobertosRCPath}/cobertos.bashrc
     debUrl="https://discord.com/api/download?platform=linux&format=deb")()
   AptInstallOp("dos2unix")()
   AptInstallOp("ffmpeg")() # Required for obs
-  AptInstallOp("firefox")()
   AptInstallOp("flameshot")()
   AptInstallOp("insomnia",
     addKey="https://insomnia.rest/keys/debian-public.key.asc",
