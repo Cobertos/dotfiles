@@ -25,6 +25,8 @@ alias gitkcon='git log --all --decorate --oneline --graph'
 alias explr="nemo"
 alias lclip="xclip -selection clipboard"
 alias dos2unix="dos2unix --keepdate"
+# Show model and serial by default
+alias lsblk="lsblk -o name,mountpoint,model,size,type,ro,rm,maj:min"
 
 # Windows: ConEmu Integration
 if [[ -n "${ConEmuPID}" ]]; then
