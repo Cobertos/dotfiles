@@ -12,6 +12,7 @@
 		"Emoji",
 		"Git blame",
 		"HexViewer",
+		"INI",
 		"JsFormat",
 		"MarkdownPreview",
 		"Package Control",
@@ -24,6 +25,7 @@
 		"SublimeLinter-eslint",
 		"SublimeLinter-json",
 		"Tabnine",
-		"Vue Syntax Highlight"
+		"Vue Syntax Highlight",
+		"Zig Language"
 	]
 }

@@ -9,6 +9,11 @@
 	[
 		"html.erb"
 	],
+	"INI":
+	[
+		".npmrc",
+		"ini.dist"
+	],
 	"JSON":
 	[
 		".bowerrc",

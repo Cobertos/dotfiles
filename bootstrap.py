@@ -165,6 +165,10 @@ source {cobertosRCPath}/cobertos.bashrc
     addRepo='ppa:linuxgndu/sqlitebrowser')()
   AptInstallOp("vlc")()
   AptInstallOp("xclip")()
+  # TODO: Package manager is 0.6.0, and I'd prefer to get 0.7.1 (master) rn...
+  # AptInstallOp("zig",
+  #   addKey='https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x379ce192d401ab61',
+  #   addRepo='deb https://dl.bintray.com/dryzig/zig-ubuntu focal main')()
 
   #Other
   SymLinkOp(env(f"{scriptDir}/.vuerc"), f"{userHome}/.vuerc")()

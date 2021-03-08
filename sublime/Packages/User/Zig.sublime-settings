@@ -1,0 +1,4 @@
+// These settings override both User and Default settings for the Zig syntax
+{
+  "zig.fmt.on_save": false
+}
