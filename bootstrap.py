@@ -122,6 +122,7 @@ source {cobertosRCPath}/cobertos.bashrc
   PipXInstallGlobalOp("yamllint")()   # Dependency for Sublime Linter
   PipXInstallGlobalOp("grip")()       # Tool - Markdown preview for GitHub
   PipXInstallGlobalOp("pipenv")()
+  PipXInstallGlobalOp("pylint")()
   #PipXInstallGlobalOp("awscli")()
 
   # PipInstallGlobal("pyenv-win")("--target", f"{userHome}/.pyenv") #This package is annoying...

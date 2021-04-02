@@ -24,6 +24,7 @@
 		"SublimeLinter-contrib-yamllint",
 		"SublimeLinter-eslint",
 		"SublimeLinter-json",
+		"SublimeLinter-pylint",
 		"Tabnine",
 		"Vue Syntax Highlight",
 		"Zig Language"
