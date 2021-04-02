@@ -4,6 +4,9 @@ from .DFOp import DFOp
 
 npmRoot = None
 class NpmInstallGlobalOp(DFOp):
+  '''
+  Runs an npm install -g, runs asdf reshim after as well
+  '''
   @staticmethod
   def npmRoot():
     global npmRoot

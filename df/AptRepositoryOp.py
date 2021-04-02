@@ -3,8 +3,10 @@ import subprocess
 import requests
 from .DFOp import DFOp
 
-npmRoot = None
 class AptRepositoryOp(DFOp):
+  '''
+  Adds an apt repository
+  '''
   def __init__(self, repository):
     super().__init__()
     self.repository = repository

@@ -3,8 +3,10 @@ import subprocess
 import requests
 from .DFOp import DFOp
 
-npmRoot = None
 class AptKeyOp(DFOp):
+  '''
+  Adds a signing key with apt-key
+  '''
   def __init__(self, keyLocation):
     super().__init__()
     self.keyLocation = keyLocation

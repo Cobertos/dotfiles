@@ -1,7 +1,10 @@
-from .DFOp import DFOp
 import os
+from .DFOp import DFOp
 
 class EnsureDirectoryOp(DFOp):
+  '''
+  Ensures a directory exists at the given path
+  '''
   def __init__(self, path):
     super().__init__()
     self.path = path

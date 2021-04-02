@@ -1,7 +1,10 @@
-from .DFOp import DFOp
 import os
+from .DFOp import DFOp
 
 class RemoveFileOp(DFOp):
+  '''
+  Removes a file
+  '''
   def __init__(self, path):
     super().__init__()
     self.path = path
@@ -13,5 +16,5 @@ class RemoveFileOp(DFOp):
     return os.path.exists(self.path) and os.path.isfile(self.path)
 
   def forceExecute(self):
-  	# TODO: What if the removal requires superuser?
+    # TODO: What if the removal requires superuser?
     os.remove(self.path)

@@ -6,8 +6,11 @@ from .DFOp import DFOpGroup
 from .AptKeyOp import AptKeyOp
 from .AptRepositoryOp import AptRepositoryOp
 
-npmRoot = None
 class AptInstallOp(DFOpGroup):
+  '''
+  Runs an apt install of a package
+  Can optionally add a key and package repository too
+  '''
   def __init__(self, packageName, addKey=None, addRepo=None, debUrl=None):
     super().__init__()
     self.packageName = packageName

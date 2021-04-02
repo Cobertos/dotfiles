@@ -1,3 +1,7 @@
+'''
+Bootstraps the machine with my dotfiles environment
+'''
+
 import argparse
 import sys
 import os
@@ -12,16 +16,19 @@ from df.NpmInstallGlobalOp import NpmInstallGlobalOp
 from df.PipInstallGlobalOp import PipInstallGlobalOp, PipXInstallGlobalOp
 from df.DFOp import DFOp, DFOpLoggingFormatter
 from df.AptInstallOp import AptInstallOp
-from df.AptKeyOp import AptKeyOp
-from df.AptRepositoryOp import AptRepositoryOp
 
 scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
 userHome = getUserHome()
 
 def ni():
+  '''Raises NotImplementedError'''
   raise NotImplementedError
 
 def bootstrap(opts):
+  '''
+  Given opts (.environment, .verify_only), runs through all the operations to
+  bootstrap the machine
+  '''
   global scriptDir, userHome
   #appData = os.environ["APPDATA"]
   env = lambda p: getEnvironmentFilePath(p, opts.environment)
@@ -202,4 +209,4 @@ if __name__ == '__main__':
   if platform.system() == "Windows" and not opts.verify_only:
     #If we don't do this, then the next time we run setup.py we won't see any of the
     #system wide environment variable changes in the same shell
-    subprocess.run([f"{scriptDir}/onpath/refreshenv.cmd"]) #Will print out that it's refreshing environment variables
+    subprocess.run([f"{scriptDir}/onpath/refreshenv.cmd"], check=True) #Will print out that it's refreshing environment variables

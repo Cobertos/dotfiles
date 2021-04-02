@@ -1,9 +1,11 @@
 import sys
 import subprocess
-import sys
 from .DFOp import DFOp, DFOpGroup
 
 class PipInstallGlobalOp(DFOp):
+  '''
+  Runs a pip install --user, checks to make sure not in a venv
+  '''
   def __init__(self, packageName):
     super().__init__()
     self.packageName = packageName
@@ -31,6 +33,7 @@ class PipInstallGlobalOp(DFOp):
 
   def forceExecute(self, *args):
     # Use the --user directory, makes it so we don't need root
+    # TODO: Fix pipExecutable
     subprocess.run([pipExecutable, 'install', '--user', self.packageName, *args], check=True)
 
     # If asdf is installed, perform a reshim

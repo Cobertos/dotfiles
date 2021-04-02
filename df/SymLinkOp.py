@@ -5,6 +5,10 @@ from .DFOp import DFOpGroup
 from .EnsureDirectoryOp import EnsureDirectoryOp
 
 class SymLinkOp(DFOpGroup):
+  '''
+  Creates a symlink at path, pointing to target
+  Will prompt if something already exists at the target
+  '''
   def __init__(self, target, path):
     super().__init__()
     #Determine which target to use based on environment
@@ -24,7 +28,7 @@ class SymLinkOp(DFOpGroup):
     if not isLink:
       #logger.log(f"Path was not a link")
       return True
-    
+
     linkResolved = Path(self.path).resolve()
     isLinkedProperly = os.path.normpath(str(linkResolved)) == os.path.normpath(self.target)
     #if not isLinkedProperly:
@@ -44,12 +48,12 @@ class SymLinkOp(DFOpGroup):
         os.symlink(self.target, self.path)
       except FileExistsError as e:
         print(e)
-        if input(f"File to symlink already exists, delete? y/N ") == 'y':
+        if input("File to symlink already exists, delete? y/N ") == 'y':
           if os.path.isfile(self.path):
             os.remove(self.path)
           elif os.path.isdir(self.path):
             shutil.rmtree(self.path)
           else:
-            raise RuntimeError("Path was not a file or directory")
+            raise RuntimeError("Path was not a file or directory") from e
         else:
           return

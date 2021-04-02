@@ -61,10 +61,10 @@ class DFOp:
       return
 
     # Don't show None tests
-    if needsExecute != None:
+    if needsExecute is not None:
       self.logger.debug("Op needs execute", extra=extra('ne', needsExecute))
 
-    if needsExecute == False or (DFOp.verifyOnly and needsExecute != None):
+    if needsExecute is False or (DFOp.verifyOnly and needsExecute is not None):
       self.logger.debug("Leave op", extra=extra('end'))
       return #Only verifying (and test is not None) or it doesn't need execute
 
@@ -76,7 +76,7 @@ class DFOp:
       self.logger.debug("Leave op", extra=extra('end'))
       return
 
-    if needsExecute != None:
+    if needsExecute is not None:
       self.logger.debug("Succeed op", extra=extra('succeed'))
     self.logger.debug("Leave op", extra=extra('end'))
 
