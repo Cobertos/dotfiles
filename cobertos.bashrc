@@ -22,11 +22,12 @@ alias gitcc="git --git-dir=${cobconf}/.git --work-tree=${cobconf}"
 # Git aliases
 alias gitkcon='git log --all --decorate --oneline --graph'
 
-alias explr="nemo"
-alias lclip="xclip -selection clipboard"
+alias xclip="xclip -selection clipboard"
 alias dos2unix="dos2unix --keepdate"
 # Show model and serial by default
 alias lsblk="lsblk -o name,mountpoint,model,size,type,ro,rm,maj:min"
+alias dmesgless="dmesg --color=always | less -R"
+alias hotplug="sudo -E env "PATH=$PATH" python ${cobconf}/scripts/hotplug.py" #TODO: Doesn't work, have to copy paste...
 
 # Windows: ConEmu Integration
 if [[ -n "${ConEmuPID}" ]]; then
