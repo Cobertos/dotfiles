@@ -50,6 +50,10 @@ source "${cobconf}/deps/z/z.sh"
 
 # Other stuff, default with Linux Mint, slightly modified
 source ${cobconf}/default.sh
+# Secrets to not save to github
+if [[ -f "${cobconf}/secrets.sh" ]]; then
+  source ${cobconf}/secrets.sh
+fi
 
 # Tools
 findcode() {
