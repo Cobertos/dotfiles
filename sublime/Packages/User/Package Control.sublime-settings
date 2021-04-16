@@ -25,7 +25,9 @@
 		"SublimeLinter-eslint",
 		"SublimeLinter-json",
 		"SublimeLinter-pylint",
+		"Sync View Scroll",
 		"Tabnine",
+		"Terminus",
 		"Vue Syntax Highlight",
 		"Zig Language"
 	]
