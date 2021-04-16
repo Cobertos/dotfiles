@@ -147,6 +147,9 @@ source {cobertosRCPath}/cobertos.bashrc
   # Might switch to just Chrome, cause Mint is one of the only ones that looks to have this for the forseeable future
   # https://www.zdnet.com/article/linux-distributors-frustrated-by-googles-new-chromium-web-browser-restrictions/
   AptInstallOp("chromium-browser")() # For web-dev only, don't let it be default browser
+  AptInstallOp("dbeaver-ce",
+    addKey="https://dbeaver.io/debs/dbeaver.gpg.key",
+    addRepo="ppa:serge-rider/dbeaver-ce")()
   AptInstallOp("discord",
     debUrl="https://discord.com/api/download?platform=linux&format=deb")()
   AptInstallOp("dos2unix")()
