@@ -20,7 +20,7 @@ cobsetup () {
 alias gitcc="git --git-dir=${cobconf}/.git --work-tree=${cobconf}"
 
 # Git aliases
-alias gitkcon='git log --all --decorate --oneline --graph'
+alias gitkcon="git log --all --decorate --graph --date=short --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s'"
 
 alias xclip="xclip -selection clipboard"
 alias dos2unix="dos2unix --keepdate"
