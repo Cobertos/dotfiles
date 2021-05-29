@@ -61,7 +61,7 @@ findcode() {
   # egrep -I is don't match binary data
   fdfind . ~/Seafile/projects \
     --type f \
-    --exclude '*{.min.js,.js.map,-lock.json,.fbx,.dll,.exe,.mp4,.png,.jpg,.jpeg,.kra,.pdn,.zip,.7z,.meta,.gif,.tif,.tiff,.ogg,.svg}' \
+    --exclude '*{.min.js,.js.map,.css.map,.min.css,-lock.json,.fbx,.dll,.exe,.mp4,.png,.jpg,.jpeg,.kra,.pdn,.zip,.7z,.meta,.gif,.tif,.tiff,.ogg,.svg}' \
     --exclude '{FORKED,reveal.js-dependencies}' \
       | xargs -d '\n' egrep --color --line-number -I "$1"
 
