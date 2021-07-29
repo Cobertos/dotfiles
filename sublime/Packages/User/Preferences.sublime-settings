@@ -5,15 +5,15 @@
 	[
 		{
 			"characters": ".(){}[],'\"=<>/\\+-|&*%=$#@! ",
-			"selector": "source.python"
+			"selector": "source.python",
 		},
 		{
 			"characters": ":.(){}[],'\"=<>/\\+-|&*%=$#@! ",
-			"selector": "source & - source.python - constant.numeric"
+			"selector": "source & - source.python - constant.numeric",
 		},
 		{
 			"characters": " qazwsxedcrfvtgbyhnujmikolpQAZWSXEDCRFVTGBYHNUJMIKOLP",
-			"selector": "text"
+			"selector": "text",
 		}
 	],
 	"auto_match_enabled": false,
@@ -30,7 +30,7 @@
 	"font_size": 9,
 	"ignored_packages":
 	[
-		"Vintage"
+		"Vintage",
 	],
 	"margin": 0,
 	"rulers":
@@ -42,5 +42,5 @@
 	"show_line_endings": true,
 	"tab_size": 2,
 	"theme": "Adaptive.sublime-theme",
-	"translate_tabs_to_spaces": true
+	"translate_tabs_to_spaces": true,
 }

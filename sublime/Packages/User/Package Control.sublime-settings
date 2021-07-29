@@ -30,6 +30,6 @@
 		"Terminus",
 		"TOML",
 		"Vue Syntax Highlight",
-		"Zig Language"
-	]
+		"Zig Language",
+	],
 }

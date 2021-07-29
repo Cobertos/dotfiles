@@ -2,9 +2,9 @@
 	"extensions":
 	[
 		".gemrc",
-		"yml",
+		"YAML-tmLanguage",
 		"yml.dist",
-		"YAML-tmLanguage"
+		"yml",
 	],
-	"word_wrap": true
+	"word_wrap": true,
 }
