@@ -20,6 +20,7 @@ from df.SymLinkOp import SymLinkOp
 print = partial(print, flush=True)
 
 nvidiaPCIAddress = '/sys/bus/pci/devices/0000:3a:00.0'
+#nvidiaPCIAddress = '/sys/bus/pci/devices/0000:06:00.0'
 
 thunderboltPCIAddresses = [
   # Graphics card
