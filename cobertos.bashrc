@@ -65,8 +65,8 @@ findcode() {
     --exclude '{FORKED,reveal.js-dependencies}' \
       | xargs -d '\n' egrep --color --line-number -I "$1"
 
-  # Then just look at filenames
-  fdfind "$1" ~/Seafile/projects \
+  # Then just look at filenames (-H including hidden)
+  fdfind -H "$1" ~/Seafile/projects \
     --exclude '{FORKED,reveal.js-dependencies}'
 
   # Old iteration - find + xargs egrep
