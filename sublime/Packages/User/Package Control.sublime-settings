@@ -6,6 +6,7 @@
 	"installed_packages":
 	[
 		"ApplySyntax",
+		"Babel",
 		"Color Highlight",
 		"Discord Rich Presence",
 		"Dockerfile Syntax Highlighting",
