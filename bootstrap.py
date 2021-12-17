@@ -153,6 +153,7 @@ source {cobertosRCPath}/cobertos.profile
   # TODO: Ripcord, only provides an AppImage
   # TODO: Need a media player
   AptInstallOp("p7zip-full")()
+  AptInstallOp("android-sdk")() # Android platform-tools
   # Some issues with this chromium being available into the future?
   # Might switch to just Chrome, cause Mint is one of the only ones that looks to have this for the forseeable future
   # https://www.zdnet.com/article/linux-distributors-frustrated-by-googles-new-chromium-web-browser-restrictions/
@@ -177,9 +178,9 @@ source {cobertosRCPath}/cobertos.profile
     addRepo='deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/focal/ stable main')()
   AptInstallOp("slack-desktop",
     debUrl="https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb")() #TODO: Find a latest deb, if Slack provides it
-  # AptInstallOp("signal-desktop",
-  #   addKey='https://updates.signal.org/desktop/apt/keys.asc',
-  #   addRepo='https://updates.signal.org/desktop/apt xenial main')()
+  AptInstallOp("signal-desktop",
+    addKey='https://updates.signal.org/desktop/apt/keys.asc',
+    addRepo='deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main')()
   AptInstallOp("spotify-client",
     addKey='https://download.spotify.com/debian/pubkey_0D811D58.gpg',
     addRepo='deb http://repository.spotify.com stable non-free')()
