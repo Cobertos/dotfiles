@@ -1,9 +1,10 @@
 // SublimeLinter Settings - User
 {
-    "linters": {
-        "eslint": {
-            "executable": "eslint_d",
-            "selector": "text.html.vue, source.js - meta.attribute-with-value"
-        }
+  "debug": true,
+  "linters": {
+    "eslint": {
+      "executable": "eslint_d",
+      "selector": "source.js, source.jsx, source.ts, source.tsx"
     }
+  }
 }
