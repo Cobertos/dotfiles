@@ -1,0 +1,37 @@
+
+asl/
+brushes/*
+!brushes/PP-*
+
+bundles/*
+!bundles/Paolo_*
+
+color-schemes/
+gamutmasks/
+gradients/
+layerstyles/
+paintoppresets/*
+!paintoppresets/puggioni*
+!paintoppresets/f)_*
+
+#Todo we should have cobertos.com palette in here...
+palettes/
+
+patterns/
+preset_icons/
+pykrita/
+seexpr_scripts/
+sessions/
+symbols/
+#tags/
+taskset/
+tasksets/
+workspaces/*
+!workspaces/Cobertos Tools.kws
+
+windowlayouts/
+
+Krita_*
+KRITA_*
+*.sqlite
+*.bundle
