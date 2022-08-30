@@ -126,11 +126,11 @@ source {cobertosRCPath}/cobertos.profile
   SymLinkOp(f"{scriptDir}/.profile", f"{userHome}/.profile")()
 
   # Npm
-  NpmInstallGlobalOp("@vue/cli")()    # Tool
-  NpmInstallGlobalOp("serverless")()  # Tool
+  #NpmInstallGlobalOp("@vue/cli")()    # Tool
+  #NpmInstallGlobalOp("serverless")()  # Tool
   NpmInstallGlobalOp("eslint_d")()    # Dependency for Sublime Linter
   NpmInstallGlobalOp("js-yaml")()     # Tool
-  NpmInstallGlobalOp("lerna")()     # Tool
+  NpmInstallGlobalOp("lerna")()       # Tool
   # TODO:
   # Ability to use global packages in require() with NODE_PATH
   # Should work with NVM https://stackoverflow.com/a/49293370/2759427

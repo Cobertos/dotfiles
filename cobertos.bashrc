@@ -48,6 +48,10 @@ source "${cobconf}/deps/completions/asdf.bash"
 # https://github.com/rupa/z
 source "${cobconf}/deps/z/z.sh"
 
+# flyctl - TODO: Add to bootstrap.py
+export FLYCTL_INSTALL="/home/cobertos/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
 # Other stuff, default with Linux Mint, slightly modified
 source ${cobconf}/default.sh
 # Secrets to not save to github
