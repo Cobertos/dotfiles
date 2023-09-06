@@ -40,6 +40,7 @@ def bootstrap(opts):
   # Only needed on windows, in Linux we're just putting everything in .bashrc/
   # shell scripts for now...
   # AddToPath(f"{scriptDir}/onpath")()
+  # asdf, though it was currently installed manually
 
   # Fonts
   fontsPath = f"{userHome}/.local/share/fonts" if platform.system() != "Windows" else ni()
@@ -74,9 +75,9 @@ def bootstrap(opts):
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), f"{typoraConfigPath}/conf/conf.user.json")() # Advanced settings
 
   # Krita
-  AptInstallOp("krita",
+  #AptInstallOp("krita",
     # Krita official PPA
-    addRepo='ppa:kritalime/ppa')()
+  #  addRepo='ppa:kritalime/ppa')()
   kritaHomePath = f"{userHome}/.local/share/krita" if platform.system() != "Windows" else ni()
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/krita"), kritaHomePath)()
 
@@ -86,11 +87,11 @@ def bootstrap(opts):
   SymLinkOp(env(f"{scriptDir}/git/.gitignore"), f"{userHome}/.gitignore")()
 
   # HPI/Promnesia
-  PipInstallGlobalOp("promnesia")()
-  PipInstallGlobalOp("promnesia[optional]")()
-  PipInstallGlobalOp("promnesia[markdown]")()
-  SymLinkOp(env(f"{scriptDir}/promnesia/config.py"), f"{userHome}/.config/promnesia/config.py")()
-  SymLinkOp(env(f"{scriptDir}/hpi/config"), f"{userHome}/.config/my/my/config")()
+  #PipInstallGlobalOp("promnesia")()
+  #PipInstallGlobalOp("promnesia[optional]")()
+  #PipInstallGlobalOp("promnesia[markdown]")()
+  #SymLinkOp(env(f"{scriptDir}/promnesia/config.py"), f"{userHome}/.config/promnesia/config.py")()
+  #SymLinkOp(env(f"{scriptDir}/hpi/config"), f"{userHome}/.config/my/my/config")()
 
   # Firefox
   AptInstallOp("firefox")()
@@ -152,9 +153,8 @@ source {cobertosRCPath}/cobertos.profile
 
   # Misc Packages
   # TODO: Ripcord, only provides an AppImage
-  # TODO: Need a media player
   AptInstallOp("p7zip-full")()
-  AptInstallOp("android-sdk")() # Android platform-tools
+  #AptInstallOp("android-sdk")() # Android platform-tools
   # Some issues with this chromium being available into the future?
   # Might switch to just Chrome, cause Mint is one of the only ones that looks to have this for the forseeable future
   # https://www.zdnet.com/article/linux-distributors-frustrated-by-googles-new-chromium-web-browser-restrictions/
@@ -195,6 +195,10 @@ source {cobertosRCPath}/cobertos.profile
   # AptInstallOp("zig",
   #   addKey='https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x379ce192d401ab61',
   #   addRepo='deb https://dl.bintray.com/dryzig/zig-ubuntu focal main')()
+
+  #Desktop Files
+  SymLinkOp(env(f"{scriptDir}/desktop/obsidian.desktop"), f"{userHome}/.local/share/applications/obsidian.desktop")()
+
 
   #Other
   SymLinkOp(env(f"{scriptDir}/.vuerc"), f"{userHome}/.vuerc")()

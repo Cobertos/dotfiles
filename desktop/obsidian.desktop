@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Obsidian
+Exec=/home/cobertos/bin/Obsidian-1.3.4.AppImage %u
+Terminal=false
+Type=Application
+StartupWMClass=obsidian
+X-AppImage-Version=1.3.4
+Comment=Obsidian
+Categories=Office;
+MimeType=text/html;x-scheme-handler/obsidian;
