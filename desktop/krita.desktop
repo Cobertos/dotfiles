@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Krita
+Icon=krita
+Exec=/home/cobertos/bin/krita-5.1.5-x86_64.appimage %F
+StartupNotify=true
+Terminal=false
+Type=Application
+StartupWMClass=krita
+X-AppImage-Version=5.1.5
+Comment=Digital Painting
+Categories=Qt;KDE;Office;Graphics;
+MimeType=application/x-krita;image/openraster;application/x-krita-paintoppreset;

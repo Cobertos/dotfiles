@@ -198,7 +198,7 @@ source {cobertosRCPath}/cobertos.profile
 
   #Desktop Files
   SymLinkOp(env(f"{scriptDir}/desktop/obsidian.desktop"), f"{userHome}/.local/share/applications/obsidian.desktop")()
-
+  SymLinkOp(env(f"{scriptDir}/desktop/krita.desktop"), f"{userHome}/.local/share/applications/krita.desktop")()
 
   #Other
   SymLinkOp(env(f"{scriptDir}/.vuerc"), f"{userHome}/.vuerc")()
