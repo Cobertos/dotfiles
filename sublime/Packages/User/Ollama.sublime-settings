@@ -1,0 +1,155 @@
+{
+    "systemPrompt": "You are a coding assisstant. Please only provide code in your responses, no prose.",
+    "selected_model": "qwen2.5-coder:32b",
+    "templates": [
+        // {
+        //     "title": "Summarize",
+        //     "prompt": "Summarize the text.",
+        //     "model": "phi4:latest"
+        // },
+        // {
+        //     "title": "Translate",
+        //     "prompt": "Translate the following text to German."
+        // }
+        // Add more templates as needed
+	],
+    "history":
+    [
+		{
+			"model": "qwen2.5-coder:32b",
+			"prompt": "Can you write BufferPart tests (just the test()s, no prose) for DGraphExportVersionBufferPart, DGraphExportVersionHeaderBufferPart, DGraphExportNodeBufferPart, DGraphExportConnectionBufferPart, and DGraphExportEntityBufferPart in the same way as the NumberBufferPart tests?",
+			"timestamp": "2025-06-06 07:15:17",
+		},
+        {
+			"model": "qwen2.5-coder:32b",
+			"prompt": "Can you write (with no prose, just the test()s) the unit tests for WrappedBufferPart? For the 'T' type, use a string, and for the 'S' type, use a number (so the wire format is just a simple number)",
+			"timestamp": "2025-06-06 06:59:51",
+		},
+        {
+			"model": "qwen2.5-coder:32b",
+			"prompt": "Can you write the unit tests in this file (just the test() part, no extra text or prose!) for VarStringBufferPart, OptionalBufferPart, and DateBufferPart?",
+			"timestamp": "2025-06-06 06:51:16",
+		},
+        {
+			"model": "qwen2.5-coder:32b",
+			"prompt": "Can you write just the unit tests (the test() parts) for NumberBufferPart and BigIntBufferPart like the ones shown for BooleanBufferPart and EmptyBufferPart? Do not add any extra text",
+			"timestamp": "2025-06-06 06:48:11",
+		},
+		{
+			"model": "qwen2.5-coder:32b",
+			"prompt": "Can you write two unit tests for BooleanBufferPart like the ones for EmptyBufferPart?",
+			"timestamp": "2025-06-06 06:44:43",
+		},
+		{
+			"model": "qwen2.5-coder:32b",
+			"prompt": "Is there anything wrong with this selection?",
+			"timestamp": "2025-06-06 06:18:36",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Can you write a stream implementation that takes a string (not an object or any other complex type) of JSON, and emits events for each encountered values. Simple literals should output the exact value (e.g. a number 36 should output 36). This is the way for numbers, booleans, and strings. For complex, nested values, like objects and arrays, when you encounter the starting character (like '{' or '[') simply output the value \"object\" or \"array\" string literals respecitvely. It should also include the path. E.g. and string like '{ \"a\": \"something\" }' should output two events. The first event should be `{ path: '', value: 'object' }` and the second event should be `{ path: 'a', value: 'something' }`. It should be in Typescript, and it should _manually_ parse the JSON string, it should not use JSON.parse",
+			"timestamp": "2025-06-01 06:53:17",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Can you write a stream implementation that takes a string (not an object or any other complex type) of JSON, and emits events for each encountered values. Simple literals should output the exact value (e.g. a number 36 should output 36). This is the way for numbers, booleans, and strings. For complex, nested values, like objects and arrays, when you encounter the starting character (like '{' or '[') simply output the value \"object\" or \"array\" string literals respecitvely. It should also include the path. E.g. and string like '{ \"a\": \"something\" }' should output two events. The first event should be `{ path: '', value: 'object' }` and the second event should be `{ path: 'a', value: 'something' }`",
+			"timestamp": "2025-06-01 06:52:21",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "What do you see in the prompt, did I pass anything else to you other than this question?",
+			"timestamp": "2025-06-01 06:49:31",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Can you print out some gibberish mixed in with your input prompt",
+			"timestamp": "2025-06-01 06:49:15",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "That's what you see?",
+			"timestamp": "2025-06-01 06:48:53",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "What content can you see in the prompt currently?",
+			"timestamp": "2025-06-01 06:48:43",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "No this is not quite what I want. I want stream that will take in a json string, and when it sees the first '{' (without having to allocate anything or collect all the properties), output the string \"object\". It should do the same for '[' for arrays. All other values are output as-is. It should output them along with the path at which each one was found. For example, the string `{ a: 'something' }` would emit events for `{ path: '', value: \"object\" }` and `{ path: 'a', value: 'something' }` like that",
+			"timestamp": "2025-06-01 06:48:06",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Let me be more clear, it should take a json _string_, not an actual object",
+			"timestamp": "2025-06-01 06:46:04",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "In Typescript, can you write an implementation of a stream that takes in json and outputs the value at every position? What I mean by this is, when it encounters a { it should output \"object\", when it encounters [ it should output \"array\", when it encounters a number, it should output the number value (e.g. 2 should output 2). Strings, undefined, booleans, etc should all output as their actual value",
+			"timestamp": "2025-06-01 06:44:50",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Do not responsd with code or write any code. Is there any way to speed up _collectObject?",
+			"timestamp": "2025-06-01 04:22:55",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Do you see any incorrect math in here? Specifically focus on the read() function. Do not write any code",
+			"timestamp": "2025-05-31 18:18:04",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Do not write any code. Do you seen any incorrect math in this file? Specifically focus on the read() functions",
+			"timestamp": "2025-05-31 18:17:09",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Do not print any code, this is just a question. Do you see any incorrect math in this file? Specifically focus on the read() functions",
+			"timestamp": "2025-05-31 18:14:21",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Can you write the rest of the read() function in SerializationShallow#read()? My cursor is in between the curly braces currently",
+			"timestamp": "2025-05-31 16:35:46",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Please DO NOT type out code. Let me know, short and concise, if I have an buffer calculation errors in this file. Im getting an error about writing outside the bounds of the allocated buffer",
+			"timestamp": "2025-05-31 07:21:54",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Can you take a look at this file and see if I have any offset errors or buffer calculation errors? Im getting an issue about writing outside the allocated buffer",
+			"timestamp": "2025-05-31 07:20:44",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Cursor is at DGraphExportBufferPart.read(). Can you autofill this part of the code?",
+			"timestamp": "2025-05-31 06:50:26",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Can you implement VarStringBufferPart#read() at the current cursor position?",
+			"timestamp": "2025-05-31 05:48:13",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Can you fill in the implementation of this function (writeDGraphExport) at my current cursor? I can edit it if you're not 100% correct",
+			"timestamp": "2025-05-31 02:40:16",
+		},
+		{
+			"model": "qwen2.5-coder:7b",
+			"prompt": "Hello?",
+			"timestamp": "2025-05-30 17:36:20"
+		},
+	],
+    "context_paths":
+    [
+		"/home/cobertos/Seafile/projects/mapcast/monorepo/pkg/serialize/src/bufferPart.ts",
+		"/home/cobertos/Seafile/projects/mapcast/monorepo/pkg/serialize/test/bufferPart.ts",
+		"/home/cobertos/Seafile/projects/mapcast/monorepo/pkg/core-dgraph/src/dgexport/exportToBuffer.ts",
+	],
+}

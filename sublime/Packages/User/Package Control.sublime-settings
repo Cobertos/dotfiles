@@ -5,9 +5,9 @@
 	],
 	"installed_packages":
 	[
+		"ActivityWatch Watcher",
 		"ApplySyntax",
 		"Babel",
-		"Color Highlight",
 		"Dockerfile Syntax Highlighting",
 		"Emoji",
 		"Git blame",
@@ -29,10 +29,9 @@
 		"SublimeLinter-json",
 		"SublimeLinter-pylint",
 		"Sync View Scroll",
-		"Tabnine",
 		"Terminus",
 		"TOML",
-		"Vue Syntax Highlight",
+		"Vue",
 		"Zig Language",
 	],
 }

@@ -1,0 +1,21 @@
+// Settings in here override those in "OpenAI completion/openAI.sublime-settings"
+{
+  "token": "dummy_token",
+  "status_hint": [
+      "name",
+      "output_mode",
+      "chat_model",
+      "sheets"
+   ],
+  "assistants": [
+    {
+      "token": "dummy_token",
+      // https://github.com/ollama/ollama/blob/main/docs/api.md
+      "name": "Ollama",
+      "chat_model": "qwen2.5-coder:7b",
+      "model": "dummy",
+      "url": "http://localhost:11434/v1/chat/completions",
+      "role": "assistant"
+    }
+  ]
+}
