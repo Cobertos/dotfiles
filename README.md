@@ -2,9 +2,9 @@
 
 My collection of dotfiles + a [bootstrapping](./bootstrap.py) script
 
-* **Cross Platform** - Meant to work on Linux (Mint) _and_ Windows
+* **Cross Platform** - Meant to work on Linux (Mint) ~~_and_ Windows~~ (dont use Windows unless I have to now, it got too shit)
 * **Linking** - Symlinks over copying
-* **Public** - Private keys and licenses are separate (for now... keeping an eye on git-crypt)
+* **Public** - Private keys and licenses are separate. TODO: Putting in a separate local-only repository would be nice
 * **Automatic** - `python bootstrap.py` sets up everything. `--verify-only` only verifies, and is run every time I open a terminal
 * **Multi-environment** - All configs have defaults, though special configs with suffix `##XXX` can be chosen with priority using `--environment=XXX` flag
 
