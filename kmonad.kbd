@@ -1,0 +1,28 @@
+(defcfg
+  input  (device-file "/dev/input/by-id/usb-04d9_1203-event-kbd")
+  output (uinput-sink "KMonad kbd")
+  allow-cmd true
+)
+
+(defsrc
+  nlck kp/  kp*  bspc
+  kp7  kp8  kp9  kp-
+  kp4  kp5  kp6  kp+
+  kp1  kp2  kp3  kprt
+  kp0       kp.
+)
+
+(defalias
+  ;; We use '_'s here so it is human readable and file name safe
+  dHMN (cmd-button "xdotool type \"$(date \"+%m_%d_%Y %H_%M_%S\")\"")
+  ;; ISO date
+  dISO (cmd-button "xdotool type \"$(date -Iseconds)\"")
+)
+
+(deflayer default-layer
+  _    @dHMN @dISO _   
+  _    _     _     _  
+  _    _     _     _  
+  _    _     _     _   
+  _          _  
+)

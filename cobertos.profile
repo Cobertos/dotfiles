@@ -29,3 +29,6 @@ fi
 # Firefox, allow touch screen scrolling and multi-touch gestures
 # https://askubuntu.com/questions/853910/ubuntu-16-and-touchscreen-scrolling-in-firefox
 export MOZ_USE_XINPUT2=1
+
+# Kmonad keyboard
+kmonad $cobconf/kmonad.kbd &
