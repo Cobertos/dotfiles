@@ -6,6 +6,10 @@ from .DFOp import DFOp
 class AptKeyOp(DFOp):
   '''
   Adds a signing key with apt-key
+
+  TODO: This is deprecated, apt-key has deprecated most things. We need to switch
+  to symlinking the files into /etc/apt/trusted.gpg.d OR somehow point the sources.list
+  files at the key files
   '''
   def __init__(self, keyLocation):
     super().__init__()

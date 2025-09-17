@@ -30,6 +30,12 @@ alias dmesgless="dmesg --color=always | less -R"
 alias hotplug="sudo -E env "PATH=$PATH" python ${cobconf}/scripts/hotplug.py" #TODO: Doesn't work, have to copy paste...
 alias l="ls -lah"
 
+# MapCast
+alias mc="node --max-old-space-size=8192 /home/cobertos/Seafile/projects/mapcast/monorepo/pkg/core-app-multitool/entry.ts"
+
+alias dispose="node /home/cobertos/Seafile/projects/shred-and-record/main.ts"
+alias disposeg="node /home/cobertos/Seafile/projects/shred-and-record/main.ts >> ~/.dispose_history"
+
 # Windows: ConEmu Integration
 if [[ -n "${ConEmuPID}" ]]; then
   # For WSL and cygwin/msys connector (which ConEmu will use for Git bash). It

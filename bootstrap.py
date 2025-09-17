@@ -166,10 +166,12 @@ source {cobertosRCPath}/cobertos.profile
     debUrl="https://discord.com/api/download?platform=linux&format=deb")()
   AptInstallOp("dos2unix")()
   AptInstallOp("ffmpeg")() # Required for obs
+  AptInstallOp("fd-find")()
   AptInstallOp("flameshot")()
-  AptInstallOp("insomnia",
-    addKey="https://insomnia.rest/keys/debian-public.key.asc",
-    addRepo="deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all")()
+  # Insomnia is pretty dead I think... I backed up my stuff anyway
+  # AptInstallOp("insomnia",
+  #   addKey="https://insomnia.rest/keys/debian-public.key.asc",
+  #   addRepo="deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all")()
   AptInstallOp("nmap")()
   AptInstallOp("obs-studio",
     # OBS official PPA
