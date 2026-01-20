@@ -34,7 +34,6 @@ alias l="ls -lah"
 alias mc="node --max-old-space-size=8192 /home/cobertos/Seafile/projects/mapcast/monorepo/pkg/core-app-multitool/entry.ts"
 
 alias dispose="node /home/cobertos/Seafile/projects/shred-and-record/main.ts"
-alias disposeg="node /home/cobertos/Seafile/projects/shred-and-record/main.ts >> ~/.dispose_history"
 
 # Windows: ConEmu Integration
 if [[ -n "${ConEmuPID}" ]]; then
