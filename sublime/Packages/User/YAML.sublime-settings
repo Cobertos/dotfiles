@@ -1,10 +1,10 @@
 {
 	"extensions":
 	[
-		"YAML-tmLanguage",
-		"yml",
-		"yml.dist",
 		".gemrc",
+		"YAML-tmLanguage",
+		"yml.dist",
+		"yml",
 	],
 	"word_wrap": true,
 }
