@@ -2,7 +2,6 @@
 
 My collection of dotfiles + a [bootstrapping](./bootstrap.py) script
 
-* **Cross Platform** - Meant to work on Linux (Mint) ~~_and_ Windows~~ (dont use Windows unless I have to now, it got too shit)
 * **Linking** - Symlinks over copying
 * **Public** - Private keys and licenses are separate. TODO: Putting in a separate local-only repository would be nice
 * **Automatic** - `python bootstrap.py` sets up everything. `--verify-only` only verifies, and is run every time I open a terminal
@@ -50,26 +49,6 @@ python bootstrap.py # To get all node and python dependencies
 # or install asdf manually (source the correct file into your terminal first)
 ```
 
-### Windows Native Installation using Git Bash
-
-This no longer works, but should I go back to Windows I'll have to update. The steps to get this to work on Windows will be something like
-
-* Find a replacement for asdf on Windows
-  * The current code will work with plain old pyenv and nvm, so you could always install those manually first
-* Fix all issues with \\ and / paths
-* Find comparable packages in chocolatey, or use Ninite or something
-
-The old installation:
-
-* [Install chocolatey](https://chocolatey.org/docs/installation)
-  * I would like to automate this but there's a lot of overhead with Python)
-* `choco install ./packages.config`
-* Install `pyenv` by downloading and extracting at the correct location and setting up variables
-* Install Python 3.6+
-* `python bootstrap.py`
-  * Make sure to use the right `--environment=XXX`!
-* You will need to manually install nvm for Windows for nodejs stuff
-
 ## Installation Part 2 (everything that I have yet to automate)
 * Install Firefox
   * Login to Firefox
@@ -111,21 +90,6 @@ The old installation:
   * Add the XOrg configuration, and double check the PCIe Bus IDs
   * Consider working on HotPlug support https://jpamills.wordpress.com/2017/03/18/hotplug-support-for-egpu-on-linux/
 
-### Windows specific manually
-* Windows settings
-  * Lockscreen picture
-  * Uninstall unwanted default apps
-  * Connect phone to My Phone
-  * Login to other Microsoft related products (Office)
-  * Install office
-  * Set surface pen pressure to like 8-9?
-  * Configure taskbar preferences (non grouping etc)
-  * Remove certain pins from the taskbar
-  * Make backspace faster/proper speed
-  * Remove OneDrive
-  * Rename computer
-  * Install Windows App Store apps (including Paint.NET and Spotify)
-
 ## Future Support
 * Voicemeeter Banana (Linux / Ubuntu equivalent?)
 * Setup correct file associations (for .xml, .html, etc...)
@@ -139,22 +103,3 @@ The old installation:
 * Make `findcode` better/nicer. Can we have some sort of indexing search?
 * Put Userscripts for Tampermonkey in here (or maybe submodule? would be nice to use their WebDAV interface)
 * Switch pip over to use the --user flag, or make it an option? Not sure what pipx needs?
-
-### Won't Support
-* Pulling in z's config, as it should honeslty be separate per-machine, due to file path differences, and it can contain things I don't want public
-
-## Windows TODOs
-* Re-evaluate if ConEmu needs to be used at all
-* Installing chocolatey packages
-* A separate packages.config for different workflows
-* Readd all the windows registry, theme stuff, and paint.NET
-  * The ansible branch had some extras for screen rotation disable and removing Python execution aliases on Windows
-  * The ansible branch also solves choco git install flags better, and by default asks for WSL to be installed (which IMO is smarter)
-* Windows PowerTools?
-* Consider removing WavesMaxxAudio to stop popup and background processing
-  * https://github.com/GrzegorzKozub/xps
-  * https://github.com/kevinshroff/KSMRD-Modded-Realtek-Audio-Drivers
-* Consider applying filter keys faster repeats fix
-  * https://superuser.com/questions/1058474/increase-keyboard-repeat-rate-beyond-control-panel-limits-in-windows-10
-  * This seems to be a Windows 10/Dell Latitude issue. I dont have this issue on this computer in Linux Mint...
-* Disable Intel AMT

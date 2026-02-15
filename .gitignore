@@ -22,3 +22,4 @@ Package Control.ca-certs/
 # scripts in this repository
 .bashrc
 .bash_profile
+ignore.*

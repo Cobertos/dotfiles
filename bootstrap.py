@@ -21,32 +21,29 @@ from df.WriteFileOp import WriteFileOp
 scriptDir = os.path.abspath(os.path.dirname(sys.argv[0]))
 userHome = getUserHome()
 
-def ni():
-  '''Raises NotImplementedError'''
-  raise NotImplementedError
-
 def bootstrap(opts):
   '''
   Given opts (.environment, .verify_only), runs through all the operations to
   bootstrap the machine
   '''
   global scriptDir, userHome
+
+  if platform.system() == "Windows":
+    raise Exception("Nah, no Windows support anymore, too much trauma, byebye :(")
+
+
   #appData = os.environ["APPDATA"]
   env = lambda p: getEnvironmentFilePath(p, opts.environment)
 
   DFOp.verifyOnly = opts.verify_only
 
-  # TODO:
-  # Only needed on windows, in Linux we're just putting everything in .bashrc/
-  # shell scripts for now...
-  # AddToPath(f"{scriptDir}/onpath")()
   # asdf, though it was currently installed manually
 
   # Fonts
-  fontsPath = f"{userHome}/.local/share/fonts" if platform.system() != "Windows" else ni()
+  fontsPath = f"{userHome}/.local/share/fonts"
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/Blobmoji.ttf"), f"{fontsPath}/Blobmoji.ttf")()
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/TwitterColorEmoji-SVGinOT.ttf"), f"{fontsPath}/TwitterColorEmoji-SVGinOT.ttf")()
-  fontConfPath = f"{userHome}/.config/fontconfig" if platform.system() != "Windows" else ni()
+  fontConfPath = f"{userHome}/.config/fontconfig"
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/fonts/55-prefer-blobmoji-except-ripcord.conf"), f"{fontConfPath}/conf.d/55-prefer-blobmoji-except-ripcord.conf")()
   RemoveFileOp(f"/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf")() # Delete normal NotoColorEmoji font
 
@@ -56,21 +53,18 @@ def bootstrap(opts):
   AptInstallOp("sublime-text",
     addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
     addRepo='deb https://download.sublimetext.com/ apt/stable/')()
-  sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User" if platform.system() != "Windows" else f"{appData}/Sublime Text 3/Packages/User"
+  sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User"
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
   # sublime-merge
   AptInstallOp("sublime-merge",
     addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
     addRepo='deb https://download.sublimetext.com/ apt/stable/')()
-  # TODO:
-  # Only needed on Windows
-  # AddToPath("C:/Program Files/Sublime Text 3")() #Add sublime to path for `subl`
 
   # Typora
   AptInstallOp("typora",
     addKey="https://typora.io/linux/public-key.asc",
     addRepo='deb https://typora.io/linux ./')()
-  typoraConfigPath = f"{userHome}/.config/Typora" if platform.system() != "Windows" else ni()
+  typoraConfigPath = f"{userHome}/.config/Typora"
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/profile.data"), f"{typoraConfigPath}/profile.data")() # Non-human readable normal settings, per Abner
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), f"{typoraConfigPath}/conf/conf.user.json")() # Advanced settings
 
@@ -78,7 +72,7 @@ def bootstrap(opts):
   #AptInstallOp("krita",
     # Krita official PPA
   #  addRepo='ppa:kritalime/ppa')()
-  kritaHomePath = f"{userHome}/.local/share/krita" if platform.system() != "Windows" else ni()
+  kritaHomePath = f"{userHome}/.local/share/krita"
   SymLinkOp(env(f"{os.path.realpath(scriptDir)}/krita"), kritaHomePath)()
 
   # Git
@@ -225,9 +219,3 @@ if __name__ == '__main__':
   logging.getLogger().addHandler(handler)
 
   bootstrap(opts)
-
-  # Refresh the environment after running if Windows
-  if platform.system() == "Windows" and not opts.verify_only:
-    #If we don't do this, then the next time we run setup.py we won't see any of the
-    #system wide environment variable changes in the same shell
-    subprocess.run([f"{scriptDir}/onpath/refreshenv.cmd"], check=True) #Will print out that it's refreshing environment variables

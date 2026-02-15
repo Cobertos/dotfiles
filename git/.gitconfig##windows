@@ -1,8 +1,0 @@
-[user]
-    name = cobertos
-    email = me+git@cobertos.com
-[credential]
-    modalPrompt = false
-    helper = wincred
-[core]
-    excludesfile = ~/.gitignore
