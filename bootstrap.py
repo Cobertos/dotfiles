@@ -184,9 +184,6 @@ source {cobertosRCPath}/cobertos.profile
   AptInstallOp("signal-desktop",
     addKey='https://updates.signal.org/desktop/apt/keys.asc',
     addRepo='deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main')()
-  AptInstallOp("spotify-client",
-    addKey='https://download.spotify.com/debian/pubkey_0D811D58.gpg',
-    addRepo='deb http://repository.spotify.com stable non-free')()
   AptInstallOp("sqlitebrowser",
     # PPA maintained by https://github.com/deepsidhu1313
     # though the docs officially mention it as existing
