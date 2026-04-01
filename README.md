@@ -84,11 +84,6 @@ python bootstrap.py # To get all node and python dependencies
   * Change wallpapers/backgrouns to the folder that has them all in it
   * Add a panel to every monitor, without grouped list applet merging and with window titles
   * Change the Linux Mint start menu icon
-* Install NVIDIA and eGPU drivers and all the work that goes into that
-  * `sudo apt install nvidia-driver-460`
-  * Disable secure boot and thunderbolt security
-  * Add the XOrg configuration, and double check the PCIe Bus IDs
-  * Consider working on HotPlug support https://jpamills.wordpress.com/2017/03/18/hotplug-support-for-egpu-on-linux/
 
 ## Future Support
 * Voicemeeter Banana (Linux / Ubuntu equivalent?)
