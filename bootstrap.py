@@ -173,8 +173,6 @@ source {cobertosRCPath}/cobertos.profile
   AptInstallOp("seafile-gui",
     addKey='https://linux-clients.seafile.com/seafile.asc',
     addRepo='deb [arch=amd64] https://linux-clients.seafile.com/seafile-deb/focal/ stable main')()
-  AptInstallOp("slack-desktop",
-    debUrl="https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb")() #TODO: Find a latest deb, if Slack provides it
   AptInstallOp("signal-desktop",
     addKey='https://updates.signal.org/desktop/apt/keys.asc',
     addRepo='deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main')()
