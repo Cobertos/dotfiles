@@ -34,4 +34,5 @@ windowlayouts/
 Krita_*
 KRITA_*
 *.sqlite
+*.sqlite.*
 *.bundle
