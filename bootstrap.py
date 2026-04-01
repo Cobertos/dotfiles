@@ -60,14 +60,6 @@ def bootstrap(opts):
     addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
     addRepo='deb https://download.sublimetext.com/ apt/stable/')()
 
-  # Typora
-  AptInstallOp("typora",
-    addKey="https://typora.io/linux/public-key.asc",
-    addRepo='deb https://typora.io/linux ./')()
-  typoraConfigPath = f"{userHome}/.config/Typora"
-  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/profile.data"), f"{typoraConfigPath}/profile.data")() # Non-human readable normal settings, per Abner
-  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/typora/conf/conf.user.json"), f"{typoraConfigPath}/conf/conf.user.json")() # Advanced settings
-
   # Krita
   #AptInstallOp("krita",
     # Krita official PPA

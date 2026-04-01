@@ -5,8 +5,3 @@
   excludesfile = ~/.gitignore
 [init]
   defaultBranch = owo
-
-# Convert typora.data from hex to ascii (it's just json -> hex) for viewing in
-# diffs and such, but isn't something that will be in the saved format-patch
-[diff "typora"]
-  textconv="xxd -r -p"
