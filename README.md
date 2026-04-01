@@ -19,7 +19,7 @@ Supports:
   <img alt="typora" src="./meta/typora-logo-75h.png">
 </p>
 
-as well as [asdf](https://github.com/asdf-vm/asdf), [Z](https://github.com/rupa/z), [flameshot](https://flameshot.org/), [Discord](https://discord.com), [ffmpeg](https://ffmpeg.org/), [Insomnia](https://insomnia.rest/), [Krita](https://krita.org/en/), [OBS](https://obsproject.com/), [Seafile](https://www.seafile.com/en/home/), [Promnesia](https://github.com/karlicoss/promnesia), and a ton more,,,
+as well as [asdf](https://github.com/asdf-vm/asdf), [flameshot](https://flameshot.org/), [Discord](https://discord.com), [ffmpeg](https://ffmpeg.org/), [Insomnia](https://insomnia.rest/), [Krita](https://krita.org/en/), [OBS](https://obsproject.com/), [Seafile](https://www.seafile.com/en/home/), [Promnesia](https://github.com/karlicoss/promnesia), and a ton more,,,
 
 ## Installation
 ### Linux Installation
@@ -29,7 +29,7 @@ sudo apt update && sudo apt install git
 git clone https://github.com/Cobertos/dotfiles.git
 cd dotfiles
 git submodule init
-git submodule update # For ASDF and Z
+git submodule update # For ASDF
 python3 bootstrap.py # Make sure to use the right --environment=XXX
 # https://github.com/danhper/asdf-python
 # https://github.com/pyenv/pyenv/wiki/Common-build-problems

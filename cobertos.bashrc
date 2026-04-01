@@ -50,10 +50,6 @@ fi
 source "${cobconf}/deps/asdf/asdf.sh"
 source "${cobconf}/deps/completions/asdf.bash"
 
-# Z, a fuzzy 'cd' sort of program
-# https://github.com/rupa/z
-source "${cobconf}/deps/z/z.sh"
-
 # flyctl - TODO: Add to bootstrap.py
 export FLYCTL_INSTALL="/home/cobertos/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
