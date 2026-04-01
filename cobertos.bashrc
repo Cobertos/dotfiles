@@ -6,61 +6,7 @@ case $- in
 esac
 
 init () {
-# Meta (dotfiles related)
-cobconf="${BASH_SOURCE%/*}"
-export cobconf
-
-alias cobconf="subl ${cobconf}"
-cobverify () {
-    python3 "${cobconf}/bootstrap.py" --verify-only
-}
-cobsetup () {
-    python3 "${cobconf}/bootstrap.py"
-}
-alias gitcc="git --git-dir=${cobconf}/.git --work-tree=${cobconf}"
-
-# Git aliases
-alias gitkcon="git log --all --graph --date=short --pretty=format:'%C(yellow)%h %C(green)%ad %C(cyan)%an%C(auto)%d%C(reset) %C(reset)%s'"
-
-alias xclip="xclip -selection clipboard"
-alias dos2unix="dos2unix --keepdate"
-# Show model and serial by default
-alias lsblk="lsblk -o name,mountpoint,model,size,type,ro,rm,maj:min"
-alias dmesgless="dmesg --color=always | less -R"
-alias l="ls -lah"
-
-# MapCast
-alias mc="node --max-old-space-size=8192 /home/cobertos/Seafile/projects/mapcast/monorepo/pkg/core-app-multitool/entry.ts"
-
-alias dispose="node /home/cobertos/Seafile/projects/shred-and-record/main.ts"
-
-# Windows: ConEmu Integration
-if [[ -n "${ConEmuPID}" ]]; then
-  # For WSL and cygwin/msys connector (which ConEmu will use for Git bash). It
-  # sends an operating system command (OSC) to cygwin/msys connector to update the
-  # cwd on PS1 print (the \$PWD in the below string, \w will not work).
-  # https://conemu.github.io/en/ShellWorkDir.html#connector-ps1
-  # https://github.com/Maximus5/ConEmu/issues/1752
-  PS1="\[\e]9;9;\"\$PWD\"\007\e]9;12\007\]$PS1"
-fi
-
-# asdf, for python and node version control
-# https://asdf-vm.com
-source "${cobconf}/deps/asdf/asdf.sh"
-source "${cobconf}/deps/completions/asdf.bash"
-
-# flyctl - TODO: Add to bootstrap.py
-export FLYCTL_INSTALL="/home/cobertos/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
-
-# Other stuff, default with Linux Mint, slightly modified
-source ${cobconf}/default.sh
-# Secrets to not save to github
-if [[ -f "${cobconf}/secrets.sh" ]]; then
-  source ${cobconf}/secrets.sh
-fi
-
-# Configure bash history
+# === Configure bash history ===
 # From https://stackoverflow.com/a/19533853/2759427
 # Undocumented feature which sets the size to "unlimited".
 # http://stackoverflow.com/questions/9457233/unlimited-bash-history
@@ -78,6 +24,49 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 HISTCONTROL=ignoredups
 # append to the history file, don't overwrite it
 shopt -s histappend
+
+
+# Meta (dotfiles related)
+cobconf="${BASH_SOURCE%/*}"
+export cobconf
+
+alias cobconf="cd ${cobconf}"
+cobverify () {
+    python3 "${cobconf}/bootstrap.py" --verify-only
+}
+cobsetup () {
+    python3 "${cobconf}/bootstrap.py"
+}
+
+# Git aliases
+alias gitkcon="git log --all --graph --date=short --pretty=format:'%C(yellow)%h %C(green)%ad %C(cyan)%an%C(auto)%d%C(reset) %C(reset)%s'"
+
+alias xclip="xclip -selection clipboard"
+alias dos2unix="dos2unix --keepdate"
+alias lsblk="lsblk -o name,mountpoint,model,size,type,ro,rm,maj:min" # Show model and serial by default
+alias dmesgless="dmesg --color=always | less -R"
+alias l="ls -lah"
+
+# MapCast
+alias mc="node --max-old-space-size=8192 /home/cobertos/Seafile/projects/mapcast/monorepo/pkg/core-app-multitool/entry.ts"
+
+alias dispose="node /home/cobertos/Seafile/projects/shred-and-record/main.ts"
+
+# asdf, for python and node version control
+# https://asdf-vm.com
+source "${cobconf}/deps/asdf/asdf.sh"
+source "${cobconf}/deps/asdf/completions/asdf.bash"
+
+# flyctl - TODO: Add to bootstrap.py
+export FLYCTL_INSTALL="/home/cobertos/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
+# Other stuff, default with Linux Mint, slightly modified
+source ${cobconf}/default.sh
+# Secrets to not save to github
+if [[ -f "${cobconf}/secrets.sh" ]]; then
+  source ${cobconf}/secrets.sh
+fi
 
 # Tools
 findcode() {
@@ -148,13 +137,7 @@ cdp() {
 
 # Verify the setup
 if ! cobverify; then
-  while true; do
-    read -p "Verification has failed, do you wish to perform an install? (y/n)" yn
-    case $yn in
-      [Yy]* ) cobsetup; break;;
-      * ) echo "Ignoring verification failure and dropping into shell"; break;;
-    esac
-  done
+  printf "Verification has failed! Run 'cobsetup' to do a setup"
 fi
 
 }
