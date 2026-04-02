@@ -31,4 +31,4 @@ fi
 export MOZ_USE_XINPUT2=1
 
 # Kmonad keyboard
-kmonad $cobconf/kmonad.kbd &
+# kmonad $cobconf/kmonad.kbd &

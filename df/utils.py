@@ -1,6 +1,7 @@
 import os
 import subprocess
 import platform
+import pwd
 
 def getEnvironmentFilePath(path, environment):
   '''
@@ -16,5 +17,5 @@ def getUserHome():
     return os.environ["USERPROFILE"]
 
   # assume linux
-  currUser = subprocess.check_output(['logname']).decode('utf-8').strip()
+  currUser = pwd.getpwuid(os.getuid()).pw_name # Works in Docker container
   return f"/home/{currUser}" # There are more general ways but this is good enough

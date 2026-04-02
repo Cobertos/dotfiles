@@ -52,14 +52,19 @@ alias mc="node --max-old-space-size=8192 /home/cobertos/Seafile/projects/mapcast
 
 alias dispose="node /home/cobertos/Seafile/projects/shred-and-record/main.ts"
 
-# asdf, for python and node version control
-# https://asdf-vm.com
-source "${cobconf}/deps/asdf/asdf.sh"
-source "${cobconf}/deps/asdf/completions/asdf.bash"
+# Add $HOME/bin to $PATH (handles asdf binary)
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+. <(asdf completion bash)
 
 # flyctl - TODO: Add to bootstrap.py
 export FLYCTL_INSTALL="/home/cobertos/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
 
 # Other stuff, default with Linux Mint, slightly modified
 source ${cobconf}/default.sh

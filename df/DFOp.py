@@ -7,6 +7,7 @@ class DFOp:
   necessary (only if the test passes)
   """
   verifyOnly = False
+  autoAccept = False
 
   def __init__(self):
     self.logger = logging.getLogger(f"DFOp.{self.__class__.__name__}")

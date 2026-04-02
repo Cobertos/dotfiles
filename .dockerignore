@@ -24,3 +24,6 @@ Package Control.ca-certs/
 .profile
 .bash_profile
 ignore.*
+
+# Ignore .git when copying things
+.git/

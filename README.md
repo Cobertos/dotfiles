@@ -18,7 +18,7 @@ Supports:
   <img alt="sublime text" src="./meta/sublime-logo-75h.png">
 </p>
 
-as well as [asdf](https://github.com/asdf-vm/asdf), [flameshot](https://flameshot.org/), [Discord](https://discord.com), [ffmpeg](https://ffmpeg.org/), [Insomnia](https://insomnia.rest/), [Krita](https://krita.org/en/), [OBS](https://obsproject.com/), [Seafile](https://www.seafile.com/en/home/), [Promnesia](https://github.com/karlicoss/promnesia), and a ton more,,,
+as well as [asdf](https://github.com/asdf-vm/asdf), [flameshot](https://flameshot.org/), [ffmpeg](https://ffmpeg.org/), [Krita](https://krita.org/en/), [OBS](https://obsproject.com/), [Seafile](https://www.seafile.com/en/home/), [Promnesia](https://github.com/karlicoss/promnesia), and a ton more,,,
 
 ## Installation
 ### Linux Installation
@@ -29,23 +29,11 @@ git clone https://github.com/Cobertos/dotfiles.git
 cd dotfiles
 git submodule init
 git submodule update # For ASDF
-python3 bootstrap.py # Make sure to use the right --environment=XXX
-# https://github.com/danhper/asdf-python
-# https://github.com/pyenv/pyenv/wiki/Common-build-problems
-asdf plugin add python
-sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
-asdf install python latest:3.8
-asdf global python 3.8.7
-# https://github.com/asdf-vm/asdf-nodejs
-asdf plugin add nodejs
-bash -c '${ASDF_DATA_DIR:=$HOME/.asdf}/plugins/nodejs/bin/import-release-team-keyring'
-asdf install nodejs lts
-asdf global nodejs 14.15.4
-pip install requests
-python bootstrap.py # To get all node and python dependencies
-
-# TODO: If you have no system python in your OS, you will probably want to get one
-# or install asdf manually (source the correct file into your terminal first)
+# Set DOTFILES_ENVIRONMENT= here if you want one
+./bootstrap/0-bootstrap-asdf.sh
+./bootstrap/1-bootstrap-asdf-python.sh
+./bootstrap/2-bootstrap-asdf-nodejs.sh
+./bootstrap.py
 ```
 
 ## Installation Part 2 (everything that I have yet to automate)
@@ -59,13 +47,8 @@ python bootstrap.py # To get all node and python dependencies
 * Sublime
   * Install package control to recognize symlinked packages
   * Install license and license for FTP
-  * Setup TabNine (TabNine::Config then paste key for TabNine Local)
-* Spotify
-  * Toggle download playlists
-* Install Unity Hub
 * Blender is installed separately (managing multiple Blender versions)
 * Setup OBS to record into Seafile (save these prefs)
-* Setup Unity defaults (External editor and stuff) (would be nice to capture these prefs)
 * Hide excess folders in explorer/nemo, like Picture, Videos, etc
 * Docker (removal of old and getting new)
 * Migrate from old computer
