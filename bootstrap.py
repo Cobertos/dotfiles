@@ -116,11 +116,12 @@ def bootstrap(opts):
   # Sublime
   # sublime-text
   AptInstallOp("apt-transport-https")() # Ensure https packages
-  AptInstallOp("sublime-text",
-    addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
-    addRepo='deb https://download.sublimetext.com/ apt/stable/')()
-  sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User"
-  SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
+  # TODO: Readd sublime
+  # AptInstallOp("sublime-text",
+  #   addKey="https://download.sublimetext.com/sublimehq-pub.gpg",
+  #   addRepo='deb https://download.sublimetext.com/ apt/stable/')()
+  # sublimeConfigPath = f"{userHome}/.config/sublime-text-3/Packages/User"
+  # SymLinkOp(env(f"{os.path.realpath(scriptDir)}/sublime/Packages/User"), sublimeConfigPath)()
 
   # Sublime dependencies (for plugins)
   # NpmInstallGlobalOp("eslint_d")()
@@ -173,16 +174,13 @@ source {cobertosRCPath}/cobertos.bashrc
   # Misc Packages
   AptInstallOp("p7zip-full")()
   #AptInstallOp("android-sdk")() # Android platform-tools
-  AptInstallOp("dbeaver-ce",
-    addKey="https://dbeaver.io/debs/dbeaver.gpg.key",
-    addRepo="ppa:serge-rider/dbeaver-ce")()
   AptInstallOp("dos2unix")()
   AptInstallOp("ffmpeg")() # Required for obs
   AptInstallOp("fd-find")()
   AptInstallOp("nmap")()
 
   #Other
-  SymLinkOp(env(f"{scriptDir}/.config/yamllint/config"), f"{userHome}/.config/yamllint/config")()
+  # SymLinkOp(env(f"{scriptDir}/.config/yamllint/config"), f"{userHome}/.config/yamllint/config")()
 
   # Desktop - We only do this somewhere that has a UI
   if opts.environment == "desktop":

@@ -30,9 +30,12 @@ COPY --chown=1000:1000 . /dotfiles
 RUN test ! -f /dotfiles/secrets.sh || (echo "Failsafe: secrets.sh should not have been copied into the build!" && exit 1)
 # Run final bootstrapping stage
 ENV DOTFILES_ENVIRONMENT=container
-RUN sudo -E /home/cobertos/.asdf/installs/python/3.14.3/bin/python /dotfiles/bootstrap.py --yes
+RUN /home/cobertos/.asdf/installs/python/3.14.3/bin/python /dotfiles/bootstrap.py --yes
 
-CMD ["/bin/systemd"]
+CMD ["sleep", "infinity"]
+# STOPSIGNAL SIGRTMIN+3
+# CMD ["/sbin/init"]
+# CMD ["/bin/systemd"]
 
 # ===========================================================
 # TODO: At some point I would like to switch this to nix?

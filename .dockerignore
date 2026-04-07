@@ -27,3 +27,4 @@ ignore.*
 
 # Ignore .git when copying things
 .git/
+dev.Dockerfile # Ignore self Dockerfile so that changes to this don't cause a rebuild

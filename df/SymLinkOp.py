@@ -1,7 +1,7 @@
 import os
 import shutil
 from pathlib import Path
-from .DFOp import DFOpGroup
+from .DFOp import DFOpGroup, DFOp
 from .EnsureDirectoryOp import EnsureDirectoryOp
 
 class SymLinkOp(DFOpGroup):
@@ -48,7 +48,10 @@ class SymLinkOp(DFOpGroup):
         os.symlink(self.target, self.path)
       except FileExistsError as e:
         print(e)
-        if input("File to symlink already exists, delete? y/N ") == 'y':
+        if DFOp.autoAccept or input("File to symlink already exists, delete? y/N ") == 'y':
+          if DFOp.autoAccept:
+            print("-y passed, deleting the file to allow the symlink")
+
           if os.path.isfile(self.path):
             os.remove(self.path)
           elif os.path.isdir(self.path):
