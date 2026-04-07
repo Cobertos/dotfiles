@@ -173,6 +173,8 @@ source {cobertosRCPath}/cobertos.bashrc
 
   # Misc Packages
   AptInstallOp("p7zip-full")()
+  AptInstallOp("zip")() # zip and unzip commands
+  AptInstallOp("unzip")()
   #AptInstallOp("android-sdk")() # Android platform-tools
   AptInstallOp("dos2unix")()
   AptInstallOp("ffmpeg")() # Required for obs
