@@ -25,6 +25,10 @@ Package Control.ca-certs/
 .bash_profile
 ignore.*
 
+# Things I want to only keep in local (TODO: cleanup)
+hpi/
+promnesia/
+
 # Ignore .git when copying things
 .git/
 dev.Dockerfile # Ignore self Dockerfile so that changes to this don't cause a rebuild
