@@ -24,3 +24,7 @@ Package Control.ca-certs/
 .profile
 .bash_profile
 ignore.*
+
+# Things I want to only keep in local (TODO: cleanup)
+hpi/
+promnesia/
