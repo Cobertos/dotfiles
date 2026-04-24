@@ -1,0 +1,2 @@
+# Ignore these globally with fd
+node_modules

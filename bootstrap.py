@@ -183,6 +183,7 @@ source {cobertosRCPath}/cobertos.bashrc
 
   #Other
   # SymLinkOp(env(f"{scriptDir}/.config/yamllint/config"), f"{userHome}/.config/yamllint/config")()
+  SymLinkOp(env(f"{scriptDir}/.config/fd/ignore"), f"{userHome}/.config/fd/ignore")()
 
   # Desktop - We only do this somewhere that has a UI
   if opts.environment == "desktop":
