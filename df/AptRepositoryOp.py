@@ -18,5 +18,4 @@ class AptRepositoryOp(DFOp):
     return True # TODO
 
   def forceExecute(self):
-    cmd = 'sudo' if os.environ.get('DOTFILES_ENVIRONMENT') == 'container' else '/usr/bin/pkexec'
-    subprocess.run([cmd, 'add-apt-repository', self.repository], check=True)
+    subprocess.run(['sudo', 'add-apt-repository', self.repository], check=True)

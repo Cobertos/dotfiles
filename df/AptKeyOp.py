@@ -40,5 +40,4 @@ class AptKeyOp(DFOp):
 
   def forceExecute(self):
     self._getKeyText()
-    cmd = 'sudo' if os.environ.get('DOTFILES_ENVIRONMENT') == 'container' else '/usr/bin/pkexec'
-    subprocess.run([cmd, 'apt-key', 'add', '-'], input=self._keyText.decode("utf-8"), encoding="utf-8", check=True)
+    subprocess.run(['sudo', 'apt-key', 'add', '-'], input=self._keyText.decode("utf-8"), encoding="utf-8", check=True)

@@ -32,10 +32,9 @@ class AptInstallOp(DFOpGroup):
     super().forceExecute() # Run all the children executes
 
     yArg = ['-y'] if DFOp.autoAccept else []
-    cmd = 'sudo' if os.environ.get('DOTFILES_ENVIRONMENT') == 'container' else '/usr/bin/pkexec'
 
     if aptNeedsUpdate:
-      subprocess.run([cmd, 'apt-get', 'update'] + yArg, check=True)
+      subprocess.run(['sudo', 'apt-get', 'update'] + yArg, check=True)
 
     print("WILL DO", ['apt-get', 'install'] + yArg + [self.packageName])
-    subprocess.run([cmd, 'apt-get', 'install'] + yArg + [self.packageName], check=True)
+    subprocess.run(['sudo', 'apt-get', 'install'] + yArg + [self.packageName], check=True)
