@@ -27,8 +27,6 @@ cd ~
 sudo apt update && sudo apt install git
 git clone https://github.com/Cobertos/dotfiles.git
 cd dotfiles
-git submodule init
-git submodule update # For ASDF
 # Set DOTFILES_ENVIRONMENT= here if you want one
 ./bootstrap/0-bootstrap-asdf.sh
 ./bootstrap/1-bootstrap-asdf-python.sh
